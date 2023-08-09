@@ -1,4 +1,4 @@
-package de.pascalschwab.rendering;
+package de.pascalschwab.rendering.shader;
 
 import de.pascalschwab.managers.FileManager;
 

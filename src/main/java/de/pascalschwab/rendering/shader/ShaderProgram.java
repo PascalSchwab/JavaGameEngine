@@ -1,8 +1,8 @@
-package de.pascalschwab.rendering;
+package de.pascalschwab.rendering.shader;
 
 import static org.lwjgl.opengl.GL20.*;
 
-public final class ShaderProgram {
+public class ShaderProgram {
     private final int id;
     private final Shader vertexShader;
     private final Shader fragmentShader;

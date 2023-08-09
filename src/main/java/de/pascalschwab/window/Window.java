@@ -1,10 +1,10 @@
 package de.pascalschwab.window;
 
-import de.pascalschwab.standard.GameObject;
-import de.pascalschwab.standard.KinematicObject;
+import de.pascalschwab.gameobjects.GameObject;
+import de.pascalschwab.gameobjects.KinematicObject;
 import de.pascalschwab.standard.enums.Colour;
+import de.pascalschwab.standard.interfaces.IRenderable;
 import de.pascalschwab.standard.lists.LayerBasedList;
-import de.pascalschwab.standard.math.Vector;
 import de.pascalschwab.standard.math.Vector2;
 
 import java.util.List;
@@ -12,11 +12,11 @@ import java.util.List;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
-public abstract class Window<VectorType extends Vector<VectorType>> implements Runnable {
+public abstract class Window implements Runnable {
     private final Vector2 size;
     private final String title;
     private final Display display;
-    public List<GameObject<VectorType>> gameObjects = new LayerBasedList<>();
+    public List<GameObject> gameObjects = new LayerBasedList<>();
     private Colour backgroundColour = Colour.WHITE;
 
     public Window(int width, int height, String title) {
@@ -70,9 +70,9 @@ public abstract class Window<VectorType extends Vector<VectorType>> implements R
 
         // Update variables
         update();
-        for (GameObject<VectorType> object : gameObjects) {
+        for (GameObject object : gameObjects) {
             if (object instanceof KinematicObject) {
-                ((KinematicObject<VectorType>) object).tick();
+                ((KinematicObject) object).tick();
             }
         }
         // Render
@@ -83,6 +83,11 @@ public abstract class Window<VectorType extends Vector<VectorType>> implements R
     }
 
     private void render() {
+        for (GameObject object : gameObjects) {
+            if (object instanceof IRenderable) {
+                ((IRenderable) object).draw();
+            }
+        }
     }
 
     private void dispose() {

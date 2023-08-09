@@ -1,20 +1,18 @@
-package de.pascalschwab.twodimensional;
+package de.pascalschwab.gameobjects;
 
-import de.pascalschwab.standard.GameObject;
-import de.pascalschwab.standard.KinematicObject;
 import de.pascalschwab.standard.math.Vector2;
 import de.pascalschwab.window.Window;
 
-public abstract class KinematicObject2D extends KinematicObject<Vector2> {
+public abstract class KinematicObject2D extends KinematicObject {
     /*private static final double DEFAULT_MOVE_SMOOTHNESS = 7;
     public boolean gravity = true;
     private Vector2 targetMovementPosition = new Vector2(this.getPosition().x, this.getPosition().y);*/
 
-    public KinematicObject2D(Window<Vector2> window, GameObject<Vector2> parent, Vector2 position, Vector2 size, int zIndex) {
+    public KinematicObject2D(Window window, GameObject parent, Vector2 position, Vector2 size, int zIndex) {
         super(window, parent, position, size, zIndex);
     }
 
-    public KinematicObject2D(Window<Vector2> window, Vector2 position, Vector2 size, int zIndex) {
+    public KinematicObject2D(Window window, Vector2 position, Vector2 size, int zIndex) {
         this(window, null, position, size, zIndex);
     }
 

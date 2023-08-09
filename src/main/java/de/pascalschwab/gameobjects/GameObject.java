@@ -1,20 +1,20 @@
-package de.pascalschwab.standard;
+package de.pascalschwab.gameobjects;
 
-import de.pascalschwab.standard.math.Vector;
+import de.pascalschwab.standard.math.Vector2;
 import de.pascalschwab.window.Window;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GameObject<VectorType extends Vector<VectorType>> {
+public abstract class GameObject {
     private final int id;
-    public List<GameObject<VectorType>> children = new ArrayList<>();
-    protected Window<VectorType> window;
-    protected GameObject<VectorType> parent;
+    public List<GameObject> children = new ArrayList<>();
+    protected Window window;
+    protected GameObject parent;
     protected int zIndex;
-    private VectorType position, size;
+    private Vector2 position, size;
 
-    public GameObject(Window<VectorType> window, GameObject<VectorType> parent, VectorType position, VectorType size, int zIndex) {
+    public GameObject(Window window, GameObject parent, Vector2 position, Vector2 size, int zIndex) {
         this.id = window.gameObjects.size();
         this.position = position;
         this.size = size;
@@ -30,11 +30,11 @@ public abstract class GameObject<VectorType extends Vector<VectorType>> {
         }
     }
 
-    public GameObject(Window<VectorType> window, VectorType position, VectorType size, int zIndex) {
+    public GameObject(Window window, Vector2 position, Vector2 size, int zIndex) {
         this(window, null, position, size, zIndex);
     }
 
-    public VectorType getSize() {
+    public Vector2 getSize() {
         return this.size;
     }
 
@@ -46,12 +46,12 @@ public abstract class GameObject<VectorType extends Vector<VectorType>> {
         return this.zIndex;
     }
 
-    public VectorType getPosition() {
+    public Vector2 getPosition() {
         return this.position;
     }
 
-    public void setPosition(VectorType position) {
-        for (GameObject<VectorType> object : children) {
+    public void setPosition(Vector2 position) {
+        for (GameObject object : children) {
             object.position = position;
         }
         this.position = position;

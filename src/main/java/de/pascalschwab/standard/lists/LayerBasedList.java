@@ -1,6 +1,6 @@
 package de.pascalschwab.standard.lists;
 
-import de.pascalschwab.standard.GameObject;
+import de.pascalschwab.gameobjects.GameObject;
 
 import java.util.ArrayList;
 import java.util.Comparator;
