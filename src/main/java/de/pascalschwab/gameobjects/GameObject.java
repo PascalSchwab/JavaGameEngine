@@ -6,6 +6,7 @@ import de.pascalschwab.window.Window;
 import java.util.ArrayList;
 import java.util.List;
 
+// Remove zIndex (only for RenderObjects)
 public abstract class GameObject {
     private final int id;
     public List<GameObject> children = new ArrayList<>();

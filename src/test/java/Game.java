@@ -1,5 +1,6 @@
-import de.pascalschwab.geometry.Triangle;
-import de.pascalschwab.rendering.shader.StandardShader;
+import de.pascalschwab.gameobjects.Sprite;
+import de.pascalschwab.rendering.mesh.Mesh;
+import de.pascalschwab.rendering.mesh.TextureMesh;
 import de.pascalschwab.standard.math.Vector2;
 import de.pascalschwab.window.Window;
 
@@ -10,7 +11,30 @@ public class Game extends Window {
 
     @Override
     public void setup() throws Exception {
-        Triangle triangle = new Triangle(this, null, new Vector2(10, 10), new Vector2(20, 20), 0, new StandardShader());
+        //Texture texture = this.getTextureCache().createTexture("res/Test.png");
+        float[] colors = new float[]{
+                0.5f, 0.0f, 0.0f,
+                0.0f, 0.5f, 0.0f,
+                0.0f, 0.0f, 0.5f,
+                0.0f, 0.5f, 0.5f,
+        };
+        float[] positions = new float[]{
+                -0.5f, 0.5f, 0.0f,
+                -0.5f, -0.5f, 0.0f,
+                0.5f, -0.5f, 0.0f,
+                0.5f, 0.5f, 0.0f,
+        };
+        float[] textCoords = new float[]{
+                0.0f, 0.0f,
+                0.0f, 0.1f,
+                0.1f, 0.1f,
+                0.1f, 0.0f
+        };
+        int[] indices = new int[]{
+                0, 1, 3, 3, 1, 2,
+        };
+        Mesh mesh = new TextureMesh(positions, textCoords, indices);
+        Sprite sprite = new Sprite(this, null, new Vector2(1, 1), new Vector2(1, 1), 0, mesh, "res/Player.png");
     }
 
     @Override

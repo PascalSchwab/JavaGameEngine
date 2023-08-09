@@ -2,7 +2,7 @@ package de.pascalschwab.rendering.shader;
 
 import de.pascalschwab.managers.FileManager;
 
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.*;
 
 public final class Shader {
     private final int id;

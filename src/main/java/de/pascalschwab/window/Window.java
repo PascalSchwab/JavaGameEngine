@@ -2,15 +2,15 @@ package de.pascalschwab.window;
 
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.gameobjects.KinematicObject;
+import de.pascalschwab.gameobjects.RenderObject;
 import de.pascalschwab.standard.enums.Colour;
-import de.pascalschwab.standard.interfaces.IRenderable;
 import de.pascalschwab.standard.lists.LayerBasedList;
 import de.pascalschwab.standard.math.Vector2;
 
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL30.*;
 
 public abstract class Window implements Runnable {
     private final Vector2 size;
@@ -18,6 +18,7 @@ public abstract class Window implements Runnable {
     private final Display display;
     public List<GameObject> gameObjects = new LayerBasedList<>();
     private Colour backgroundColour = Colour.WHITE;
+    //private TextureCache textureCache = new TextureCache();
 
     public Window(int width, int height, String title) {
         size = new Vector2(width, height);
@@ -84,8 +85,8 @@ public abstract class Window implements Runnable {
 
     private void render() {
         for (GameObject object : gameObjects) {
-            if (object instanceof IRenderable) {
-                ((IRenderable) object).draw();
+            if (object instanceof RenderObject) {
+                ((RenderObject) object).render();
             }
         }
     }
@@ -117,4 +118,8 @@ public abstract class Window implements Runnable {
     public void setBackgroundColour(Colour colour) {
         this.backgroundColour = colour;
     }
+
+/*    public TextureCache getTextureCache() {
+        return this.textureCache;
+    }*/
 }
