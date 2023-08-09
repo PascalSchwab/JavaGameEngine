@@ -1,13 +1,13 @@
-import de.pascalschwab.gameobjects.KinematicObject2D;
+import de.pascalschwab.gameobjects.KinematicObject;
 import de.pascalschwab.gameobjects.Sprite;
 import de.pascalschwab.rendering.mesh.Mesh;
 import de.pascalschwab.rendering.mesh.TextureMesh;
 import de.pascalschwab.window.Window;
 import org.joml.Vector2f;
 
-public class Player extends KinematicObject2D {
+public class Player extends KinematicObject {
     public Player(Window window, Vector2f position, Vector2f size, int zIndex) throws Exception {
-        super(window, position, size, zIndex);
+        super(window, null, position, size, zIndex);
 
         float[] positions = new float[]{
                 -0.5f, 0.5f, 0.0f,
