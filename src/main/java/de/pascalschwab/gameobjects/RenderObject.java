@@ -3,8 +3,8 @@ package de.pascalschwab.gameobjects;
 import de.pascalschwab.rendering.mesh.Mesh;
 import de.pascalschwab.rendering.shader.ShaderProgram;
 import de.pascalschwab.rendering.shader.UniformsMap;
-import de.pascalschwab.standard.math.Vector2;
 import de.pascalschwab.window.Window;
+import org.joml.Vector2f;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
@@ -14,7 +14,7 @@ public abstract class RenderObject extends GameObject {
     private UniformsMap uniformsMap;
     private Mesh mesh;
 
-    public RenderObject(Window window, GameObject parent, Vector2 position, Vector2 size, int zIndex, ShaderProgram shaderProgram, Mesh mesh) {
+    public RenderObject(Window window, GameObject parent, Vector2f position, Vector2f size, int zIndex, ShaderProgram shaderProgram, Mesh mesh) {
         super(window, parent, position, size, zIndex);
         this.shaderProgram = shaderProgram;
         this.mesh = mesh;

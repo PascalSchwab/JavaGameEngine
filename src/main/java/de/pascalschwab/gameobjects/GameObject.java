@@ -1,7 +1,7 @@
 package de.pascalschwab.gameobjects;
 
-import de.pascalschwab.standard.math.Vector2;
 import de.pascalschwab.window.Window;
+import org.joml.Vector2f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,9 @@ public abstract class GameObject {
     protected Window window;
     protected GameObject parent;
     protected int zIndex;
-    private Vector2 position, size;
+    private Vector2f position, size;
 
-    public GameObject(Window window, GameObject parent, Vector2 position, Vector2 size, int zIndex) {
+    public GameObject(Window window, GameObject parent, Vector2f position, Vector2f size, int zIndex) {
         this.id = window.gameObjects.size();
         this.position = position;
         this.size = size;
@@ -31,11 +31,11 @@ public abstract class GameObject {
         }
     }
 
-    public GameObject(Window window, Vector2 position, Vector2 size, int zIndex) {
+    public GameObject(Window window, Vector2f position, Vector2f size, int zIndex) {
         this(window, null, position, size, zIndex);
     }
 
-    public Vector2 getSize() {
+    public Vector2f getSize() {
         return this.size;
     }
 
@@ -47,11 +47,11 @@ public abstract class GameObject {
         return this.zIndex;
     }
 
-    public Vector2 getPosition() {
+    public Vector2f getPosition() {
         return this.position;
     }
 
-    public void setPosition(Vector2 position) {
+    public void setPosition(Vector2f position) {
         for (GameObject object : children) {
             object.position = position;
         }

@@ -1,8 +1,8 @@
 import de.pascalschwab.gameobjects.Sprite;
 import de.pascalschwab.rendering.mesh.Mesh;
 import de.pascalschwab.rendering.mesh.TextureMesh;
-import de.pascalschwab.standard.math.Vector2;
 import de.pascalschwab.window.Window;
+import org.joml.Vector2f;
 
 public class Game extends Window {
     public Game(int width, int height, String title) {
@@ -34,7 +34,7 @@ public class Game extends Window {
                 0, 1, 3, 3, 1, 2,
         };
         Mesh mesh = new TextureMesh(positions, textCoords, indices);
-        Sprite sprite = new Sprite(this, null, new Vector2(1, 1), new Vector2(1, 1), 0, mesh, "res/Player.png");
+        Sprite sprite = new Sprite(this, null, new Vector2f(1, 1), new Vector2f(1, 1), 0, mesh, "res/Player.png");
     }
 
     @Override

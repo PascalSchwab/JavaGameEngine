@@ -6,7 +6,7 @@ import de.pascalschwab.gameobjects.RenderObject;
 import de.pascalschwab.projection.Projection;
 import de.pascalschwab.standard.enums.Colour;
 import de.pascalschwab.standard.lists.LayerBasedList;
-import de.pascalschwab.standard.math.Vector2;
+import org.joml.Vector2f;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public abstract class Window implements Runnable {
-    private final Vector2 size;
+    private final Vector2f size;
     private final String title;
     private final Display display;
     public List<GameObject> gameObjects = new LayerBasedList<>();
@@ -23,7 +23,7 @@ public abstract class Window implements Runnable {
     //private TextureCache textureCache = new TextureCache();
 
     public Window(int width, int height, String title) {
-        size = new Vector2(width, height);
+        size = new Vector2f(width, height);
         this.title = title;
         this.display = new Display(size, title, () -> {
             resize();
@@ -113,7 +113,7 @@ public abstract class Window implements Runnable {
         return !glfwWindowShouldClose(this.display.getId());
     }
 
-    public Vector2 getSize() {
+    public Vector2f getSize() {
         return size;
     }
 

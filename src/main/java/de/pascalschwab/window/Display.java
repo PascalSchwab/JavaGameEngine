@@ -1,6 +1,6 @@
 package de.pascalschwab.window;
 
-import de.pascalschwab.standard.math.Vector2;
+import org.joml.Vector2f;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -14,11 +14,11 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public final class Display {
     private final String title;
-    private Vector2 size;
+    private Vector2f size;
     private long id;
     private Callable<Void> resizeFunc;
 
-    public Display(Vector2 size, String title, Callable<Void> resizeFunc) {
+    public Display(Vector2f size, String title, Callable<Void> resizeFunc) {
         this.resizeFunc = resizeFunc;
         this.size = size;
         this.title = title;
@@ -68,7 +68,7 @@ public final class Display {
     }
 
     private void resize(int width, int height) {
-        this.size = new Vector2(width, height);
+        this.size = new Vector2f(width, height);
         try {
             resizeFunc.call();
         } catch (Exception e) {
@@ -80,7 +80,7 @@ public final class Display {
         return id;
     }
 
-    public Vector2 getSize() {
+    public Vector2f getSize() {
         return size;
     }
 }
