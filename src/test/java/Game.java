@@ -19,10 +19,10 @@ public class Game extends Window {
                 0.0f, 0.5f, 0.5f,
         };
         float[] positions = new float[]{
-                -0.5f, 0.5f, 0.0f,
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-                0.5f, 0.5f, 0.0f,
+                -0.5f, 0.5f, -3.0f,
+                -0.5f, -0.5f, -3.0f,
+                0.5f, -0.5f, -3.0f,
+                0.5f, 0.5f, -3.0f,
         };
         float[] textCoords = new float[]{
                 0.0f, 0.0f,

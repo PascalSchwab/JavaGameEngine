@@ -3,6 +3,7 @@ package de.pascalschwab.window;
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.gameobjects.KinematicObject;
 import de.pascalschwab.gameobjects.RenderObject;
+import de.pascalschwab.projection.Projection;
 import de.pascalschwab.standard.enums.Colour;
 import de.pascalschwab.standard.lists.LayerBasedList;
 import de.pascalschwab.standard.math.Vector2;
@@ -18,12 +19,17 @@ public abstract class Window implements Runnable {
     private final Display display;
     public List<GameObject> gameObjects = new LayerBasedList<>();
     private Colour backgroundColour = Colour.WHITE;
+    private Projection projection;
     //private TextureCache textureCache = new TextureCache();
 
     public Window(int width, int height, String title) {
         size = new Vector2(width, height);
         this.title = title;
-        this.display = new Display(size, title);
+        this.display = new Display(size, title, () -> {
+            resize();
+            return null;
+        });
+        this.projection = new Projection(width, height);
     }
 
     @Override
@@ -91,6 +97,10 @@ public abstract class Window implements Runnable {
         }
     }
 
+    public void resize() {
+        projection.updateProjMatrix((int) this.display.getSize().x, (int) this.display.getSize().y);
+    }
+
     private void dispose() {
         this.display.dispose();
     }
@@ -119,7 +129,11 @@ public abstract class Window implements Runnable {
         this.backgroundColour = colour;
     }
 
-/*    public TextureCache getTextureCache() {
+    public Projection getProjection() {
+        return projection;
+    }
+
+    /*    public TextureCache getTextureCache() {
         return this.textureCache;
     }*/
 }

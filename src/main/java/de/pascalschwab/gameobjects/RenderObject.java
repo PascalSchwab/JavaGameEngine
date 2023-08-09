@@ -21,11 +21,13 @@ public abstract class RenderObject extends GameObject {
 
         uniformsMap = new UniformsMap(shaderProgram.getId());
         createUniforms();
+        uniformsMap.createUniform("projectionMatrix");
     }
 
     public final void render() {
         shaderProgram.bind();
         setUniforms();
+        uniformsMap.setUniform("projectionMatrix", window.getProjection().getProjMatrix());
 
         draw();
 
