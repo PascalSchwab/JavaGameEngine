@@ -1,5 +1,7 @@
 package de.pascalschwab.rendering.texture;
 
+import org.joml.Vector2f;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,8 +17,13 @@ public class TextureCache {
         textures.values().forEach(Texture::dispose);
     }
 
-    public Texture createTexture(String path) {
-        return textures.computeIfAbsent(path, Texture::new);
+    public Texture createTexture(String path, Vector2f frameSize) {
+        Texture texture = textures.get(path);
+        if (texture == null) {
+            texture = new Texture(path, frameSize);
+            textures.put(path, texture);
+        }
+        return texture;
     }
 
     public Texture getTexture(String path) {

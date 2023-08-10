@@ -14,20 +14,20 @@ public abstract class RenderObject extends GameObject {
     private UniformsMap uniformsMap;
     private Mesh mesh;
 
-    public RenderObject(Window window, GameObject parent, Vector2f position, Vector2f size, int zIndex, ShaderProgram shaderProgram) {
+    public RenderObject(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex, ShaderProgram shaderProgram) {
         super(window, parent, position, size, zIndex);
         this.shaderProgram = shaderProgram;
 
         uniformsMap = new UniformsMap(shaderProgram.getId());
         createUniforms();
-        uniformsMap.createUniform("projectionMatrix");
+        /*uniformsMap.createUniform("projectionMatrix");*/
         uniformsMap.createUniform("viewMatrix");
     }
 
     public final void render() {
         shaderProgram.bind();
         setUniforms();
-        uniformsMap.setUniform("projectionMatrix", window.getProjection().getProjMatrix());
+        /*uniformsMap.setUniform("projectionMatrix", window.getProjection().getProjMatrix());*/
         uniformsMap.setUniform("viewMatrix", window.getCamera().getViewMatrix());
 
         draw();

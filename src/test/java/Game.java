@@ -17,7 +17,7 @@ public class Game extends Window {
         camera = new Camera();
         this.setMainCamera(camera);
 
-        player = new Player(this, new Vector2f(1, 1), new Vector2f(1, 1), 1);
+        player = new Player(this, new Vector2f(0, 0), new Vector2f(48, 96), 0f);
     }
 
     @Override

@@ -20,6 +20,7 @@ public abstract class Window implements Runnable {
     private final Vector2f size;
     private final String title;
     private final Display display;
+    private final Vector2f units;
     public List<GameObject> gameObjects = new LayerBasedList<>();
     private Camera camera = new Camera();
     private Colour backgroundColour = Colour.WHITE;
@@ -28,11 +29,12 @@ public abstract class Window implements Runnable {
 
     public Window(int width, int height, String title) {
         size = new Vector2f(width, height);
+        units = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
         this.title = title;
         this.display = new Display(size, title);
         this.projection = new Projection(width, height);
         this.textureCache = new TextureCache();
-        textureCache.createTexture("res/Player.png");
+        textureCache.createTexture("res/Player.png", new Vector2f(16, 32));
     }
 
     @Override
@@ -75,6 +77,9 @@ public abstract class Window implements Runnable {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(this.backgroundColour.r, this.backgroundColour.g,
                 this.backgroundColour.b, this.backgroundColour.a);
+        // Don't render transparency
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         // Update variables
         update(deltaTime);
@@ -120,6 +125,10 @@ public abstract class Window implements Runnable {
 
     public Vector2f getSize() {
         return size;
+    }
+
+    public Vector2f getUnits() {
+        return units;
     }
 
     public String getTitle() {

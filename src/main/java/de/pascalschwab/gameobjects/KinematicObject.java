@@ -7,7 +7,7 @@ public abstract class KinematicObject extends GameObject {
     /*private static final double DEFAULT_MOVE_SMOOTHNESS = 7;
     public boolean gravity = true;
     private Vector2 targetMovementPosition = new Vector2(this.getPosition().x, this.getPosition().y);*/
-    public KinematicObject(Window window, GameObject parent, Vector2f position, Vector2f size, int zIndex) {
+    public KinematicObject(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex) {
         super(window, parent, position, size, zIndex);
     }
 

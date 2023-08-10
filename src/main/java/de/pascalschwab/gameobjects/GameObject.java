@@ -8,20 +8,15 @@ import java.util.List;
 
 // Remove zIndex (only for RenderObjects)
 public abstract class GameObject {
-    protected final float[] VERTICES = new float[]{
-            -1f, 0.5f, -3.0f,
-            -0.5f, -0.5f, -3.0f,
-            0.5f, -0.5f, -3.0f,
-            0.5f, 0.5f, -3.0f,
-    };
+    protected final float[] VERTICES;
     private final int id;
     public List<GameObject> children = new ArrayList<>();
     protected Window window;
     protected GameObject parent;
-    protected int zIndex;
+    protected float zIndex;
     private Vector2f position, size;
 
-    public GameObject(Window window, GameObject parent, Vector2f position, Vector2f size, int zIndex) {
+    public GameObject(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex) {
         this.id = window.gameObjects.size();
         this.position = position;
         this.size = size;
@@ -35,6 +30,13 @@ public abstract class GameObject {
         if (this.parent != null) {
             this.parent.children.add(this);
         }
+
+        VERTICES = new float[]{
+                (position.x * window.getUnits().x) - 1f, (position.y * window.getUnits().y) + 1f, zIndex,
+                (position.x * window.getUnits().x) - 1f, ((position.y - size.y) * window.getUnits().y) + 1f, zIndex,
+                ((position.x + size.x) * window.getUnits().x) - 1f, ((position.y - size.y) * window.getUnits().y) + 1f, zIndex,
+                ((position.x + size.x) * window.getUnits().x) - 1f, (position.y * window.getUnits().y) + 1f, zIndex,
+        };
     }
 
     public GameObject(Window window, Vector2f position, Vector2f size, int zIndex) {
@@ -49,7 +51,7 @@ public abstract class GameObject {
         return this.id;
     }
 
-    public int getZIndex() {
+    public float getZIndex() {
         return this.zIndex;
     }
 

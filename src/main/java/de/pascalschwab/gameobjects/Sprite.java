@@ -11,24 +11,32 @@ import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 public class Sprite extends Rectangle {
-    private final float[] textCoords = new float[]{
-            0.0f, 0.0f,
-            0.0f, 0.1f,
-            0.1f, 0.1f,
-            0.1f, 0.0f
-    };
-    private final String texturePath;
+    private final float[] UVS;
+    private final Texture texture;
 
-    public Sprite(Window window, GameObject parent, Vector2f position, Vector2f size, int zIndex, String texturePath) {
+    public Sprite(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex, String texturePath) {
+        this(window, parent, position, size, zIndex, texturePath, new Vector2f(0, 0));
+    }
+
+    public Sprite(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex, String texturePath, Vector2f offset) {
         super(window, parent, position, size, zIndex, new TextureShader());
-        this.texturePath = texturePath;
-        this.setMesh(new TextureMesh(VERTICES, textCoords, INDICES));
+        texture = window.getTextureCache().getTexture(texturePath);
+
+        Vector2f topLeft = new Vector2f((texture.getFrameSize().x * texture.getUnits().x) * offset.x,
+                (texture.getFrameSize().y * texture.getUnits().y) * offset.y);
+        UVS = new float[]{
+                topLeft.x, topLeft.y,
+                topLeft.x, topLeft.y + (texture.getFrameSize().y * texture.getUnits().y),
+                topLeft.x + (texture.getFrameSize().x * texture.getUnits().x), topLeft.y + (texture.getFrameSize().y * texture.getUnits().y),
+                topLeft.x + (texture.getFrameSize().x * texture.getUnits().x), topLeft.y
+        };
+
+        this.setMesh(new TextureMesh(VERTICES, UVS, INDICES));
     }
 
     @Override
     public void draw() {
         super.draw();
-        Texture texture = window.getTextureCache().getTexture(texturePath);
         glActiveTexture(GL_TEXTURE0);
         texture.bind();
     }

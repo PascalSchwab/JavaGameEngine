@@ -1,21 +1,31 @@
 package de.pascalschwab.rendering.texture;
 
+import org.joml.Vector2f;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.Objects;
 
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.stb.STBImage.*;
 
 public final class Texture {
+    private final Vector2f units;
+    private final Vector2f frameSize;
     private int id;
 
     public Texture(int width, int height, ByteBuffer buffer) {
+        units = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
+        this.frameSize = new Vector2f(width, height);
         generateTexture(width, height, buffer);
     }
 
     public Texture(String path) {
+        this(path, null);
+    }
+
+    public Texture(String path, Vector2f frameSize) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             IntBuffer w = stack.mallocInt(1);
             IntBuffer h = stack.mallocInt(1);
@@ -28,6 +38,8 @@ public final class Texture {
 
             int width = w.get();
             int height = h.get();
+            this.frameSize = Objects.requireNonNullElseGet(frameSize, () -> new Vector2f(width, height));
+            units = new Vector2f(1f / width, 1f / height);
 
             generateTexture(width, height, buffer);
 
@@ -52,5 +64,13 @@ public final class Texture {
 
     public void dispose() {
         glDeleteTextures(id);
+    }
+
+    public Vector2f getUnits() {
+        return units;
+    }
+
+    public Vector2f getFrameSize() {
+        return frameSize;
     }
 }

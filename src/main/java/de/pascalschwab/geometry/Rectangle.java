@@ -11,7 +11,7 @@ public class Rectangle extends RenderObject {
             0, 1, 3, 3, 1, 2,
     };
 
-    public Rectangle(Window window, GameObject parent, Vector2f position, Vector2f size, int zIndex, ShaderProgram shaderProgram) {
+    public Rectangle(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex, ShaderProgram shaderProgram) {
         super(window, parent, position, size, zIndex, shaderProgram);
     }
 
