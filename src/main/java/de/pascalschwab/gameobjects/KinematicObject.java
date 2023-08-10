@@ -11,10 +11,10 @@ public abstract class KinematicObject extends GameObject {
         super(window, parent, position, size, zIndex);
     }
 
-    public final void tick() {
+    public final void tick(float deltaTime) {
         // gravity();
         // moveToTargetPosition();
-        update();
+        update(deltaTime);
     }
 
     /*private void moveToTargetPosition() {
@@ -29,7 +29,7 @@ public abstract class KinematicObject extends GameObject {
         }
     }*/
 
-    protected abstract void update();
+    protected abstract void update(float deltaTime);
 
     /*private void gravity() {
         moveTowards(new Vector2(0, 1));

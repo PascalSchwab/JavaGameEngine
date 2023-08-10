@@ -37,11 +37,15 @@ public abstract class GameObject {
                 ((position.x + size.x) * window.getUnits().x) - 1f, ((position.y - size.y) * window.getUnits().y) + 1f, zIndex,
                 ((position.x + size.x) * window.getUnits().x) - 1f, (position.y * window.getUnits().y) + 1f, zIndex,
         };
+
+        setup();
     }
 
     public GameObject(Window window, Vector2f position, Vector2f size, int zIndex) {
         this(window, null, position, size, zIndex);
     }
+
+    protected abstract void setup();
 
     public Vector2f getSize() {
         return this.size;

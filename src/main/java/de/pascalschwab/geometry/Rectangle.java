@@ -16,6 +16,11 @@ public class Rectangle extends RenderObject {
     }
 
     @Override
+    protected void setup() {
+
+    }
+
+    @Override
     public void draw() {
     }
 

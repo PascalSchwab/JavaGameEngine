@@ -85,7 +85,7 @@ public abstract class Window implements Runnable {
         update(deltaTime);
         for (GameObject object : gameObjects) {
             if (object instanceof KinematicObject) {
-                ((KinematicObject) object).tick();
+                ((KinematicObject) object).tick(deltaTime);
             }
         }
         // Render
