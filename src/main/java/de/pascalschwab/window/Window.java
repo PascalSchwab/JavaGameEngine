@@ -5,7 +5,9 @@ import de.pascalschwab.gameobjects.KinematicObject;
 import de.pascalschwab.gameobjects.RenderObject;
 import de.pascalschwab.projection.Projection;
 import de.pascalschwab.projection.camera.Camera;
+import de.pascalschwab.rendering.texture.TextureCache;
 import de.pascalschwab.standard.enums.Colour;
+import de.pascalschwab.standard.enums.Key;
 import de.pascalschwab.standard.lists.LayerBasedList;
 import org.joml.Vector2f;
 
@@ -19,27 +21,24 @@ public abstract class Window implements Runnable {
     private final String title;
     private final Display display;
     public List<GameObject> gameObjects = new LayerBasedList<>();
+    private Camera camera = new Camera();
     private Colour backgroundColour = Colour.WHITE;
     private Projection projection;
-    private Camera camera = new Camera();
-    //private TextureCache textureCache = new TextureCache();
+    private TextureCache textureCache;
 
     public Window(int width, int height, String title) {
         size = new Vector2f(width, height);
         this.title = title;
         this.display = new Display(size, title);
         this.projection = new Projection(width, height);
-        this.camera.setPosition(0.5f, 0.5f, 0.5f);
+        this.textureCache = new TextureCache();
+        textureCache.createTexture("res/Player.png");
     }
 
     @Override
     public final void run() {
         init();
-        try {
-            setup();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        setup();
         loop();
         dispose();
     }
@@ -50,36 +49,35 @@ public abstract class Window implements Runnable {
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true);
         });
-        // Setup resize window
-        glfwSetFramebufferSizeCallback(this.display.getId(), (window, w, h) -> resize(w, h));
+/*        // Setup resize window
+        glfwSetFramebufferSizeCallback(this.display.getId(), (window, w, h) -> resize(w, h));*/
     }
 
     private void loop() {
         // Time calculation and game loop
-        double delta = 0;
+        float deltaTime = 0;
         long lastTime = System.nanoTime();
         while (!glfwWindowShouldClose(this.display.getId())) {
             long now = System.nanoTime();
-            double tickDuration = (double) 1000000000 / 60;
-            delta += (now - lastTime) / tickDuration;
+            float tickDuration = (float) 1000000000 / 60;
+            deltaTime += (now - lastTime) / tickDuration;
             lastTime = now;
 
-            if (delta >= 1) {
-                tick(delta);
-                delta--;
+            if (deltaTime >= 1) {
+                tick(deltaTime);
+                deltaTime--;
             }
         }
     }
 
-    private void tick(double diffMilliTime) {
+    private void tick(float deltaTime) {
         // Set the clear color
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor((float) this.backgroundColour.r, (float) this.backgroundColour.g,
-                (float) this.backgroundColour.b, (float) this.backgroundColour.a);
+        glClearColor(this.backgroundColour.r, this.backgroundColour.g,
+                this.backgroundColour.b, this.backgroundColour.a);
 
         // Update variables
-        input(diffMilliTime);
-        update();
+        update(deltaTime);
         for (GameObject object : gameObjects) {
             if (object instanceof KinematicObject) {
                 ((KinematicObject) object).tick();
@@ -100,38 +98,21 @@ public abstract class Window implements Runnable {
         }
     }
 
-    private void resize(int width, int height) {
+/*    private void resize(int width, int height) {
         projection.updateProjMatrix(width, height);
-    }
+    }*/
 
-    public boolean isKeyPressed(int keyCode) {
-        return glfwGetKey(this.display.getId(), keyCode) == GLFW_PRESS;
-    }
-
-    private void input(double diffTimeMillis) {
-        final float MOUSE_SENSITIVITY = 0.1f;
-        final float MOVEMENT_SPEED = 0.005f;
-
-        float move = (float) (diffTimeMillis * MOVEMENT_SPEED);
-        if (isKeyPressed(GLFW_KEY_W)) {
-            camera.moveUp(move);
-        } else if (isKeyPressed(GLFW_KEY_S)) {
-            camera.moveDown(move);
-        }
-        if (isKeyPressed(GLFW_KEY_A)) {
-            camera.moveLeft(move);
-        } else if (isKeyPressed(GLFW_KEY_D)) {
-            camera.moveRight(move);
-        }
+    public boolean isKeyPressed(Key key) {
+        return glfwGetKey(this.display.getId(), key.keyCode) == GLFW_PRESS;
     }
 
     private void dispose() {
         this.display.dispose();
     }
 
-    protected abstract void setup() throws Exception;
+    protected abstract void setup();
 
-    protected abstract void update();
+    protected abstract void update(float deltaTime);
 
     public final boolean isRunning() {
         return !glfwWindowShouldClose(this.display.getId());
@@ -158,10 +139,14 @@ public abstract class Window implements Runnable {
     }
 
     public Camera getCamera() {
-        return camera;
+        return this.camera;
     }
 
-    /*    public TextureCache getTextureCache() {
+    public void setMainCamera(Camera camera) {
+        this.camera = camera;
+    }
+
+    public TextureCache getTextureCache() {
         return this.textureCache;
-    }*/
+    }
 }

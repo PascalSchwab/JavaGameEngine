@@ -14,10 +14,9 @@ public abstract class RenderObject extends GameObject {
     private UniformsMap uniformsMap;
     private Mesh mesh;
 
-    public RenderObject(Window window, GameObject parent, Vector2f position, Vector2f size, int zIndex, ShaderProgram shaderProgram, Mesh mesh) {
+    public RenderObject(Window window, GameObject parent, Vector2f position, Vector2f size, int zIndex, ShaderProgram shaderProgram) {
         super(window, parent, position, size, zIndex);
         this.shaderProgram = shaderProgram;
-        this.mesh = mesh;
 
         uniformsMap = new UniformsMap(shaderProgram.getId());
         createUniforms();
@@ -52,5 +51,9 @@ public abstract class RenderObject extends GameObject {
 
     protected Mesh getMesh() {
         return this.mesh;
+    }
+
+    protected void setMesh(Mesh mesh) {
+        this.mesh = mesh;
     }
 }

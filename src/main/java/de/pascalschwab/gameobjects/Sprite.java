@@ -1,7 +1,7 @@
 package de.pascalschwab.gameobjects;
 
 import de.pascalschwab.geometry.Rectangle;
-import de.pascalschwab.rendering.mesh.Mesh;
+import de.pascalschwab.rendering.mesh.TextureMesh;
 import de.pascalschwab.rendering.shader.TextureShader;
 import de.pascalschwab.rendering.texture.Texture;
 import de.pascalschwab.window.Window;
@@ -11,17 +11,24 @@ import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 public class Sprite extends Rectangle {
-    private String texturePath;
+    private final float[] textCoords = new float[]{
+            0.0f, 0.0f,
+            0.0f, 0.1f,
+            0.1f, 0.1f,
+            0.1f, 0.0f
+    };
+    private final String texturePath;
 
-    public Sprite(Window window, GameObject parent, Vector2f position, Vector2f size, int zIndex, Mesh mesh, String texturePath) throws Exception {
-        super(window, parent, position, size, zIndex, new TextureShader(), mesh);
+    public Sprite(Window window, GameObject parent, Vector2f position, Vector2f size, int zIndex, String texturePath) {
+        super(window, parent, position, size, zIndex, new TextureShader());
         this.texturePath = texturePath;
+        this.setMesh(new TextureMesh(VERTICES, textCoords, INDICES));
     }
 
     @Override
     public void draw() {
         super.draw();
-        Texture texture = new Texture(texturePath);
+        Texture texture = window.getTextureCache().getTexture(texturePath);
         glActiveTexture(GL_TEXTURE0);
         texture.bind();
     }

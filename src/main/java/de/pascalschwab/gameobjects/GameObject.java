@@ -8,6 +8,12 @@ import java.util.List;
 
 // Remove zIndex (only for RenderObjects)
 public abstract class GameObject {
+    protected final float[] VERTICES = new float[]{
+            -1f, 0.5f, -3.0f,
+            -0.5f, -0.5f, -3.0f,
+            0.5f, -0.5f, -3.0f,
+            0.5f, 0.5f, -3.0f,
+    };
     private final int id;
     public List<GameObject> children = new ArrayList<>();
     protected Window window;

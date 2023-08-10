@@ -34,7 +34,7 @@ public final class Display {
         // Configure GLFW
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
         // Create the window
         this.id = glfwCreateWindow((int) this.size.x, (int) this.size.y, this.title, NULL, NULL);

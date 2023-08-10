@@ -7,10 +7,10 @@ public class ShaderProgram {
     private final Shader vertexShader;
     private final Shader fragmentShader;
 
-    public ShaderProgram(String vertexShaderPath, String fragmentShaderPath) throws Exception {
+    public ShaderProgram(String vertexShaderPath, String fragmentShaderPath) {
         this.id = glCreateProgram();
         if (this.id == 0) {
-            throw new Exception("Could not create shader program");
+            throw new RuntimeException("Could not create shader program");
         }
         vertexShader = new Shader(vertexShaderPath, ShaderType.VERTEX);
         fragmentShader = new Shader(fragmentShaderPath, ShaderType.FRAGMENT);
@@ -20,7 +20,7 @@ public class ShaderProgram {
         // Link shader program
         glLinkProgram(this.id);
         if (glGetProgrami(this.id, GL_LINK_STATUS) == 0) {
-            throw new Exception("Error linking Shader code: " + glGetProgramInfoLog(this.id, 1024));
+            throw new RuntimeException("Error linking Shader code: " + glGetProgramInfoLog(this.id, 1024));
         }
 
         if (this.vertexShader.getId() != 0) {
