@@ -1,4 +1,4 @@
-package de.pascalschwab.projection.camera;
+package de.pascalschwab.projection;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -7,7 +7,11 @@ public class Camera {
     private Vector3f position = new Vector3f();
     private Vector3f right = new Vector3f();
     private Vector3f up = new Vector3f();
-    private Matrix4f viewMatrix = new Matrix4f();
+    private Matrix4f viewMatrix;
+
+    public Camera() {
+        this.viewMatrix = new Matrix4f().identity();
+    }
 
     public Vector3f getPosition() {
         return this.position;

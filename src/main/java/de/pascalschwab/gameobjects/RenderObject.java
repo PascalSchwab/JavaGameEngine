@@ -22,13 +22,15 @@ public abstract class RenderObject extends GameObject {
         createUniforms();
         /*uniformsMap.createUniform("projectionMatrix");*/
         uniformsMap.createUniform("viewMatrix");
+        uniformsMap.createUniform("transformation");
     }
 
     public final void render() {
         shaderProgram.bind();
-        setUniforms();
         /*uniformsMap.setUniform("projectionMatrix", window.getProjection().getProjMatrix());*/
         uniformsMap.setUniform("viewMatrix", window.getCamera().getViewMatrix());
+        getUniformsMap().setUniform("transformation", getTransformationMatrix());
+        setUniforms();
 
         draw();
 

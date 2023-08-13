@@ -20,6 +20,5 @@ public class Deer extends KinematicObject {
 
     @Override
     protected void update(float deltaTime) {
-
     }
 }

@@ -1,4 +1,4 @@
-package managers;
+package de.pascalschwab.managers;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,6 +1,6 @@
 package de.pascalschwab.rendering.shader;
 
-import managers.FileManager;
+import de.pascalschwab.managers.FileManager;
 
 import java.io.IOException;
 

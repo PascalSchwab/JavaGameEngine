@@ -3,9 +3,9 @@ package de.pascalschwab.gameobjects;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import de.pascalschwab.managers.FileManager;
 import de.pascalschwab.rendering.texture.Animation;
 import de.pascalschwab.window.Window;
-import managers.FileManager;
 import org.joml.Vector2f;
 
 import java.util.ArrayList;

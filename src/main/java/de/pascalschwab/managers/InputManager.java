@@ -1,4 +1,4 @@
-package managers;
+package de.pascalschwab.managers;
 
 import de.pascalschwab.standard.enums.Key;
 import de.pascalschwab.window.Window;

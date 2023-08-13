@@ -3,12 +3,12 @@ package de.pascalschwab.window;
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.gameobjects.KinematicObject;
 import de.pascalschwab.gameobjects.RenderObject;
+import de.pascalschwab.managers.InputManager;
+import de.pascalschwab.projection.Camera;
 import de.pascalschwab.projection.Projection;
-import de.pascalschwab.projection.camera.Camera;
 import de.pascalschwab.rendering.texture.TextureCache;
 import de.pascalschwab.standard.enums.Colour;
 import de.pascalschwab.standard.lists.LayerBasedList;
-import managers.InputManager;
 import org.joml.Vector2f;
 
 import java.util.List;

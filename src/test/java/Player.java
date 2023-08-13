@@ -1,8 +1,8 @@
 import de.pascalschwab.gameobjects.AnimatedSprite;
 import de.pascalschwab.gameobjects.KinematicObject;
+import de.pascalschwab.managers.InputManager;
 import de.pascalschwab.standard.enums.Key;
 import de.pascalschwab.window.Window;
-import managers.InputManager;
 import org.joml.Vector2f;
 
 public class Player extends KinematicObject {
@@ -23,18 +23,23 @@ public class Player extends KinematicObject {
 
     @Override
     protected void update(float deltaTime) {
+        float speed = 2f * deltaTime;
         if (InputManager.isKeyPressed(Key.A)) {
             lastLookDirection = LookDirection.LEFT;
             sprite.playAnimation("walk-left", deltaTime);
+            this.getPosition().add(-speed, 0);
         } else if (InputManager.isKeyPressed(Key.W)) {
             lastLookDirection = LookDirection.UP;
             sprite.playAnimation("walk-up", deltaTime);
+            this.getPosition().add(0, -speed);
         } else if (InputManager.isKeyPressed(Key.D)) {
             lastLookDirection = LookDirection.RIGHT;
             sprite.playAnimation("walk-right", deltaTime);
+            this.getPosition().add(speed, 0);
         } else if (InputManager.isKeyPressed(Key.S)) {
             lastLookDirection = LookDirection.DOWN;
             sprite.playAnimation("walk-down", deltaTime);
+            this.getPosition().add(0, speed);
         } else {
             sprite.setCurrentAnimationPosition("idle", lastLookDirection.value);
         }

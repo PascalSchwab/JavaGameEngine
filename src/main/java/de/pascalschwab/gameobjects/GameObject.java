@@ -1,7 +1,9 @@
 package de.pascalschwab.gameobjects;
 
 import de.pascalschwab.window.Window;
+import org.joml.Matrix4f;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +33,12 @@ public abstract class GameObject {
             this.parent.children.add(this);
         }
 
+        Vector2f unitSize = new Vector2f(size.x * window.getUnit().x, size.y * window.getUnit().y);
         VERTICES = new float[]{
-                (position.x * window.getUnit().x) - 1f, (position.y * window.getUnit().y) + 1f, zIndex,
-                (position.x * window.getUnit().x) - 1f, ((position.y - size.y) * window.getUnit().y) + 1f, zIndex,
-                ((position.x + size.x) * window.getUnit().x) - 1f, ((position.y - size.y) * window.getUnit().y) + 1f, zIndex,
-                ((position.x + size.x) * window.getUnit().x) - 1f, (position.y * window.getUnit().y) + 1f, zIndex,
+                0, 0, zIndex,
+                0, -1 * unitSize.y, zIndex,
+                unitSize.x, -1 * unitSize.y, zIndex,
+                unitSize.x, 0, zIndex
         };
 
         setup();
@@ -68,5 +71,11 @@ public abstract class GameObject {
             object.position = position;
         }
         this.position = position;
+    }
+
+    protected Matrix4f getTransformationMatrix() {
+        Vector3f screenPosition = new Vector3f((position.x * window.getUnit().x) - 1f,
+                (-position.y * window.getUnit().y) + 1f, zIndex);
+        return new Matrix4f().identity().translateLocal(screenPosition);
     }
 }
