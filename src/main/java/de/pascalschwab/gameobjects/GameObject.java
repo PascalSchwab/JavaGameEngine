@@ -32,10 +32,10 @@ public abstract class GameObject {
         }
 
         VERTICES = new float[]{
-                (position.x * window.getUnits().x) - 1f, (position.y * window.getUnits().y) + 1f, zIndex,
-                (position.x * window.getUnits().x) - 1f, ((position.y - size.y) * window.getUnits().y) + 1f, zIndex,
-                ((position.x + size.x) * window.getUnits().x) - 1f, ((position.y - size.y) * window.getUnits().y) + 1f, zIndex,
-                ((position.x + size.x) * window.getUnits().x) - 1f, (position.y * window.getUnits().y) + 1f, zIndex,
+                (position.x * window.getUnit().x) - 1f, (position.y * window.getUnit().y) + 1f, zIndex,
+                (position.x * window.getUnit().x) - 1f, ((position.y - size.y) * window.getUnit().y) + 1f, zIndex,
+                ((position.x + size.x) * window.getUnit().x) - 1f, ((position.y - size.y) * window.getUnit().y) + 1f, zIndex,
+                ((position.x + size.x) * window.getUnit().x) - 1f, (position.y * window.getUnit().y) + 1f, zIndex,
         };
 
         setup();

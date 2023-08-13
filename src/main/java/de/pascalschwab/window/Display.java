@@ -3,6 +3,7 @@ package de.pascalschwab.window;
 import org.joml.Vector2f;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import java.util.Objects;
@@ -12,18 +13,10 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public final class Display {
-    private final String title;
-    private Vector2f size;
-    private long id;
+    private final long id;
 
     public Display(Vector2f size, String title) {
-        this.size = size;
-        this.title = title;
 
-        init();
-    }
-
-    private void init() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
         // Initialize GLFW
         GLFWErrorCallback.createPrint(System.err).set();
@@ -37,10 +30,15 @@ public final class Display {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
         // Create the window
-        this.id = glfwCreateWindow((int) this.size.x, (int) this.size.y, this.title, NULL, NULL);
+        this.id = glfwCreateWindow((int) size.x, (int) size.y, title, NULL, NULL);
         if (id == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
+
+        // Center window
+        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        assert vidmode != null;
+        glfwSetWindowPos(this.id, (int) ((vidmode.width() - size.x) / 2), (int) ((vidmode.height() - size.y) / 2));
 
         // Activate context
         glfwMakeContextCurrent(id);
@@ -63,9 +61,5 @@ public final class Display {
 
     public long getId() {
         return id;
-    }
-
-    public Vector2f getSize() {
-        return size;
     }
 }

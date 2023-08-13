@@ -1,12 +1,13 @@
 import de.pascalschwab.gameobjects.AnimatedSprite;
 import de.pascalschwab.gameobjects.KinematicObject;
-import de.pascalschwab.rendering.texture.Animation;
 import de.pascalschwab.standard.enums.Key;
 import de.pascalschwab.window.Window;
+import managers.InputManager;
 import org.joml.Vector2f;
 
 public class Player extends KinematicObject {
     AnimatedSprite sprite;
+    LookDirection lastLookDirection = LookDirection.DOWN;
 
     public Player(Window window, Vector2f position, Vector2f size, float zIndex) {
         super(window, null, position, size, zIndex);
@@ -14,29 +15,28 @@ public class Player extends KinematicObject {
 
     @Override
     protected void setup() {
-        sprite = new AnimatedSprite(window, this, this.getPosition(), this.getSize(), zIndex, "res/Player.png");
-        sprite.addAnimation(new Animation("idle", new Vector2f[]{new Vector2f(0, 0),
-                new Vector2f(1, 0), new Vector2f(2, 0), new Vector2f(3, 0)}, 15));
-        sprite.addAnimation(new Animation("run-left", new Vector2f[]{new Vector2f(0, 1),
-                new Vector2f(1, 1), new Vector2f(2, 1), new Vector2f(3, 1)}, 15));
+        sprite = new AnimatedSprite(window, this, this.getPosition(), this.getSize(), zIndex,
+                "res/Player.png", new Vector2f(16, 32));
+        sprite.addAnimationsFromJson("res/jsons/playerAnimations.json");
         sprite.setCurrentAnimation("idle");
     }
 
     @Override
     protected void update(float deltaTime) {
-        if (window.isKeyPressed(Key.A)) {
-            sprite.setCurrentAnimation("run-left");
-            sprite.playCurrentAnimation(deltaTime);
-        } else if (window.isKeyPressed(Key.W)) {
-
-        } else if (window.isKeyPressed(Key.D)) {
-
-        } else if (window.isKeyPressed(Key.S)) {
-
+        if (InputManager.isKeyPressed(Key.A)) {
+            lastLookDirection = LookDirection.LEFT;
+            sprite.playAnimation("walk-left", deltaTime);
+        } else if (InputManager.isKeyPressed(Key.W)) {
+            lastLookDirection = LookDirection.UP;
+            sprite.playAnimation("walk-up", deltaTime);
+        } else if (InputManager.isKeyPressed(Key.D)) {
+            lastLookDirection = LookDirection.RIGHT;
+            sprite.playAnimation("walk-right", deltaTime);
+        } else if (InputManager.isKeyPressed(Key.S)) {
+            lastLookDirection = LookDirection.DOWN;
+            sprite.playAnimation("walk-down", deltaTime);
         } else {
-            sprite.setCurrentAnimation("idle");
-            sprite.getCurrentAnimation().setCurrentPosition(1);
+            sprite.setCurrentAnimationPosition("idle", lastLookDirection.value);
         }
-        //sprite.playCurrentAnimation(deltaTime);
     }
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class TextureCache {
     public static final String DEFAULT_TEXTURE = "res/Default_Texture.png";
-    private Map<String, Texture> textures = new HashMap<>();
+    private final Map<String, Texture> textures = new HashMap<>();
 
     public TextureCache() {
         textures.put(DEFAULT_TEXTURE, new Texture(DEFAULT_TEXTURE));
@@ -17,7 +17,7 @@ public class TextureCache {
         textures.values().forEach(Texture::dispose);
     }
 
-    public Texture createTexture(String path, Vector2f frameSize) {
+    private Texture createTexture(String path, Vector2f frameSize) {
         Texture texture = textures.get(path);
         if (texture == null) {
             texture = new Texture(path, frameSize);
@@ -26,10 +26,10 @@ public class TextureCache {
         return texture;
     }
 
-    public Texture getTexture(String path) {
+    public Texture getTexture(String path, Vector2f frameSize) {
         Texture texture = null;
         if (path != null) {
-            texture = textures.get(path);
+            texture = createTexture(path, frameSize);
         }
         if (texture == null) {
             texture = textures.get(DEFAULT_TEXTURE);

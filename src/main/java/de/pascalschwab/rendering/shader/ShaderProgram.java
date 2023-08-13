@@ -54,12 +54,4 @@ public class ShaderProgram {
     public int getId() {
         return id;
     }
-
-    public Shader getFragmentShader() {
-        return fragmentShader;
-    }
-
-    public Shader getVertexShader() {
-        return vertexShader;
-    }
 }

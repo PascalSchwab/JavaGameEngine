@@ -13,7 +13,7 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class TextureMesh extends Mesh {
+public final class TextureMesh extends Mesh {
     public TextureMesh(float[] positions, float[] textureCoords, int[] indices) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             this.verticeCount = indices.length;

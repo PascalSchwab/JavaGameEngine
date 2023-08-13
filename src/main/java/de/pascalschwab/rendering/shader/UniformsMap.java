@@ -8,9 +8,9 @@ import java.util.Map;
 
 import static org.lwjgl.opengl.GL20.*;
 
-public class UniformsMap {
-    private int shaderProgramId;
-    private Map<String, Integer> uniforms = new HashMap<>();
+public final class UniformsMap {
+    private final int shaderProgramId;
+    private final Map<String, Integer> uniforms = new HashMap<>();
 
     public UniformsMap(int shaderProgramId) {
         this.shaderProgramId = shaderProgramId;

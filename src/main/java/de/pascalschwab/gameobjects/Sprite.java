@@ -14,13 +14,14 @@ public class Sprite extends Rectangle {
     protected final Texture texture;
     private float[] UVS = new float[0];
 
-    public Sprite(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex, String texturePath) {
-        this(window, parent, position, size, zIndex, texturePath, new Vector2f(0, 0));
+    public Sprite(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex, String texturePath, Vector2f frameSize) {
+        this(window, parent, position, size, zIndex, texturePath, frameSize, new Vector2f(0, 0));
     }
 
-    public Sprite(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex, String texturePath, Vector2f offset) {
+    public Sprite(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex,
+                  String texturePath, Vector2f frameSize, Vector2f offset) {
         super(window, parent, position, size, zIndex, new TextureShader());
-        texture = window.getTextureCache().getTexture(texturePath);
+        texture = window.getTextureCache().getTexture(texturePath, frameSize);
         updateUVS(offset);
     }
 
