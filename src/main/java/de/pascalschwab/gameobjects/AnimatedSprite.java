@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.pascalschwab.managers.FileManager;
 import de.pascalschwab.rendering.texture.Animation;
-import de.pascalschwab.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -17,8 +16,8 @@ public class AnimatedSprite extends Sprite {
     private Animation currentAnimation = null;
     private float animationTime = 0;
 
-    public AnimatedSprite(Window window, GameObject parent, Vector3f position, Vector2f size, String texturePath, Vector2f frameSize) {
-        super(window, parent, position, size, texturePath, frameSize);
+    public AnimatedSprite(GameObject parent, Vector3f position, Vector2f size, String texturePath, Vector2f frameSize) {
+        super(parent, position, size, texturePath, frameSize);
     }
 
     public void addAnimation(Animation animation) {

@@ -12,8 +12,8 @@ public class Game extends Window {
 
     @Override
     public void setup() {
-        player = new Player(this, new Vector3f(300, 300, 0), new Vector2f(48, 96));
-        deer = new Deer(this, new Vector3f(100, 100, 0), new Vector2f(96, 96));
+        player = new Player(new Vector3f(300, 300, 0), new Vector2f(48, 96));
+        deer = new Deer(new Vector3f(100, 100, 0), new Vector2f(96, 96));
     }
 
     @Override

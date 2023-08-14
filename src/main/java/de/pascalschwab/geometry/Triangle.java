@@ -1,35 +1,25 @@
 package de.pascalschwab.geometry;
 
-public class Triangle {
-/*    private final ShaderProgram shaderProgram;
-    // Positions, Colors, Indices for now legit
-    float[] colors = new float[]{
-            0.5f, 0.0f, 0.0f,
-            0.0f, 0.5f, 0.0f,
-            0.0f, 0.0f, 0.5f,
-    };
-    int[] indices = new int[]{
-            0, 1, 3,
-    };
-    private float[] positions = {
-            -0.5f, -0.5f, 0f,
-            0.5f, -0.5f, 0f,
-            0f, 0.5f, 0f};
-    private Mesh mesh = new Mesh(positions, colors, indices);
+import de.pascalschwab.gameobjects.GameObject;
+import de.pascalschwab.gameobjects.RenderObject;
+import de.pascalschwab.managers.WindowManager;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 
-    public Triangle(Window window, GameObject parent, Vector2 position, Vector2 size, int zIndex, ShaderProgram shaderProgram) {
-        super(window, parent, position, size, zIndex);
-        this.shaderProgram = shaderProgram;
+public abstract class Triangle extends RenderObject {
+    protected final int[] INDICES = new int[]{
+            0, 1, 2
+    };
+    protected final float[] VERTICES;
+
+    public Triangle(GameObject parent, Vector3f position, Vector2f size, String shaderPath) {
+        super(parent, position, size, shaderPath);
+
+        Vector2f unitSize = new Vector2f(size.x * WindowManager.getWindow().getUnit().x, size.y * WindowManager.getWindow().getUnit().y);
+        VERTICES = new float[]{
+                unitSize.x / 2, 0, this.position.z,
+                0, -1 * unitSize.y, this.position.z,
+                unitSize.x, -1 * unitSize.y, this.position.z,
+        };
     }
-
-    @Override
-    public void draw() {
-        shaderProgram.bind();
-
-        glBindVertexArray(mesh.getVertexArrayObjectId());
-        glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
-
-        glBindVertexArray(0);
-        shaderProgram.unbind();
-    }*/
 }

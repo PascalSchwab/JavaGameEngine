@@ -6,10 +6,10 @@ layout (location=1) in vec2 texCoord;
 out vec2 outTextCoord;
 
 uniform mat4 viewMatrix;
-uniform mat4 transformation;
+uniform mat4 transformMatrix;
 
 void main()
 {
-    gl_Position =  transformation * viewMatrix * vec4(position, 1.0);
+    gl_Position =  transformMatrix * viewMatrix * vec4(position, 1.0);
     outTextCoord = texCoord;
 }

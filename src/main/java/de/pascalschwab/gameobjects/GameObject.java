@@ -1,6 +1,6 @@
 package de.pascalschwab.gameobjects;
 
-import de.pascalschwab.window.Window;
+import de.pascalschwab.managers.WindowManager;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -9,64 +9,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GameObject {
-    protected final float[] VERTICES;
+    protected final Vector3f position;
+    protected final Vector2f size;
+    private final List<GameObject> children = new ArrayList<>();
     private final int id;
-    private final Vector3f position;
-    private final Vector2f size;
-    public List<GameObject> children = new ArrayList<>();
-    protected Window window;
-    protected GameObject parent;
+    private final GameObject parent;
 
-    public GameObject(Window window, GameObject parent, Vector3f position, Vector2f size) {
-        this.id = window.gameObjects.size();
+    public GameObject(GameObject parent, Vector3f position, Vector2f size) {
+        this.id = WindowManager.getWindow().gameObjects.size();
+        this.parent = parent;
         this.position = position;
         this.size = size;
-        this.window = window;
-        this.parent = parent;
 
         // Add gameobject to world
-        this.window.gameObjects.add(this);
+        WindowManager.getWindow().gameObjects.add(this);
         // Add parent/child relation
         if (this.parent != null) {
             this.parent.children.add(this);
         }
 
-        Vector2f unitSize = new Vector2f(size.x * window.getUnit().x, size.y * window.getUnit().y);
-        VERTICES = new float[]{
-                0, 0, this.position.z,
-                0, -1 * unitSize.y, this.position.z,
-                unitSize.x, -1 * unitSize.y, this.position.z,
-                unitSize.x, 0, this.position.z
-        };
-
         setup();
     }
 
-    public GameObject(Window window, Vector3f position, Vector2f size) {
-        this(window, null, position, size);
+    public GameObject(Vector3f position, Vector2f size) {
+        this(null, position, size);
     }
 
-    protected abstract void setup();
+    public abstract void setup();
 
-    public Vector2f getSize() {
-        return this.size;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public Vector3f getPosition() {
-        return this.position;
-    }
-
-    public float getZIndex() {
-        return this.position.z;
-    }
-
-    protected Matrix4f getTransformationMatrix() {
-        Vector3f screenPosition = new Vector3f((position.x * window.getUnit().x) - 1f,
-                (-position.y * window.getUnit().y) + 1f, position.z);
+    protected Matrix4f getTransformMatrix() {
+        Vector3f screenPosition = new Vector3f((position.x * WindowManager.getWindow().getUnit().x) - 1f,
+                (-position.y * WindowManager.getWindow().getUnit().y) + 1f, position.z);
         return new Matrix4f().identity().translateLocal(screenPosition);
     }
 
@@ -77,5 +50,33 @@ public abstract class GameObject {
             }
         }
         this.position.add(new Vector3f(x, y, 0));
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    protected void addChild(GameObject object) {
+        this.children.add(object);
+    }
+
+    public List<GameObject> getChildren() {
+        return this.children;
+    }
+
+    public GameObject getParent() {
+        return parent;
+    }
+
+    public Vector2f getSize() {
+        return size;
+    }
+
+    public Vector3f getPosition() {
+        return position;
+    }
+
+    public float getZIndex() {
+        return this.position.z;
     }
 }

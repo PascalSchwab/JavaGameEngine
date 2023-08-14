@@ -1,13 +1,14 @@
 package de.pascalschwab.window;
 
 import de.pascalschwab.gameobjects.GameObject;
-import de.pascalschwab.gameobjects.KinematicObject;
 import de.pascalschwab.gameobjects.RenderObject;
-import de.pascalschwab.managers.InputManager;
+import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.projection.Camera;
 import de.pascalschwab.projection.Projection;
+import de.pascalschwab.rendering.shader.ShaderCache;
 import de.pascalschwab.rendering.texture.TextureCache;
 import de.pascalschwab.standard.enums.Colour;
+import de.pascalschwab.standard.interfaces.IUpdatable;
 import de.pascalschwab.standard.lists.LayerBasedList;
 import org.joml.Vector2f;
 
@@ -22,6 +23,7 @@ public abstract class Window implements Runnable {
     private final Vector2f unit;    // Pixel size
     private final Projection projection;
     private final TextureCache textureCache;
+    private final ShaderCache shaderCache;
     private Camera camera = new Camera();
     private Colour backgroundColour = Colour.WHITE;
 
@@ -29,10 +31,11 @@ public abstract class Window implements Runnable {
         this.display = new Display(new Vector2f(width, height), title);
         this.projection = new Projection(width, height);
         this.textureCache = new TextureCache();
+        this.shaderCache = new ShaderCache();
         // Calculate Pixel size
         unit = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
 
-        InputManager.setWindow(this);
+        WindowManager.setWindow(this);
     }
 
     @Override
@@ -91,8 +94,8 @@ public abstract class Window implements Runnable {
         // Update variables
         update(deltaTime);
         for (GameObject object : gameObjects) {
-            if (object instanceof KinematicObject) {
-                ((KinematicObject) object).tick(deltaTime);
+            if (object instanceof IUpdatable) {
+                ((IUpdatable) object).update(deltaTime);
             }
         }
         // Render objects
@@ -166,6 +169,10 @@ public abstract class Window implements Runnable {
 
     public TextureCache getTextureCache() {
         return this.textureCache;
+    }
+
+    public ShaderCache getShaderCache() {
+        return shaderCache;
     }
 
     public Display getDisplay() {

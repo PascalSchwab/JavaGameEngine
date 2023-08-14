@@ -1,10 +1,9 @@
 package de.pascalschwab.gameobjects;
 
 import de.pascalschwab.geometry.Rectangle;
+import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.rendering.mesh.TextureMesh;
-import de.pascalschwab.rendering.shader.TextureShader;
 import de.pascalschwab.rendering.texture.Texture;
-import de.pascalschwab.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -15,20 +14,25 @@ public class Sprite extends Rectangle {
     protected final Texture texture;
     private float[] UVS = new float[0];
 
-    public Sprite(Window window, GameObject parent, Vector3f position, Vector2f size, String texturePath, Vector2f frameSize) {
-        this(window, parent, position, size, texturePath, frameSize, new Vector2f(0, 0));
+    public Sprite(GameObject parent, Vector3f position, Vector2f size, String texturePath, Vector2f frameSize) {
+        this(parent, position, size, texturePath, frameSize, new Vector2f(0, 0));
     }
 
-    public Sprite(Window window, GameObject parent, Vector3f position, Vector2f size,
+    public Sprite(GameObject parent, Vector3f position, Vector2f size,
                   String texturePath, Vector2f frameSize, Vector2f offset) {
-        super(window, parent, position, size, new TextureShader());
-        texture = window.getTextureCache().getTexture(texturePath, frameSize);
+        super(parent, position, size, "res/shaders/texture");
+        texture = WindowManager.getWindow().getTextureCache().getTexture(texturePath, frameSize);
         updateUVS(offset);
     }
 
     @Override
-    public void draw() {
-        super.draw();
+    public void setup() {
+
+    }
+
+    @Override
+    public void bind() {
+        super.bind();
         glActiveTexture(GL_TEXTURE0);
         texture.bind();
     }
@@ -36,7 +40,7 @@ public class Sprite extends Rectangle {
     @Override
     protected void setUniforms() {
         super.setUniforms();
-        super.getUniformsMap().setUniform("txtSampler", 0);
+        this.getUniformsMap().setUniform("txtSampler", 0);
     }
 
     @Override
