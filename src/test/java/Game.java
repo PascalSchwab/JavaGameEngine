@@ -1,3 +1,6 @@
+import de.pascalschwab.managers.DevTools;
+import de.pascalschwab.managers.InputManager;
+import de.pascalschwab.standard.enums.Key;
 import de.pascalschwab.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -18,8 +21,8 @@ public class Game extends Window {
 
     @Override
     public void update(float deltaTime) {
-/*        if (InputManager.isKeyReleased(Key.T)) {
+        if (InputManager.isKeyTapped(Key.T)) {
             DevTools.setActive(!DevTools.isActive());
-        }*/
+        }
     }
 }

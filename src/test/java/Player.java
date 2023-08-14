@@ -10,6 +10,7 @@ public class Player extends KinematicObject {
     AnimatedSprite sprite;
     LookDirection lastLookDirection = LookDirection.DOWN;
     CollisionBox collisionBox;
+    int i = 0;
 
     public Player(Vector3f position, Vector2f size) {
         super(null, position, size);

@@ -2,6 +2,8 @@ package de.pascalschwab.window;
 
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.gameobjects.RenderObject;
+import de.pascalschwab.managers.DevTools;
+import de.pascalschwab.managers.InputManager;
 import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.projection.Camera;
 import de.pascalschwab.projection.Projection;
@@ -56,9 +58,8 @@ public abstract class Window implements Runnable {
         glfwSetKeyCallback(this.display.getId(), (window, key, scancode, action, mods) -> {
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true);
+            InputManager.addKey(key, action);
         });
-/*        // Setup resize window
-        glfwSetFramebufferSizeCallback(this.display.getId(), (window, w, h) -> resize(w, h));*/
     }
 
     /**
@@ -69,14 +70,19 @@ public abstract class Window implements Runnable {
         float deltaTime = 0;
         long lastTime = System.nanoTime();
         while (isRunning()) {
+            DevTools.fps++;
             long now = System.nanoTime();
             float tickDuration = (float) 1000000000 / 60;
             deltaTime += (now - lastTime) / tickDuration;
             lastTime = now;
-
+            // Temporary Fix for moving Window
+            if (deltaTime >= 2) {
+                deltaTime = 0;
+            }
             if (deltaTime >= 1) {
                 tick(deltaTime);
                 deltaTime--;
+                DevTools.fps = 0;
             }
         }
     }
@@ -85,13 +91,9 @@ public abstract class Window implements Runnable {
      * Function, that will be called every 60 Frames
      */
     private void tick(float deltaTime) {
-        // Set the clear color
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(this.backgroundColour.r, this.backgroundColour.g,
-                this.backgroundColour.b, this.backgroundColour.a);
-        // Don't render transparency
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        if (DevTools.isActive()) {
+            showDevTools();
+        }
 
         // Update variables
         update(deltaTime);
@@ -100,11 +102,16 @@ public abstract class Window implements Runnable {
                 ((IUpdatable) object).update(deltaTime);
             }
         }
+
+        // Set the clear color
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(this.backgroundColour.r, this.backgroundColour.g,
+                this.backgroundColour.b, this.backgroundColour.a);
         // Render objects
         render();
 
-        glfwSwapBuffers(this.display.getId());
         glfwPollEvents();
+        glfwSwapBuffers(this.display.getId());
     }
 
 /*    private void resize(int width, int height) {
@@ -129,6 +136,10 @@ public abstract class Window implements Runnable {
     private void dispose() {
         this.display.dispose();
         this.textureCache.dispose();
+    }
+
+    private void showDevTools() {
+        glfwSetWindowTitle(this.getDisplay().getId(), "Current FPS: " + DevTools.fps);
     }
 
     protected abstract void setup();

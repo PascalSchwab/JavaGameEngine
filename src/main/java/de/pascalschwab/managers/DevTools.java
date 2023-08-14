@@ -4,7 +4,8 @@ import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.gameobjects.RenderObject;
 
 public class DevTools {
-    private static boolean active;
+    public static int fps = 0;
+    private static boolean active = true;
 
     public static boolean isActive() {
         return DevTools.active;
