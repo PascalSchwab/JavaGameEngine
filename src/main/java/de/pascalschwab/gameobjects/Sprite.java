@@ -6,6 +6,7 @@ import de.pascalschwab.rendering.shader.TextureShader;
 import de.pascalschwab.rendering.texture.Texture;
 import de.pascalschwab.window.Window;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
@@ -14,13 +15,13 @@ public class Sprite extends Rectangle {
     protected final Texture texture;
     private float[] UVS = new float[0];
 
-    public Sprite(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex, String texturePath, Vector2f frameSize) {
-        this(window, parent, position, size, zIndex, texturePath, frameSize, new Vector2f(0, 0));
+    public Sprite(Window window, GameObject parent, Vector3f position, Vector2f size, String texturePath, Vector2f frameSize) {
+        this(window, parent, position, size, texturePath, frameSize, new Vector2f(0, 0));
     }
 
-    public Sprite(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex,
+    public Sprite(Window window, GameObject parent, Vector3f position, Vector2f size,
                   String texturePath, Vector2f frameSize, Vector2f offset) {
-        super(window, parent, position, size, zIndex, new TextureShader());
+        super(window, parent, position, size, new TextureShader());
         texture = window.getTextureCache().getTexture(texturePath, frameSize);
         updateUVS(offset);
     }

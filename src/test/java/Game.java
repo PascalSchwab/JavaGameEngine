@@ -1,5 +1,6 @@
 import de.pascalschwab.window.Window;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 public class Game extends Window {
     private Player player;
@@ -11,8 +12,8 @@ public class Game extends Window {
 
     @Override
     public void setup() {
-        player = new Player(this, new Vector2f(0, 0), new Vector2f(48, 96), 0f);
-        deer = new Deer(this, new Vector2f(100, 100), new Vector2f(96, 96), 0f);
+        player = new Player(this, new Vector3f(300, 300, 0), new Vector2f(48, 96));
+        deer = new Deer(this, new Vector3f(100, 100, 0), new Vector2f(96, 96));
     }
 
     @Override

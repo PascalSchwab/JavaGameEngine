@@ -1,41 +1,18 @@
 package de.pascalschwab.gameobjects;
 
+import de.pascalschwab.standard.interfaces.IUpdatable;
 import de.pascalschwab.window.Window;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
-public abstract class KinematicObject extends GameObject {
-    /*private static final double DEFAULT_MOVE_SMOOTHNESS = 7;
-    public boolean gravity = true;
-    private Vector2 targetMovementPosition = new Vector2(this.getPosition().x, this.getPosition().y);*/
-    public KinematicObject(Window window, GameObject parent, Vector2f position, Vector2f size, float zIndex) {
-        super(window, parent, position, size, zIndex);
+public abstract class KinematicObject extends GameObject implements IUpdatable {
+    public KinematicObject(Window window, GameObject parent, Vector3f position, Vector2f size) {
+        super(window, parent, position, size);
     }
 
     public final void tick(float deltaTime) {
-        // gravity();
-        // moveToTargetPosition();
         update(deltaTime);
     }
 
-    /*private void moveToTargetPosition() {
-        if (!targetMovementPosition.equals(this.getPosition())) {
-            Vector2 direction = this.targetMovementPosition.subtract(this.getPosition()).normalize();
-            Vector2 newPosition = this.getPosition().add(direction.multiScalar(DEFAULT_MOVE_SMOOTHNESS));
-            if (this.targetMovementPosition.subtract(this.getPosition()).getLength() <= this.targetMovementPosition.subtract(newPosition).getLength()) {
-                this.setPosition(this.targetMovementPosition);
-            } else {
-                this.setPosition(newPosition);
-            }
-        }
-    }*/
-
     protected abstract void update(float deltaTime);
-
-    /*private void gravity() {
-        moveTowards(new Vector2(0, 1));
-    }
-
-    public final void moveTowards(Vector2 direction) {
-        targetMovementPosition = this.getPosition().add(direction);
-    }*/
 }

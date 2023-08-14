@@ -10,6 +10,26 @@ public class InputManager {
 
     /**
      * Checks if specific key is pressed
+     *
+     * @return int
+     */
+    public static int isKeyPressedInt(Key key) {
+        return glfwGetKey(window.getDisplay().getId(), key.keyCode) == GLFW_PRESS ? 1 : 0;
+    }
+
+    /**
+     * Checks if specific key is released
+     *
+     * @return int
+     */
+    public static int isKeyReleasedInt(Key key) {
+        return glfwGetKey(window.getDisplay().getId(), key.keyCode) == GLFW_RELEASE ? 1 : 0;
+    }
+
+    /**
+     * Checks if specific key is pressed
+     *
+     * @return boolean
      */
     public static boolean isKeyPressed(Key key) {
         return glfwGetKey(window.getDisplay().getId(), key.keyCode) == GLFW_PRESS;
@@ -17,6 +37,8 @@ public class InputManager {
 
     /**
      * Checks if specific key is released
+     *
+     * @return boolean
      */
     public static boolean isKeyReleased(Key key) {
         return glfwGetKey(window.getDisplay().getId(), key.keyCode) == GLFW_RELEASE;
