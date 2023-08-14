@@ -20,7 +20,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://github.com/PascalSchwab/JavaGameEngine</url>
+            <url>https://maven.pkg.github.com/PascalSchwab/JavaGameEngine</url>
         </repository>
     </distributionManagement>
 
