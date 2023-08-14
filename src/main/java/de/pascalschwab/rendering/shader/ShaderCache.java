@@ -3,7 +3,7 @@ package de.pascalschwab.rendering.shader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ShaderCache {
+public final class ShaderCache {
     public static final String DEFAULT_SHADER = "res/shaders/color";
     private final Map<String, Shader> shaders = new HashMap<>();
 

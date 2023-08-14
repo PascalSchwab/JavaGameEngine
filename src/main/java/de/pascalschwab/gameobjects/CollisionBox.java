@@ -56,7 +56,7 @@ public class CollisionBox extends Rectangle implements IUpdatable {
         }
     }
 
-    protected void updateColors() {
+    protected final void updateColors() {
         COLORS = new float[]{
                 currentColour.r, currentColour.g, currentColour.b,
                 currentColour.r, currentColour.g, currentColour.b,
@@ -66,11 +66,11 @@ public class CollisionBox extends Rectangle implements IUpdatable {
         this.setMesh(new ColorMesh(VERTICES, COLORS, INDICES));
     }
 
-    public Alignment getAlignment() {
+    public final Alignment getAlignment() {
         return alignment;
     }
 
-    public void setAlignment(Alignment alignment) {
+    public final void setAlignment(Alignment alignment) {
         this.alignment = alignment;
         if (alignment == Alignment.CENTER) {
             this.getPosition().sub(getSize().x / 2, getSize().y / 2, 0)

@@ -2,7 +2,7 @@ package de.pascalschwab.rendering.shader;
 
 import static org.lwjgl.opengl.GL30.*;
 
-public class Shader {
+public final class Shader {
     private final int id;
     private final ShaderPart vertexShaderPart;
     private final ShaderPart fragmentShaderPart;

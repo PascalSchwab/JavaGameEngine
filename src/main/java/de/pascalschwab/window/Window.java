@@ -153,42 +153,42 @@ public abstract class Window implements Runnable {
         return !glfwWindowShouldClose(this.display.getId());
     }
 
-    public Vector2f getUnit() {
+    public final Vector2f getUnit() {
         return unit;
     }
 
-    public Colour getBackgroundColour() {
+    public final Colour getBackgroundColour() {
         return backgroundColour;
     }
 
-    public void setBackgroundColour(Colour colour) {
+    public final void setBackgroundColour(Colour colour) {
         this.backgroundColour = colour;
     }
 
-    public Projection getProjection() {
+    public final Projection getProjection() {
         return projection;
     }
 
-    public Camera getCamera() {
+    public final Camera getCamera() {
         return this.camera;
     }
 
     /**
      * Sets the new main camera (will be changed in the future)
      */
-    public void setMainCamera(Camera camera) {
+    public final void setMainCamera(Camera camera) {
         this.camera = camera;
     }
 
-    public TextureCache getTextureCache() {
+    public final TextureCache getTextureCache() {
         return this.textureCache;
     }
 
-    public ShaderCache getShaderCache() {
+    public final ShaderCache getShaderCache() {
         return shaderCache;
     }
 
-    public Display getDisplay() {
+    public final Display getDisplay() {
         return display;
     }
 }

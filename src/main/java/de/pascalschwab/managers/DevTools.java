@@ -3,7 +3,7 @@ package de.pascalschwab.managers;
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.gameobjects.RenderObject;
 
-public class DevTools {
+public final class DevTools {
     public static int fps = 0;
     private static boolean active = true;
 

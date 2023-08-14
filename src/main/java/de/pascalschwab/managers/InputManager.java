@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class InputManager {
+public final class InputManager {
     private static final Window window = WindowManager.getWindow();
     private static final Map<Integer, InputData> activeKeys = new HashMap<>();
 
@@ -100,7 +100,7 @@ public class InputManager {
     }
 }
 
-class InputData {
+final class InputData {
     int action;
     boolean triggered;
 

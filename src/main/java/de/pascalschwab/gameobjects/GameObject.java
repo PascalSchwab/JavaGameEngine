@@ -37,13 +37,13 @@ public abstract class GameObject {
 
     public abstract void setup();
 
-    protected Matrix4f getTransformMatrix() {
+    protected final Matrix4f getTransformMatrix() {
         Vector3f screenPosition = new Vector3f((position.x * WindowManager.getWindow().getUnit().x) - 1f,
                 (-position.y * WindowManager.getWindow().getUnit().y) + 1f, position.z);
         return new Matrix4f().identity().translateLocal(screenPosition);
     }
 
-    public void translate(float x, float y) {
+    public final void translate(float x, float y) {
         for (GameObject object : children) {
             if (object.position != this.position) {
                 object.position.add(new Vector3f(x, y, 0));
@@ -52,31 +52,31 @@ public abstract class GameObject {
         this.position.add(new Vector3f(x, y, 0));
     }
 
-    public int getId() {
+    public final int getId() {
         return id;
     }
 
-    protected void addChild(GameObject object) {
+    protected final void addChild(GameObject object) {
         this.children.add(object);
     }
 
-    public List<GameObject> getChildren() {
+    public final List<GameObject> getChildren() {
         return this.children;
     }
 
-    public GameObject getParent() {
+    public final GameObject getParent() {
         return parent;
     }
 
-    public Vector2f getSize() {
+    public final Vector2f getSize() {
         return size;
     }
 
-    public Vector3f getPosition() {
+    public final Vector3f getPosition() {
         return position;
     }
 
-    public float getZIndex() {
+    public final float getZIndex() {
         return this.position.z;
     }
 }

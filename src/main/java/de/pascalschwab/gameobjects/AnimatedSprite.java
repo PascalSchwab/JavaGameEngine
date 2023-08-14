@@ -11,7 +11,7 @@ import org.joml.Vector3f;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnimatedSprite extends Sprite {
+public final class AnimatedSprite extends Sprite {
     private final List<Animation> animations = new ArrayList<>();
     private Animation currentAnimation = null;
     private float animationTime = 0;

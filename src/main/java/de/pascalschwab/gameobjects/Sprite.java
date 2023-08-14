@@ -49,7 +49,7 @@ public class Sprite extends Rectangle {
         super.getUniformsMap().createUniform("txtSampler");
     }
 
-    protected void updateUVS(Vector2f offset) {
+    protected final void updateUVS(Vector2f offset) {
         Vector2f topLeft = new Vector2f((texture.getFrameSize().x * texture.getUnits().x) * offset.x,
                 (texture.getFrameSize().y * texture.getUnits().y) * offset.y);
         UVS = new float[]{

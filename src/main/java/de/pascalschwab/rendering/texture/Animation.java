@@ -2,7 +2,7 @@ package de.pascalschwab.rendering.texture;
 
 import org.joml.Vector2f;
 
-public class Animation {
+public final class Animation {
     private final Vector2f[] frames;
     private final int frameRate;
     private final String name;

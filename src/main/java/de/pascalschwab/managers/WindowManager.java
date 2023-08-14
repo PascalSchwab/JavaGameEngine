@@ -2,7 +2,7 @@ package de.pascalschwab.managers;
 
 import de.pascalschwab.window.Window;
 
-public class WindowManager {
+public final class WindowManager {
     private static Window window = null;
 
     public static Window getWindow() {

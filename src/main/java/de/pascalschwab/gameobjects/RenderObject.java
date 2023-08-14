@@ -62,19 +62,19 @@ public abstract class RenderObject extends GameObject {
         this.shader.unbind();
     }
 
-    protected void setMesh(Mesh mesh) {
+    protected final void setMesh(Mesh mesh) {
         this.mesh = mesh;
     }
 
-    protected UniformsMap getUniformsMap() {
+    protected final UniformsMap getUniformsMap() {
         return this.uniformsMap;
     }
 
-    public boolean isVisible() {
+    public final boolean isVisible() {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public final void setVisible(boolean visible) {
         this.visible = visible;
     }
 }

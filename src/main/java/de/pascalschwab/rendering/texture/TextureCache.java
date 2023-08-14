@@ -5,7 +5,7 @@ import org.joml.Vector2f;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TextureCache {
+public final class TextureCache {
     public static final String DEFAULT_TEXTURE = "res/Default_Texture.png";
     private final Map<String, Texture> textures = new HashMap<>();
 

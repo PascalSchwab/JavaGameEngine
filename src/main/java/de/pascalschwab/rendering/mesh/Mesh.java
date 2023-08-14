@@ -17,11 +17,11 @@ public abstract class Mesh {
         glDeleteVertexArrays(vertexArrayObject);
     }
 
-    public int getVertexArrayObjectId() {
+    public final int getVertexArrayObjectId() {
         return vertexArrayObject;
     }
 
-    public int getVertexCount() {
+    public final int getVertexCount() {
         return verticeCount;
     }
 }
