@@ -21,7 +21,7 @@ public abstract class GameObject {
         this.position = position;
         this.size = size;
 
-        // Add gameobject to world
+        // Add Game Object
         WindowManager.getWindow().gameObjects.add(this);
         // Add parent/child relation
         if (this.parent != null) {

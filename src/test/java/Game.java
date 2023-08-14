@@ -18,5 +18,8 @@ public class Game extends Window {
 
     @Override
     public void update(float deltaTime) {
+/*        if (InputManager.isKeyReleased(Key.T)) {
+            DevTools.setActive(!DevTools.isActive());
+        }*/
     }
 }

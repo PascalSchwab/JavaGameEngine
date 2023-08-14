@@ -12,6 +12,7 @@ import de.pascalschwab.standard.interfaces.IUpdatable;
 import de.pascalschwab.standard.lists.LayerBasedList;
 import org.joml.Vector2f;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -19,6 +20,7 @@ import static org.lwjgl.opengl.GL30.*;
 
 public abstract class Window implements Runnable {
     public final List<GameObject> gameObjects = new LayerBasedList<>();
+    public final List<GameObject> collisionObjects = new ArrayList<>();
     private final Display display;
     private final Vector2f unit;    // Pixel size
     private final Projection projection;

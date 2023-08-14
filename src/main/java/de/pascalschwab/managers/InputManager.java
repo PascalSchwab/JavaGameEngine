@@ -8,6 +8,10 @@ import static org.lwjgl.glfw.GLFW.*;
 public class InputManager {
     private static Window window = WindowManager.getWindow();
 
+    public static boolean isKeyTapped(Key key) {
+        return false;
+    }
+
     /**
      * Checks if specific key is pressed
      *
