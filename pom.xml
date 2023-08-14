@@ -16,6 +16,14 @@
         <lwjgl.natives>natives-windows</lwjgl.natives>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://github.com/PascalSchwab/JavaGameEngine</url>
+        </repository>
+    </distributionManagement>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
