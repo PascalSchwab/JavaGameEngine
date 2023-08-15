@@ -3,6 +3,7 @@ package de.pascalschwab.gameobjects;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import de.pascalschwab.geometry.TextureRectangle;
 import de.pascalschwab.managers.FileManager;
 import de.pascalschwab.rendering.texture.Animation;
 import org.joml.Vector2f;
@@ -11,7 +12,7 @@ import org.joml.Vector3f;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class AnimatedSprite extends Sprite {
+public final class AnimatedSprite extends TextureRectangle {
     private final List<Animation> animations = new ArrayList<>();
     private Animation currentAnimation = null;
     private float animationTime = 0;

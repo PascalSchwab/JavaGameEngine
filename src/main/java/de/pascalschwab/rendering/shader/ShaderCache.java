@@ -8,7 +8,8 @@ public final class ShaderCache {
     private final Map<String, Shader> shaders = new HashMap<>();
 
     public ShaderCache() {
-        shaders.put(DEFAULT_SHADER, new Shader(DEFAULT_SHADER + ".vs", DEFAULT_SHADER + ".fs"));
+        shaders.put(DEFAULT_SHADER, new Shader(DEFAULT_SHADER + ".vert",
+                DEFAULT_SHADER + ".frag"));
     }
 
     public void dispose() {
@@ -18,7 +19,7 @@ public final class ShaderCache {
     private Shader createShader(String path) {
         Shader shader = shaders.get(path);
         if (shader == null) {
-            shader = new Shader(path + ".vs", path + ".fs");
+            shader = new Shader(path + ".vert", path + ".frag");
             shaders.put(path, shader);
         }
         return shader;

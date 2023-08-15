@@ -5,7 +5,7 @@ import de.pascalschwab.gameobjects.RenderObject;
 
 public final class DevTools {
     public static int fps = 0;
-    private static boolean active = true;
+    private static boolean active = false;
 
     public static boolean isActive() {
         return DevTools.active;
