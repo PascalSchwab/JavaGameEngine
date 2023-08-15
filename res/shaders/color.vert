@@ -1,15 +1,15 @@
-#version 330
+#version 450
 
-layout (location=0) in vec3 inPosition;
-layout (location=1) in vec3 inColour;
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec3 colour;
 
 uniform mat4 viewMatrix;
 uniform mat4 transformMatrix;
 
-out vec3 exColour;
+out vec3 outVertexColour;
 
 void main()
 {
-    gl_Position = transformMatrix * viewMatrix * vec4(inPosition, 1.0);
-    exColour = inColour;
+    gl_Position = transformMatrix * viewMatrix * vec4(position, 1.0);
+    outVertexColour = colour;
 }

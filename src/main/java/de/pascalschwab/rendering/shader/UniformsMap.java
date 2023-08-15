@@ -42,4 +42,8 @@ public final class UniformsMap {
         }
         return location;
     }
+
+    public void setUniform(String uniformName, int[] values) {
+        glUniform1iv(getUniformLocation(uniformName), values);
+    }
 }

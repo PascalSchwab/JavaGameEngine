@@ -8,27 +8,18 @@ public final class Shader {
     private final ShaderPart fragmentShaderPart;
     private final ShaderPart geometryShaderPart;
 
-    public Shader(String vertexShaderPath, String fragmentShaderPath) {
-        this(vertexShaderPath, fragmentShaderPath, null);
-    }
-
-    public Shader(String vertexShaderPath, String fragmentShaderPath, String geometryShaderPath) {
+    public Shader(String shaderPath) {
         this.id = glCreateProgram();
         if (this.id == 0) {
             throw new RuntimeException("Could not create shader program");
         }
-        vertexShaderPart = new ShaderPart(vertexShaderPath, ShaderType.VERTEX);
-        fragmentShaderPart = new ShaderPart(fragmentShaderPath, ShaderType.FRAGMENT);
-        if (geometryShaderPath != null) {
-            geometryShaderPart = new ShaderPart(geometryShaderPath, ShaderType.GEOMETRY);
-        } else {
-            geometryShaderPart = null;
-        }
+        vertexShaderPart = new ShaderPart(shaderPath + ".vert", ShaderType.VERTEX);
+        fragmentShaderPart = new ShaderPart(shaderPath + ".frag", ShaderType.FRAGMENT);
+        geometryShaderPart = new ShaderPart(shaderPath + ".geom", ShaderType.GEOMETRY);
+
         glAttachShader(this.id, this.vertexShaderPart.getId());
         glAttachShader(this.id, this.fragmentShaderPart.getId());
-        if (geometryShaderPart != null) {
-            glAttachShader(this.id, this.geometryShaderPart.getId());
-        }
+        glAttachShader(this.id, this.geometryShaderPart.getId());
 
         // Link shader program
         glLinkProgram(this.id);
@@ -42,7 +33,7 @@ public final class Shader {
         if (this.fragmentShaderPart.getId() != 0) {
             glDetachShader(this.id, this.fragmentShaderPart.getId());
         }
-        if (this.geometryShaderPart != null && this.geometryShaderPart.getId() != 0) {
+        if (this.geometryShaderPart.getId() != 0) {
             glDetachShader(this.id, this.geometryShaderPart.getId());
         }
 
