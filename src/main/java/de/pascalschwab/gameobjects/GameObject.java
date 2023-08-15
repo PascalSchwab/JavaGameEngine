@@ -27,15 +27,11 @@ public abstract class GameObject {
         if (this.parent != null) {
             this.parent.children.add(this);
         }
-
-        setup();
     }
 
     public GameObject(Vector3f position, Vector2f size) {
         this(null, position, size);
     }
-
-    public abstract void setup();
 
     protected final Matrix4f getTransformMatrix() {
         Vector3f screenPosition = new Vector3f((position.x * WindowManager.getWindow().getUnit().x) - 1f,

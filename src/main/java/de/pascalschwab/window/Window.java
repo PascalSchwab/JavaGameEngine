@@ -20,7 +20,7 @@ import java.util.List;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL30.*;
 
-public abstract class Window implements Runnable {
+public abstract class Window implements Runnable, IUpdatable {
     public final List<GameObject> gameObjects = new LayerBasedList<>();
     public final List<GameObject> collisionObjects = new ArrayList<>();
     private final Display display;
@@ -46,6 +46,11 @@ public abstract class Window implements Runnable {
     public final void run() {
         init();
         setup();
+        for (int i = 0; i < gameObjects.size(); i++) {
+            if (gameObjects.get(i) instanceof IUpdatable) {
+                ((IUpdatable) gameObjects.get(i)).setup();
+            }
+        }
         loop();
         dispose();
     }
@@ -141,10 +146,6 @@ public abstract class Window implements Runnable {
     private void showDevTools() {
         glfwSetWindowTitle(this.getDisplay().getId(), "Current FPS: " + DevTools.fps);
     }
-
-    protected abstract void setup();
-
-    protected abstract void update(float deltaTime);
 
     /**
      * Checks if window is running
