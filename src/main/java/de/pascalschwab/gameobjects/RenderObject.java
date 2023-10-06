@@ -9,6 +9,7 @@ import org.joml.Vector3f;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL31.glDrawElementsInstanced;
 
 public abstract class RenderObject extends GameObject {
     private final Shader shader;
@@ -39,7 +40,8 @@ public abstract class RenderObject extends GameObject {
     }
 
     protected void draw() {
-        glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
+        //glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
+        glDrawElementsInstanced(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0, mesh.getInstanceCount());
     }
 
     protected void createUniforms() {

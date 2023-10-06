@@ -1,26 +1,34 @@
 package de.pascalschwab.tilemap;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import de.pascalschwab.geometry.Rectangle;
+import de.pascalschwab.managers.FileManager;
 import de.pascalschwab.managers.WindowManager;
-import de.pascalschwab.rendering.mesh.TileMapMesh;
+import de.pascalschwab.rendering.mesh.TextureMesh;
+import de.pascalschwab.rendering.texture.Animation;
 import de.pascalschwab.rendering.texture.Texture;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
-public class TileMap extends Rectangle {
-    public static final int TILE_SIZE = 64;
-    public final int[] tiles = new int[]{1, 2, 1, 2, 1, 2, 3, 3, 3};
-    private final Texture texture;
+public final class TileMap extends Rectangle {
+    private final List<Tile> tiles = new ArrayList<>();
+    private Texture texture;
     private float[] UVS = new float[0];
 
-    public TileMap(Vector3f position, Vector2f size) {
-        super(null, position, size, "res/shaders/tilemap");
-        //tiles = new int[(int) (size.x / TILE_SIZE * size.y / TILE_SIZE)];
-        texture = WindowManager.getWindow().getTextureCache().getTexture("res/tilemap.png", new Vector2f(16, 16));
-        updateUVS(new Vector2f(1, 0));
+    public TileMap(String path, Vector2f tileSize){
+        super(null, new Vector3f(0, 0, 0), tileSize, "res/shaders/tilemap");
+        loadTilemapFromJson(path);
+
+        updateUVS(new Vector2f(0, 0));
     }
 
     @Override
@@ -34,15 +42,27 @@ public class TileMap extends Rectangle {
     protected void setUniforms() {
         super.setUniforms();
         this.getUniformsMap().setUniform("txtSampler", 0);
+        this.getUniformsMap().setUniform("positionUSize", new float[]{this.size.x*WindowManager.getWindow().getUnit().x,
+                this.size.y*WindowManager.getWindow().getUnit().y});
+        this.getUniformsMap().setUniform("tilePositions", getTilePositions());
+        this.getUniformsMap().setUniform("textureUSize", new float[]{texture.getFrameSize().x * texture.getUnits().x,
+                texture.getFrameSize().y * texture.getUnits().y});
+        this.getUniformsMap().setUniform("textureSize", new float[]{texture.getSize().x, texture.getSize().y});
+        this.getUniformsMap().setUniform("tileIDs", getTileIDs());
     }
 
     @Override
     protected void createUniforms() {
         super.createUniforms();
-        super.getUniformsMap().createUniform("txtSampler");
+        this.getUniformsMap().createUniform("txtSampler");
+        this.getUniformsMap().createUniform("tilePositions");
+        this.getUniformsMap().createUniform("positionUSize");
+        this.getUniformsMap().createUniform("textureUSize");
+        this.getUniformsMap().createUniform("textureSize");
+        this.getUniformsMap().createUniform("tileIDs");
     }
 
-    protected final void updateUVS(Vector2f offset) {
+    protected void updateUVS(Vector2f offset) {
         Vector2f topLeft = new Vector2f((texture.getFrameSize().x * texture.getUnits().x) * offset.x,
                 (texture.getFrameSize().y * texture.getUnits().y) * offset.y);
         UVS = new float[]{
@@ -51,6 +71,52 @@ public class TileMap extends Rectangle {
                 topLeft.x + (texture.getFrameSize().x * texture.getUnits().x), topLeft.y + (texture.getFrameSize().y * texture.getUnits().y),
                 topLeft.x + (texture.getFrameSize().x * texture.getUnits().x), topLeft.y
         };
-        this.setMesh(new TileMapMesh(VERTICES, UVS, INDICES, tiles));
+        this.setMesh(new TextureMesh(VERTICES, UVS, INDICES, tiles.size()));
+    }
+
+    private float[] getTilePositions(){
+        float[] positions = new float[tiles.size()*2];
+        for(int i = 0; i < tiles.size(); i++){
+            positions[i*2] = tiles.get(i).getPosition().x;
+            positions[i*2+1] = tiles.get(i).getPosition().y;
+        }
+        return positions;
+    }
+
+    private float[] getTileIDs(){
+        float[] ids = new float[tiles.size()];
+        for(int i = 0; i < tiles.size(); i++){
+            ids[i] = tiles.get(i).getTileID();
+        }
+        return ids;
+    }
+
+    private void loadTilemapFromJson(String path) {
+        try {
+            String jsonText = FileManager.getTextFromFile(path);
+            JsonObject jsonTilemap = JsonParser.parseString(jsonText).getAsJsonObject();
+
+            {
+                // Get Texture from Json
+                JsonObject jsonTileSize = jsonTilemap.get("tileSize").getAsJsonObject();
+                Vector2f textureTileSize = new Vector2f(jsonTileSize.get("x").getAsInt(), jsonTileSize.get("y").getAsInt());
+                String texturePath = jsonTilemap.get("texturePath").getAsString();
+                this.texture = WindowManager.getWindow().getTextureCache().getTexture(texturePath, textureTileSize);
+            }
+
+            // Get Tiles
+            JsonArray jsonTiles = jsonTilemap.get("tiles").getAsJsonArray();
+            jsonTiles.forEach((object) -> {
+                JsonObject jsonTile = object.getAsJsonObject();
+                Vector2f tilePosition = new Vector2f(jsonTile.get("x").getAsInt(), jsonTile.get("y").getAsInt());
+                tiles.add(new Tile(tilePosition, jsonTile.get("id").getAsInt()));
+            });
+        } catch (Exception e) {
+            throw new RuntimeException("Json File from the path: " + path + " cannot been loaded.");
+        }
+    }
+
+    public List<Tile> getTiles() {
+        return tiles;
     }
 }

@@ -1,5 +1,6 @@
 package de.pascalschwab.rendering.shader;
 
+import org.joml.Matrix4d;
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
 
@@ -31,6 +32,10 @@ public final class UniformsMap {
         }
     }
 
+    public void setUniform(String uniformName, float value) {
+        glUniform1f(getUniformLocation(uniformName), value);
+    }
+
     public void setUniform(String uniformName, int value) {
         glUniform1i(getUniformLocation(uniformName), value);
     }
@@ -43,7 +48,7 @@ public final class UniformsMap {
         return location;
     }
 
-    public void setUniform(String uniformName, int[] values) {
-        glUniform1iv(getUniformLocation(uniformName), values);
+    public void setUniform(String uniformName, float[] values){
+        glUniform1fv(getUniformLocation(uniformName), values);
     }
 }

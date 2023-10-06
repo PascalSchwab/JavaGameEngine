@@ -13,11 +13,13 @@ import static org.lwjgl.stb.STBImage.*;
 public final class Texture {
     private final Vector2f units;
     private final Vector2f frameSize;
+    private final Vector2f size;
     private int id;
 
     public Texture(int width, int height, ByteBuffer buffer) {
         units = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
         this.frameSize = new Vector2f(width, height);
+        this.size = new Vector2f(width, height);
         generateTexture(width, height, buffer);
     }
 
@@ -39,6 +41,7 @@ public final class Texture {
             int width = w.get();
             int height = h.get();
             this.frameSize = Objects.requireNonNullElseGet(frameSize, () -> new Vector2f(width, height));
+            this.size = new Vector2f(width/this.frameSize.x, height/this.frameSize.y);
             units = new Vector2f(1f / width, 1f / height);
 
             generateTexture(width, height, buffer);
@@ -73,4 +76,6 @@ public final class Texture {
     public Vector2f getFrameSize() {
         return frameSize;
     }
+
+    public Vector2f getSize(){return size;}
 }
