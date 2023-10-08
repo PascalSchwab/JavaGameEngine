@@ -1,6 +1,7 @@
 package de.pascalschwab.gameobjects;
 
 import de.pascalschwab.managers.WindowManager;
+import de.pascalschwab.sound.SoundSource;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -42,10 +43,10 @@ public abstract class GameObject {
     public final void translate(float x, float y) {
         for (GameObject object : children) {
             if (object.position != this.position) {
-                object.position.add(new Vector3f(x, y, 0));
+                object.addPosition(new Vector3f(x, y, 0));
             }
         }
-        this.position.add(new Vector3f(x, y, 0));
+        this.addPosition(new Vector3f(x, y, 0));
     }
 
     public final int getId() {
@@ -70,6 +71,9 @@ public abstract class GameObject {
 
     public final Vector3f getPosition() {
         return position;
+    }
+    public void addPosition(Vector3f position){
+        this.position.add(position);
     }
 
     public final float getZIndex() {

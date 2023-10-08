@@ -4,6 +4,7 @@ import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.gameobjects.RenderObject;
 import de.pascalschwab.managers.DevTools;
 import de.pascalschwab.managers.InputManager;
+import de.pascalschwab.managers.SoundManager;
 import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.projection.Camera;
 import de.pascalschwab.projection.Projection;
@@ -28,6 +29,7 @@ public abstract class Window implements Runnable, IUpdatable {
     private final Projection projection;
     private final TextureCache textureCache;
     private final ShaderCache shaderCache;
+    private final SoundManager soundManager;
     private Camera camera = new Camera();
     private Colour backgroundColour = Colour.WHITE;
 
@@ -36,6 +38,7 @@ public abstract class Window implements Runnable, IUpdatable {
         this.projection = new Projection(width, height);
         this.textureCache = new TextureCache();
         this.shaderCache = new ShaderCache();
+        this.soundManager = new SoundManager();
         // Calculate Pixel size
         unit = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
 
