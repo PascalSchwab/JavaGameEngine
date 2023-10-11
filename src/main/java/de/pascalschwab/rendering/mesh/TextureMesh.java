@@ -1,5 +1,6 @@
 package de.pascalschwab.rendering.mesh;
 
+import de.pascalschwab.opengl.VertexArrayObject;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
@@ -18,6 +19,9 @@ public final class TextureMesh extends Mesh {
         this(positions, textureCoords, indices, 1);
     }
     public TextureMesh(float[] positions, float[] textureCoords, int[] indices, int instanceCount) {
+        this.verticeCount = indices.length;
+        this.instanceCount = instanceCount;
+
         try (MemoryStack stack = MemoryStack.stackPush()) {
             this.verticeCount = indices.length;
             this.instanceCount = instanceCount;
