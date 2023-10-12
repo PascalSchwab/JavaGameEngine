@@ -46,8 +46,8 @@ public final class VertexBufferObject extends OpenGLObject{
             try(MemoryStack stack = MemoryStack.stackPush()){
                 IntBuffer buffer = stack.callocInt(intData.length);
                 buffer.put(0, intData);
-                glBindBuffer(GL_ARRAY_BUFFER, this.id);
-                glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.id);
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
             }
         }
     }
