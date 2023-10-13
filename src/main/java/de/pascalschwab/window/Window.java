@@ -6,15 +6,20 @@ import de.pascalschwab.managers.DevTools;
 import de.pascalschwab.managers.InputManager;
 import de.pascalschwab.managers.SoundManager;
 import de.pascalschwab.managers.WindowManager;
+import de.pascalschwab.opengl.FrameBuffer;
 import de.pascalschwab.projection.Camera;
 import de.pascalschwab.projection.Projection;
+import de.pascalschwab.rendering.Surface;
+import de.pascalschwab.rendering.shader.Shader;
 import de.pascalschwab.rendering.shader.ShaderCache;
 import de.pascalschwab.rendering.texture.TextureCache;
 import de.pascalschwab.standard.enums.Colour;
 import de.pascalschwab.standard.interfaces.IUpdatable;
 import de.pascalschwab.standard.lists.LayerBasedList;
 import org.joml.Vector2f;
+import org.lwjgl.system.MemoryStack;
 
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,15 +116,7 @@ public abstract class Window implements Runnable, IUpdatable {
             }
         }
 
-        // Set the clear color
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(this.backgroundColour.r, this.backgroundColour.g,
-                this.backgroundColour.b, this.backgroundColour.a);
-        // Render objects
         render();
-
-        glfwPollEvents();
-        glfwSwapBuffers(this.display.getId());
     }
 
 /*    private void resize(int width, int height) {
@@ -130,11 +127,19 @@ public abstract class Window implements Runnable, IUpdatable {
      * Render function
      */
     private void render() {
+        // Set the clear color
+        glClearColor(this.backgroundColour.r, this.backgroundColour.g,
+                this.backgroundColour.b, this.backgroundColour.a);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         for (GameObject object : gameObjects) {
             if (object instanceof RenderObject) {
                 ((RenderObject) object).render();
             }
         }
+
+        glfwPollEvents();
+        glfwSwapBuffers(this.display.getId());
     }
 
     /**

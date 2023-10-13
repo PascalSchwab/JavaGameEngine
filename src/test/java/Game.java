@@ -13,7 +13,7 @@ public class Game extends Window {
     private Player player;
     private Deer deer;
 
-    SoundSource soundSource;
+    private SoundSource soundSource;
 
     public Game(int width, int height, String title) {
         super(width, height, title);
