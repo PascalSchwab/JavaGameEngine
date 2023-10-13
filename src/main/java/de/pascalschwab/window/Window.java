@@ -9,13 +9,17 @@ import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.opengl.FrameBuffer;
 import de.pascalschwab.projection.Camera;
 import de.pascalschwab.projection.Projection;
+import de.pascalschwab.rendering.Surface;
+import de.pascalschwab.rendering.shader.Shader;
 import de.pascalschwab.rendering.shader.ShaderCache;
 import de.pascalschwab.rendering.texture.TextureCache;
 import de.pascalschwab.standard.enums.Colour;
 import de.pascalschwab.standard.interfaces.IUpdatable;
 import de.pascalschwab.standard.lists.LayerBasedList;
 import org.joml.Vector2f;
+import org.lwjgl.system.MemoryStack;
 
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +37,6 @@ public abstract class Window implements Runnable, IUpdatable {
     private final SoundManager soundManager;
     private Camera camera = new Camera();
     private Colour backgroundColour = Colour.WHITE;
-    private FrameBuffer frameBuffer;
 
     public Window(int width, int height, String title) {
         this.display = new Display(new Vector2f(width, height), title);
@@ -41,7 +44,6 @@ public abstract class Window implements Runnable, IUpdatable {
         this.textureCache = new TextureCache();
         this.shaderCache = new ShaderCache();
         this.soundManager = new SoundManager();
-        this.frameBuffer = new FrameBuffer(width, height);
         // Calculate Pixel size
         unit = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
 
@@ -126,9 +128,9 @@ public abstract class Window implements Runnable, IUpdatable {
      */
     private void render() {
         // Set the clear color
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(this.backgroundColour.r, this.backgroundColour.g,
                 this.backgroundColour.b, this.backgroundColour.a);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         for (GameObject object : gameObjects) {
             if (object instanceof RenderObject) {

@@ -5,8 +5,12 @@ import static org.lwjgl.opengl.GL30.*;
 public class FrameBuffer extends OpenGLObject {
     private final GLTexture texture;
     private final RenderBufferObject renderBufferObject;
+    private final int width;
+    private final int height;
     public FrameBuffer(int width, int height) {
         super(glGenFramebuffers());
+        this.width = width;
+        this.height = height;
         bind();
         this.texture = new GLTexture();
         this.texture.create2DTexture(width, height);
@@ -33,5 +37,17 @@ public class FrameBuffer extends OpenGLObject {
     @Override
     public void dispose(){
         glDeleteFramebuffers(this.id);
+    }
+
+    public GLTexture getTexture() {
+        return texture;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }
