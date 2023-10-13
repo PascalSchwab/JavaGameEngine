@@ -10,10 +10,10 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class Player extends KinematicObject {
-    AnimatedSprite sprite;
-    LookDirection lastLookDirection = LookDirection.DOWN;
-    CollisionBox collisionBox;
-    SoundSource soundSource;
+    private AnimatedSprite sprite;
+    private LookDirection lastLookDirection = LookDirection.DOWN;
+    private CollisionBox collisionBox;
+    private SoundSource soundSource;
 
     public Player(Vector3f position, Vector2f size) {
         super(null, position, size);
@@ -54,9 +54,9 @@ public class Player extends KinematicObject {
             sprite.setCurrentAnimationPosition("idle", lastLookDirection.value);
         }
 
-/*        if (InputManager.isKeyTapped(Key.U)){
+        if (InputManager.isKeyTapped(Key.U)){
             soundSource.play("Roblox");
-        }*/
+        }
 
     }
 }
