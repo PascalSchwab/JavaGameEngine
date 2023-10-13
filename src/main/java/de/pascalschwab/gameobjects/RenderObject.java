@@ -40,7 +40,6 @@ public abstract class RenderObject extends GameObject {
     }
 
     protected void draw() {
-        //glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
         glDrawElementsInstanced(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0, mesh.getInstanceCount());
     }
 
@@ -56,11 +55,11 @@ public abstract class RenderObject extends GameObject {
 
     protected void bind() {
         this.shader.bind();
-        glBindVertexArray(mesh.getVertexArrayObjectId());
+        this.mesh.getVertexArrayObject().bind();
     }
 
     protected void unbind() {
-        glBindVertexArray(0);
+        this.mesh.getVertexArrayObject().unbind();
         this.shader.unbind();
     }
 
