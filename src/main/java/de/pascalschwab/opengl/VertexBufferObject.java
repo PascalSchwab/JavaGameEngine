@@ -4,8 +4,6 @@ import org.lwjgl.system.MemoryStack;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.lwjgl.opengl.GL15.*;
 
@@ -33,26 +31,47 @@ public final class VertexBufferObject extends OpenGLObject{
         this.singleDataSize = singleDataSize;
     }
 
-    public void bind(MemoryStack stack){
+    public void setBufferData(MemoryStack stack){
         if(floatData != null){
             FloatBuffer buffer = stack.callocFloat(floatData.length);
             buffer.put(0, floatData);
-            glBindBuffer(GL_ARRAY_BUFFER, this.id);
+            bind();
             glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+            unbind(GL_ARRAY_BUFFER);
         }
         else if(intData != null){
             IntBuffer buffer = stack.callocInt(intData.length);
             buffer.put(0, intData);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.id);
+            bind(GL_ELEMENT_ARRAY_BUFFER);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+            unbind(GL_ELEMENT_ARRAY_BUFFER);
         }
     }
 
+    @Override
+    public void bind() {
+        bind(GL_ARRAY_BUFFER);
+    }
+
+    public void bind(int bufferType){
+        glBindBuffer(bufferType, this.id);
+    }
+
+    @Override
     public void unbind(){
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        unbind(GL_ARRAY_BUFFER);
+    }
+
+    public void unbind(int bufferType){
+        glBindBuffer(bufferType, this.id);
     }
 
     public int getSingleDataSize(){
         return this.singleDataSize;
+    }
+
+    @Override
+    public void dispose() {
+        glDeleteBuffers(this.id);
     }
 }
