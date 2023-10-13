@@ -1,25 +1,26 @@
 package de.pascalschwab.rendering.mesh;
 
+import de.pascalschwab.opengl.VertexArrayObject;
+import de.pascalschwab.opengl.VertexBufferObject;
 import org.lwjgl.opengl.GL30;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.lwjgl.opengl.GL15C.glDeleteBuffers;
 import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
 
 public abstract class Mesh {
-    protected int vertexArrayObject;
+    protected VertexArrayObject vertexArrayObject;
     protected int verticeCount;
     protected int instanceCount;
-    protected List<Integer> vertexBufferObjects = new ArrayList<>();
+    protected VertexBufferObject[] vertexBufferObjects;
 
     public void dispose() {
-        vertexBufferObjects.forEach(GL30::glDeleteBuffers);
-        glDeleteVertexArrays(vertexArrayObject);
-    }
-
-    public final int getVertexArrayObjectId() {
-        return vertexArrayObject;
+        for(int i = 0; i < vertexBufferObjects.length; i++){
+            glDeleteBuffers(vertexBufferObjects[i].getId());
+        }
+        glDeleteVertexArrays(vertexArrayObject.getId());
     }
 
     public final int getVertexCount() {
@@ -27,4 +28,8 @@ public abstract class Mesh {
     }
 
     public final int getInstanceCount(){return instanceCount;}
+
+    public final VertexArrayObject getVertexArrayObject(){
+        return this.vertexArrayObject;
+    }
 }

@@ -33,22 +33,18 @@ public final class VertexBufferObject extends OpenGLObject{
         this.singleDataSize = singleDataSize;
     }
 
-    public void bind(){
+    public void bind(MemoryStack stack){
         if(floatData != null){
-            try(MemoryStack stack = MemoryStack.stackPush()){
-                FloatBuffer buffer = stack.callocFloat(floatData.length);
-                buffer.put(0, floatData);
-                glBindBuffer(GL_ARRAY_BUFFER, this.id);
-                glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
-            }
+            FloatBuffer buffer = stack.callocFloat(floatData.length);
+            buffer.put(0, floatData);
+            glBindBuffer(GL_ARRAY_BUFFER, this.id);
+            glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
         }
         else if(intData != null){
-            try(MemoryStack stack = MemoryStack.stackPush()){
-                IntBuffer buffer = stack.callocInt(intData.length);
-                buffer.put(0, intData);
-                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.id);
-                glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
-            }
+            IntBuffer buffer = stack.callocInt(intData.length);
+            buffer.put(0, intData);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.id);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
         }
     }
 

@@ -54,9 +54,9 @@ public class Player extends KinematicObject {
             sprite.setCurrentAnimationPosition("idle", lastLookDirection.value);
         }
 
-        if (InputManager.isKeyTapped(Key.U)){
+/*        if (InputManager.isKeyTapped(Key.U)){
             soundSource.play("Roblox");
-        }
+        }*/
 
     }
 }

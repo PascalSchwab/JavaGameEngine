@@ -1,7 +1,6 @@
 package de.pascalschwab.opengl;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
@@ -11,24 +10,37 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class VertexArrayObject extends OpenGLObject{
+public class VertexArrayObject extends OpenGLObject {
     private final VertexBufferObject[] vertexBufferObjects;
     public VertexArrayObject(VertexBufferObject[] vertexBufferObjects) {
         super(glGenVertexArrays());
         this.vertexBufferObjects = vertexBufferObjects;
 
-        glBindVertexArray(this.id);
+        try(MemoryStack stack = MemoryStack.stackPush()){
+            bind();
 
-        for(int i = 0; i < vertexBufferObjects.length; i++){
-            vertexBufferObjects[i].bind();
-            if(vertexBufferObjects[i].getSingleDataSize() != 0){
-                glEnableVertexAttribArray(i);
-                glVertexAttribPointer(i, vertexBufferObjects[i].getSingleDataSize(),
-                        GL_FLOAT, false, 0, 0);
+            for(int i = 0; i < vertexBufferObjects.length; i++){
+                vertexBufferObjects[i].bind(stack);
+                if(vertexBufferObjects[0].getSingleDataSize() > 0){
+                    glEnableVertexAttribArray(i);
+                    glVertexAttribPointer(i, vertexBufferObjects[i].getSingleDataSize(), GL_FLOAT, false, 0, 0);
+                }
             }
-        }
 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            unbind();
+        }
+    }
+
+    public void bind(){
+        glBindVertexArray(this.id);
+    }
+
+    public void unbind(){
         glBindVertexArray(0);
+    }
+
+    public VertexBufferObject[] getVertexBufferObjects() {
+        return vertexBufferObjects;
     }
 }
