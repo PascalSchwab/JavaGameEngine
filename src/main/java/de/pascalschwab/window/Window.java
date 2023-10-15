@@ -2,6 +2,7 @@ package de.pascalschwab.window;
 
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.gameobjects.RenderObject;
+import de.pascalschwab.geometry.ColorRectangle;
 import de.pascalschwab.managers.DevTools;
 import de.pascalschwab.managers.InputManager;
 import de.pascalschwab.managers.SoundManager;
@@ -17,6 +18,7 @@ import de.pascalschwab.standard.enums.Colour;
 import de.pascalschwab.standard.interfaces.IUpdatable;
 import de.pascalschwab.standard.lists.LayerBasedList;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.FloatBuffer;

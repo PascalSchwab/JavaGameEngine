@@ -12,7 +12,6 @@ public class Game extends Window {
     private TileMap tileMap;
     private Player player;
     private Deer deer;
-
     private SoundSource soundSource;
 
     public Game(int width, int height, String title) {

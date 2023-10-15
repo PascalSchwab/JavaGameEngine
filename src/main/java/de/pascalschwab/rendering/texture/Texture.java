@@ -1,5 +1,6 @@
 package de.pascalschwab.rendering.texture;
 
+import de.pascalschwab.opengl.GLTexture;
 import org.joml.Vector2f;
 import org.lwjgl.system.MemoryStack;
 

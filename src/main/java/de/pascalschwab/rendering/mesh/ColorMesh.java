@@ -2,6 +2,7 @@ package de.pascalschwab.rendering.mesh;
 
 import de.pascalschwab.opengl.VertexArrayObject;
 import de.pascalschwab.opengl.VertexBufferObject;
+import de.pascalschwab.standard.enums.Colour;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.FloatBuffer;
@@ -15,8 +16,12 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public final class ColorMesh extends Mesh {
-    public ColorMesh(float[] positions, float[] colors, int[] indices) {
+    public ColorMesh(float[] positions, float[] colors, int[] indices){
+        this(positions, colors, indices, 1);
+    }
+    public ColorMesh(float[] positions, float[] colors, int[] indices, int instanceCount) {
         this.verticeCount = indices.length;
+        this.instanceCount = instanceCount;
 
         vertexBufferObjects = new VertexBufferObject[3];
         vertexBufferObjects[0] = new VertexBufferObject(positions, 3);

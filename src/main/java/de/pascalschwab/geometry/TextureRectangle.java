@@ -2,6 +2,7 @@ package de.pascalschwab.geometry;
 
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.managers.WindowManager;
+import de.pascalschwab.opengl.GLTexture;
 import de.pascalschwab.rendering.mesh.TextureMesh;
 import de.pascalschwab.rendering.texture.Texture;
 import org.joml.Vector2f;
@@ -23,6 +24,10 @@ public abstract class TextureRectangle extends Rectangle {
         texture = WindowManager.getWindow().getTextureCache().getTexture(texturePath, frameSize);
         updateUVS(offset);
     }
+
+/*    public TextureRectangle(GameObject parent, Vector3f position, Vector2f size, String shaderPath, GLTexture texture){
+        super(parent, position, size, shaderPath);
+    }*/
 
     @Override
     public void bind() {
