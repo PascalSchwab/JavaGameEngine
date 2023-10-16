@@ -23,6 +23,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public abstract class Window implements Runnable, IUpdatable {
+    public final List<Surface> surfaces = new LayerBasedList<>();
     public final List<GameObject> gameObjects = new LayerBasedList<>();
     public final List<GameObject> collisionObjects = new ArrayList<>();
     private final Display display;
@@ -33,7 +34,6 @@ public abstract class Window implements Runnable, IUpdatable {
     private final SoundManager soundManager;
     private Camera camera = new Camera();
     private Colour backgroundColour = Colour.WHITE;
-    private Surface surface;
 
     public Window(int width, int height, String title) {
         this.display = new Display(new Vector2f(width, height), title);
@@ -45,8 +45,6 @@ public abstract class Window implements Runnable, IUpdatable {
         unit = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
 
         WindowManager.setWindow(this);
-
-        this.surface = new Surface("res/shaders/frame", width, height);
     }
 
     @Override
@@ -115,7 +113,19 @@ public abstract class Window implements Runnable, IUpdatable {
             }
         }
 
-        render();
+        // Render
+        if (surfaces.isEmpty()) {
+            render();
+        } else {
+            for (Surface surface : surfaces) {
+                surface.begin();
+                render();
+                surface.end();
+            }
+        }
+
+        glfwPollEvents();
+        glfwSwapBuffers(this.display.getId());
     }
 
 /*    private void resize(int width, int height) {
@@ -126,7 +136,6 @@ public abstract class Window implements Runnable, IUpdatable {
      * Render function
      */
     private void render() {
-        this.surface.begin();
         // Set the clear color
         glClearColor(this.backgroundColour.r, this.backgroundColour.g,
                 this.backgroundColour.b, this.backgroundColour.a);
@@ -137,11 +146,6 @@ public abstract class Window implements Runnable, IUpdatable {
                 ((RenderObject) object).render();
             }
         }
-
-        this.surface.end();
-
-        glfwPollEvents();
-        glfwSwapBuffers(this.display.getId());
     }
 
     /**
@@ -151,10 +155,12 @@ public abstract class Window implements Runnable, IUpdatable {
     private void dispose() {
         this.display.dispose();
         this.textureCache.dispose();
+        this.shaderCache.dispose();
+        this.soundManager.dispose();
     }
 
     private void showDevTools() {
-        glfwSetWindowTitle(this.getDisplay().getId(), "Current FPS: " + DevTools.fps);
+        glfwSetWindowTitle(this.display.getId(), "Current FPS: " + DevTools.fps);
     }
 
     /**
@@ -199,7 +205,11 @@ public abstract class Window implements Runnable, IUpdatable {
         return shaderCache;
     }
 
-    public final Display getDisplay() {
-        return display;
+    public List<Surface> getSurfaces() {
+        return surfaces;
+    }
+
+    public Vector2f getWindowSize() {
+        return this.display.getSize();
     }
 }

@@ -15,8 +15,12 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public final class Display {
     private final long id;
+    private final Vector2f size;
+    private final String title;
 
     public Display(Vector2f size, String title) {
+        this.size = size;
+        this.title = title;
 
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
         // Initialize GLFW
@@ -66,5 +70,13 @@ public final class Display {
 
     public long getId() {
         return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Vector2f getSize() {
+        return size;
     }
 }

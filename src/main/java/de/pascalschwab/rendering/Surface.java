@@ -3,7 +3,6 @@ package de.pascalschwab.rendering;
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.opengl.FrameBuffer;
-import de.pascalschwab.rendering.mesh.Mesh;
 import de.pascalschwab.rendering.mesh.TextureMesh;
 import de.pascalschwab.rendering.shader.Shader;
 import org.joml.Vector2f;
@@ -13,18 +12,25 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL31.glDrawElementsInstanced;
 
 public final class Surface extends GameObject {
-    private final int[] INDICES = new int[]{
+    private final static int[] INDICES = new int[]{
             0, 1, 3, 3, 1, 2,
+    };
+    private final static float[] UVS = new float[]{
+            0, 1,
+            0, 0,
+            1, 0,
+            1, 1
     };
     private final float[] VERTICES;
     private final Shader shader;
     private final FrameBuffer frameBuffer;
-    private Mesh mesh;
-    private float[] UVS = new float[0];
+    private final TextureMesh mesh;
 
-    public Surface(String shaderPath, int width, int height) {
-        super(new Vector3f(0, 0, 0), new Vector2f(width, height));
-        this.frameBuffer = new FrameBuffer(width, height);
+    public Surface(String shaderPath, Vector2f size, int zIndex) {
+        super(new Vector3f(0, 0, zIndex), size);
+        this.frameBuffer = new FrameBuffer((int) size.x, (int) size.y);
+        this.shader = WindowManager.getWindow().getShaderCache().getShader(shaderPath);
+
         Vector2f unitSize = new Vector2f(size.x * WindowManager.getWindow().getUnit().x, size.y * WindowManager.getWindow().getUnit().y);
         VERTICES = new float[]{
                 0, 0, this.position.z,
@@ -32,9 +38,9 @@ public final class Surface extends GameObject {
                 unitSize.x, -1 * unitSize.y, this.position.z,
                 unitSize.x, 0, this.position.z
         };
-        this.shader = WindowManager.getWindow().getShaderCache().getShader(shaderPath);
+        this.mesh = new TextureMesh(VERTICES, UVS, INDICES);
+
         createUniforms();
-        updateUVS();
     }
 
     public void begin() {
@@ -45,6 +51,7 @@ public final class Surface extends GameObject {
         this.frameBuffer.unbind();
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
         this.shader.bind();
         setUniforms();
         this.mesh.getVertexArrayObject().bind();
@@ -66,19 +73,9 @@ public final class Surface extends GameObject {
         this.shader.getUniformsMap().createUniform("txtSampler");
     }
 
-    private void updateUVS() {
-        UVS = new float[]{
-                0, 1,
-                0, 0,
-                1, 0,
-                1, 1
-        };
-        this.mesh = new TextureMesh(VERTICES, UVS, INDICES);
-    }
-
     public void dispose() {
         this.shader.dispose();
         this.mesh.dispose();
-        frameBuffer.dispose();
+        this.frameBuffer.dispose();
     }
 }

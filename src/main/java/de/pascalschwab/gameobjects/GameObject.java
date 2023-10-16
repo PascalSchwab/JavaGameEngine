@@ -1,7 +1,7 @@
 package de.pascalschwab.gameobjects;
 
 import de.pascalschwab.managers.WindowManager;
-import de.pascalschwab.sound.SoundSource;
+import de.pascalschwab.rendering.Surface;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -22,7 +22,10 @@ public abstract class GameObject {
         this.position = position;
         this.size = size;
 
-        // Add Game Object
+        // Add Object to List
+        if (this instanceof Surface) {
+            WindowManager.getWindow().surfaces.add((Surface) this);
+        }
         WindowManager.getWindow().gameObjects.add(this);
         // Add parent/child relation
         if (this.parent != null) {
@@ -72,7 +75,8 @@ public abstract class GameObject {
     public final Vector3f getPosition() {
         return position;
     }
-    public void addPosition(Vector3f position){
+
+    public void addPosition(Vector3f position) {
         this.position.add(position);
     }
 
