@@ -8,7 +8,6 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.Objects;
 
-import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.stb.STBImage.*;
 
 public final class Texture {
@@ -35,7 +34,7 @@ public final class Texture {
             int width = w.get();
             int height = h.get();
             this.frameSize = Objects.requireNonNullElseGet(frameSize, () -> new Vector2f(width, height));
-            this.size = new Vector2f(width/this.frameSize.x, height/this.frameSize.y);
+            this.size = new Vector2f(width / this.frameSize.x, height / this.frameSize.y);
             this.units = new Vector2f(1f / width, 1f / height);
             this.glTexture = new GLTexture();
 
@@ -45,11 +44,19 @@ public final class Texture {
         }
     }
 
-    public void bind(){
+    public Texture(Vector2f frameSize) {
+        this.size = new Vector2f(1, 1);
+        this.units = new Vector2f(1f / frameSize.x, 1f / frameSize.y);
+        this.frameSize = frameSize;
+        this.glTexture = new GLTexture();
+        this.glTexture.create2DTexture((int) frameSize.x, (int) frameSize.y);
+    }
+
+    public void bind() {
         this.glTexture.bind();
     }
 
-    public void unbind(){
+    public void unbind() {
         this.glTexture.unbind();
     }
 
@@ -65,5 +72,7 @@ public final class Texture {
         return frameSize;
     }
 
-    public Vector2f getSize(){return size;}
+    public Vector2f getSize() {
+        return size;
+    }
 }

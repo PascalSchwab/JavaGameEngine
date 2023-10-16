@@ -6,6 +6,7 @@ public final class Shader {
     private final int id;
     private final ShaderPart vertexShaderPart;
     private final ShaderPart fragmentShaderPart;
+    private final UniformsMap uniformsMap;
 
     public Shader(String shaderPath) {
         this.id = glCreateProgram();
@@ -35,6 +36,8 @@ public final class Shader {
         if (glGetProgrami(this.id, GL_VALIDATE_STATUS) == 0) {
             System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(this.id, 1024));
         }
+
+        this.uniformsMap = new UniformsMap(this.id);
     }
 
     public void bind() {
@@ -46,13 +49,16 @@ public final class Shader {
     }
 
     public void dispose() {
-        unbind();
-        if (this.id != 0) {
-            glDeleteProgram(this.id);
-        }
+        glDeleteProgram(this.id);
+        this.vertexShaderPart.dispose();
+        this.fragmentShaderPart.dispose();
     }
 
     public int getId() {
         return id;
+    }
+
+    public UniformsMap getUniformsMap() {
+        return uniformsMap;
     }
 }

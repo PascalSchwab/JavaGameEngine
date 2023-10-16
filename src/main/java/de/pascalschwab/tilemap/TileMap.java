@@ -7,13 +7,11 @@ import de.pascalschwab.geometry.Rectangle;
 import de.pascalschwab.managers.FileManager;
 import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.rendering.mesh.TextureMesh;
-import de.pascalschwab.rendering.texture.Animation;
 import de.pascalschwab.rendering.texture.Texture;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
@@ -24,7 +22,7 @@ public final class TileMap extends Rectangle {
     private Texture texture;
     private float[] UVS = new float[0];
 
-    public TileMap(String path, Vector2f tileSize){
+    public TileMap(String path, Vector2f tileSize) {
         super(null, new Vector3f(0, 0, 0), tileSize, "res/shaders/tilemap");
         loadTilemapFromJson(path);
 
@@ -41,25 +39,25 @@ public final class TileMap extends Rectangle {
     @Override
     protected void setUniforms() {
         super.setUniforms();
-        this.getUniformsMap().setUniform("txtSampler", 0);
-        this.getUniformsMap().setUniform("positionUSize", new float[]{this.size.x*WindowManager.getWindow().getUnit().x,
-                this.size.y*WindowManager.getWindow().getUnit().y});
-        this.getUniformsMap().setUniform("tilePositions", getTilePositions());
-        this.getUniformsMap().setUniform("textureUSize", new float[]{texture.getFrameSize().x * texture.getUnits().x,
+        this.getShader().getUniformsMap().setUniform("txtSampler", 0);
+        this.getShader().getUniformsMap().setUniform("positionUSize", new float[]{this.size.x * WindowManager.getWindow().getUnit().x,
+                this.size.y * WindowManager.getWindow().getUnit().y});
+        this.getShader().getUniformsMap().setUniform("tilePositions", getTilePositions());
+        this.getShader().getUniformsMap().setUniform("textureUSize", new float[]{texture.getFrameSize().x * texture.getUnits().x,
                 texture.getFrameSize().y * texture.getUnits().y});
-        this.getUniformsMap().setUniform("textureSize", new float[]{texture.getSize().x, texture.getSize().y});
-        this.getUniformsMap().setUniform("tileIDs", getTileIDs());
+        this.getShader().getUniformsMap().setUniform("textureSize", new float[]{texture.getSize().x, texture.getSize().y});
+        this.getShader().getUniformsMap().setUniform("tileIDs", getTileIDs());
     }
 
     @Override
     protected void createUniforms() {
         super.createUniforms();
-        this.getUniformsMap().createUniform("txtSampler");
-        this.getUniformsMap().createUniform("tilePositions");
-        this.getUniformsMap().createUniform("positionUSize");
-        this.getUniformsMap().createUniform("textureUSize");
-        this.getUniformsMap().createUniform("textureSize");
-        this.getUniformsMap().createUniform("tileIDs");
+        this.getShader().getUniformsMap().createUniform("txtSampler");
+        this.getShader().getUniformsMap().createUniform("tilePositions");
+        this.getShader().getUniformsMap().createUniform("positionUSize");
+        this.getShader().getUniformsMap().createUniform("textureUSize");
+        this.getShader().getUniformsMap().createUniform("textureSize");
+        this.getShader().getUniformsMap().createUniform("tileIDs");
     }
 
     protected void updateUVS(Vector2f offset) {
@@ -74,18 +72,18 @@ public final class TileMap extends Rectangle {
         this.setMesh(new TextureMesh(VERTICES, UVS, INDICES, tiles.size()));
     }
 
-    private float[] getTilePositions(){
-        float[] positions = new float[tiles.size()*2];
-        for(int i = 0; i < tiles.size(); i++){
-            positions[i*2] = tiles.get(i).getPosition().x;
-            positions[i*2+1] = tiles.get(i).getPosition().y;
+    private float[] getTilePositions() {
+        float[] positions = new float[tiles.size() * 2];
+        for (int i = 0; i < tiles.size(); i++) {
+            positions[i * 2] = tiles.get(i).getPosition().x;
+            positions[i * 2 + 1] = tiles.get(i).getPosition().y;
         }
         return positions;
     }
 
-    private float[] getTileIDs(){
+    private float[] getTileIDs() {
         float[] ids = new float[tiles.size()];
-        for(int i = 0; i < tiles.size(); i++){
+        for (int i = 0; i < tiles.size(); i++) {
             ids[i] = tiles.get(i).getTileID();
         }
         return ids;

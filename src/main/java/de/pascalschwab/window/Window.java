@@ -2,26 +2,20 @@ package de.pascalschwab.window;
 
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.gameobjects.RenderObject;
-import de.pascalschwab.geometry.ColorRectangle;
 import de.pascalschwab.managers.DevTools;
 import de.pascalschwab.managers.InputManager;
 import de.pascalschwab.managers.SoundManager;
 import de.pascalschwab.managers.WindowManager;
-import de.pascalschwab.opengl.FrameBuffer;
 import de.pascalschwab.projection.Camera;
 import de.pascalschwab.projection.Projection;
 import de.pascalschwab.rendering.Surface;
-import de.pascalschwab.rendering.shader.Shader;
 import de.pascalschwab.rendering.shader.ShaderCache;
 import de.pascalschwab.rendering.texture.TextureCache;
 import de.pascalschwab.standard.enums.Colour;
 import de.pascalschwab.standard.interfaces.IUpdatable;
 import de.pascalschwab.standard.lists.LayerBasedList;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
-import org.lwjgl.system.MemoryStack;
 
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +33,7 @@ public abstract class Window implements Runnable, IUpdatable {
     private final SoundManager soundManager;
     private Camera camera = new Camera();
     private Colour backgroundColour = Colour.WHITE;
+    private Surface surface;
 
     public Window(int width, int height, String title) {
         this.display = new Display(new Vector2f(width, height), title);
@@ -50,6 +45,8 @@ public abstract class Window implements Runnable, IUpdatable {
         unit = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
 
         WindowManager.setWindow(this);
+
+        this.surface = new Surface("res/shaders/frame", width, height);
     }
 
     @Override
@@ -129,6 +126,7 @@ public abstract class Window implements Runnable, IUpdatable {
      * Render function
      */
     private void render() {
+        this.surface.begin();
         // Set the clear color
         glClearColor(this.backgroundColour.r, this.backgroundColour.g,
                 this.backgroundColour.b, this.backgroundColour.a);
@@ -139,6 +137,8 @@ public abstract class Window implements Runnable, IUpdatable {
                 ((RenderObject) object).render();
             }
         }
+
+        this.surface.end();
 
         glfwPollEvents();
         glfwSwapBuffers(this.display.getId());

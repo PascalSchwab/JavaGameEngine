@@ -2,7 +2,6 @@ package de.pascalschwab.geometry;
 
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.managers.WindowManager;
-import de.pascalschwab.opengl.GLTexture;
 import de.pascalschwab.rendering.mesh.TextureMesh;
 import de.pascalschwab.rendering.texture.Texture;
 import org.joml.Vector2f;
@@ -21,13 +20,15 @@ public abstract class TextureRectangle extends Rectangle {
 
     public TextureRectangle(GameObject parent, Vector3f position, Vector2f size, String texturePath, Vector2f frameSize, Vector2f offset) {
         super(parent, position, size, "res/shaders/texture");
-        texture = WindowManager.getWindow().getTextureCache().getTexture(texturePath, frameSize);
+        this.texture = WindowManager.getWindow().getTextureCache().getTexture(texturePath, frameSize);
         updateUVS(offset);
     }
 
-/*    public TextureRectangle(GameObject parent, Vector3f position, Vector2f size, String shaderPath, GLTexture texture){
+    public TextureRectangle(GameObject parent, Vector3f position, Vector2f size, String shaderPath) {
         super(parent, position, size, shaderPath);
-    }*/
+        this.texture = new Texture(size);
+        updateUVS(new Vector2f(0, 0));
+    }
 
     @Override
     public void bind() {
@@ -39,13 +40,13 @@ public abstract class TextureRectangle extends Rectangle {
     @Override
     protected void setUniforms() {
         super.setUniforms();
-        this.getUniformsMap().setUniform("txtSampler", 0);
+        this.getShader().getUniformsMap().setUniform("txtSampler", 0);
     }
 
     @Override
     protected void createUniforms() {
         super.createUniforms();
-        super.getUniformsMap().createUniform("txtSampler");
+        this.getShader().getUniformsMap().createUniform("txtSampler");
     }
 
     protected final void updateUVS(Vector2f offset) {
@@ -58,5 +59,11 @@ public abstract class TextureRectangle extends Rectangle {
                 topLeft.x + (texture.getFrameSize().x * texture.getUnits().x), topLeft.y
         };
         this.setMesh(new TextureMesh(VERTICES, UVS, INDICES));
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        this.texture.dispose();
     }
 }

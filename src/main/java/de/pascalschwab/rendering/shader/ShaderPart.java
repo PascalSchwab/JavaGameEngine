@@ -28,4 +28,8 @@ public final class ShaderPart {
     public int getId() {
         return id;
     }
+
+    public void dispose() {
+        glDeleteShader(this.id);
+    }
 }

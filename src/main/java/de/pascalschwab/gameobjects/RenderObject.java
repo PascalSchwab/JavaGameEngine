@@ -3,17 +3,15 @@ package de.pascalschwab.gameobjects;
 import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.rendering.mesh.Mesh;
 import de.pascalschwab.rendering.shader.Shader;
-import de.pascalschwab.rendering.shader.UniformsMap;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
 import static org.lwjgl.opengl.GL31.glDrawElementsInstanced;
 
 public abstract class RenderObject extends GameObject {
     private final Shader shader;
-    private final UniformsMap uniformsMap;
     private boolean visible;
     private Mesh mesh;
 
@@ -22,7 +20,6 @@ public abstract class RenderObject extends GameObject {
         this.shader = WindowManager.getWindow().getShaderCache().getShader(shaderPath);
         this.visible = visible;
 
-        this.uniformsMap = new UniformsMap(this.shader.getId());
         createUniforms();
     }
 
@@ -44,13 +41,13 @@ public abstract class RenderObject extends GameObject {
     }
 
     protected void createUniforms() {
-        uniformsMap.createUniform("viewMatrix");
-        uniformsMap.createUniform("transformMatrix");
+        this.shader.getUniformsMap().createUniform("viewMatrix");
+        this.shader.getUniformsMap().createUniform("transformMatrix");
     }
 
     protected void setUniforms() {
-        uniformsMap.setUniform("viewMatrix", WindowManager.getWindow().getCamera().getViewMatrix());
-        uniformsMap.setUniform("transformMatrix", getTransformMatrix());
+        this.shader.getUniformsMap().setUniform("viewMatrix", WindowManager.getWindow().getCamera().getViewMatrix());
+        this.shader.getUniformsMap().setUniform("transformMatrix", getTransformMatrix());
     }
 
     protected void bind() {
@@ -67,15 +64,20 @@ public abstract class RenderObject extends GameObject {
         this.mesh = mesh;
     }
 
-    protected final UniformsMap getUniformsMap() {
-        return this.uniformsMap;
-    }
-
     public final boolean isVisible() {
         return visible;
     }
 
     public final void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public void dispose() {
+        this.shader.dispose();
+        this.mesh.dispose();
+    }
+
+    public Shader getShader() {
+        return shader;
     }
 }

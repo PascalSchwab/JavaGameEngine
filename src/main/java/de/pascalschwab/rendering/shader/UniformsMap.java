@@ -1,6 +1,5 @@
 package de.pascalschwab.rendering.shader;
 
-import org.joml.Matrix4d;
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
 
@@ -10,18 +9,18 @@ import java.util.Map;
 import static org.lwjgl.opengl.GL20.*;
 
 public final class UniformsMap {
-    private final int shaderProgramId;
+    private final int shaderId;
     private final Map<String, Integer> uniforms = new HashMap<>();
 
     public UniformsMap(int shaderProgramId) {
-        this.shaderProgramId = shaderProgramId;
+        this.shaderId = shaderProgramId;
     }
 
     public void createUniform(String uniformName) {
-        int uniformLocation = glGetUniformLocation(shaderProgramId, uniformName);
+        int uniformLocation = glGetUniformLocation(shaderId, uniformName);
         if (uniformLocation < 0) {
             throw new RuntimeException("Could not find uniform [" + uniformName + "] in shader program [" +
-                    shaderProgramId + "]");
+                    shaderId + "]");
         }
         uniforms.put(uniformName, uniformLocation);
     }
@@ -48,7 +47,7 @@ public final class UniformsMap {
         return location;
     }
 
-    public void setUniform(String uniformName, float[] values){
+    public void setUniform(String uniformName, float[] values) {
         glUniform1fv(getUniformLocation(uniformName), values);
     }
 }
