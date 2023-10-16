@@ -2,13 +2,13 @@ package de.pascalschwab.window;
 
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.gameobjects.RenderObject;
+import de.pascalschwab.gameobjects.Surface;
 import de.pascalschwab.managers.DevTools;
 import de.pascalschwab.managers.InputManager;
 import de.pascalschwab.managers.SoundManager;
 import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.projection.Camera;
 import de.pascalschwab.projection.Projection;
-import de.pascalschwab.rendering.Surface;
 import de.pascalschwab.rendering.shader.ShaderCache;
 import de.pascalschwab.rendering.texture.TextureCache;
 import de.pascalschwab.standard.enums.Colour;

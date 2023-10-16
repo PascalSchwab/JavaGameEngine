@@ -1,6 +1,5 @@
-package de.pascalschwab.rendering;
+package de.pascalschwab.gameobjects;
 
-import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.opengl.FrameBuffer;
 import de.pascalschwab.rendering.mesh.TextureMesh;

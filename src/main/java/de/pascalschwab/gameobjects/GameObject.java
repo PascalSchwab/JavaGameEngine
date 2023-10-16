@@ -1,7 +1,6 @@
 package de.pascalschwab.gameobjects;
 
 import de.pascalschwab.managers.WindowManager;
-import de.pascalschwab.rendering.Surface;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;

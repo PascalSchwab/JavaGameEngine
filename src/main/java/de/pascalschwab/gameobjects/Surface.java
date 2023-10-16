@@ -1,4 +1,4 @@
-package de.pascalschwab.rendering;
+package de.pascalschwab.gameobjects;
 
 import de.pascalschwab.geometry.ColorRectangle;
 import de.pascalschwab.standard.enums.Colour;

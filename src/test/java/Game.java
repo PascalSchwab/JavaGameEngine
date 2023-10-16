@@ -1,7 +1,7 @@
+import de.pascalschwab.gameobjects.Surface;
 import de.pascalschwab.managers.DevTools;
 import de.pascalschwab.managers.InputManager;
 import de.pascalschwab.managers.SoundManager;
-import de.pascalschwab.rendering.Surface;
 import de.pascalschwab.sound.SoundSource;
 import de.pascalschwab.standard.enums.Colour;
 import de.pascalschwab.standard.enums.Key;
