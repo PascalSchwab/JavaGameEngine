@@ -68,10 +68,10 @@ public final class Surface extends GameObject {
 
     private void updateUVS() {
         UVS = new float[]{
-                1, 1,
-                1, 0,
+                0, 1,
                 0, 0,
-                0, 1
+                1, 0,
+                1, 1
         };
         this.mesh = new TextureMesh(VERTICES, UVS, INDICES);
     }
