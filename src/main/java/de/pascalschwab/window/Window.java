@@ -32,6 +32,7 @@ public abstract class Window implements Runnable, IUpdatable {
     private final TextureCache textureCache;
     private final ShaderCache shaderCache;
     private final SoundManager soundManager;
+    /*private final PostRenderer postRenderer;*/
     private Camera camera = new Camera();
     private Colour backgroundColour = Colour.WHITE;
 
@@ -41,6 +42,7 @@ public abstract class Window implements Runnable, IUpdatable {
         this.textureCache = new TextureCache();
         this.shaderCache = new ShaderCache();
         this.soundManager = new SoundManager();
+        /*this.postRenderer = new PostRenderer("res/shaders/postRenderer");*/
         // Calculate Pixel size
         unit = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
 
@@ -114,15 +116,9 @@ public abstract class Window implements Runnable, IUpdatable {
         }
 
         // Render
-        if (surfaces.isEmpty()) {
-            render();
-        } else {
-            for (Surface surface : surfaces) {
-                surface.begin();
-                render();
-                surface.end();
-            }
-        }
+        /*postRenderer.begin();*/
+        render();
+        /*postRenderer.end();*/
 
         glfwPollEvents();
         glfwSwapBuffers(this.display.getId());
@@ -142,9 +138,14 @@ public abstract class Window implements Runnable, IUpdatable {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         for (GameObject object : gameObjects) {
-            if (object instanceof RenderObject) {
+            if (object instanceof RenderObject && !(object instanceof Surface)) {
                 ((RenderObject) object).render();
             }
+        }
+
+        // Render surfaces
+        for (Surface surface : surfaces) {
+            surface.render();
         }
     }
 
@@ -203,10 +204,6 @@ public abstract class Window implements Runnable, IUpdatable {
 
     public final ShaderCache getShaderCache() {
         return shaderCache;
-    }
-
-    public List<Surface> getSurfaces() {
-        return surfaces;
     }
 
     public Vector2f getWindowSize() {
