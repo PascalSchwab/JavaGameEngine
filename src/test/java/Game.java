@@ -1,9 +1,7 @@
-import de.pascalschwab.gameobjects.Surface;
 import de.pascalschwab.managers.DevTools;
 import de.pascalschwab.managers.InputManager;
 import de.pascalschwab.managers.SoundManager;
 import de.pascalschwab.sound.SoundSource;
-import de.pascalschwab.standard.enums.Colour;
 import de.pascalschwab.standard.enums.Key;
 import de.pascalschwab.tilemap.TileMap;
 import de.pascalschwab.window.Window;
@@ -15,7 +13,6 @@ public class Game extends Window {
     private Player player;
     private Deer deer;
     private SoundSource soundSource;
-    private Surface surface;
 
     public Game(int width, int height, String title) {
         super(width, height, title);
@@ -23,11 +20,10 @@ public class Game extends Window {
 
     @Override
     public void setup() {
-        tileMap = new TileMap("res/jsons/tilemap.json", new Vector2f(64, 64));
+        tileMap = new TileMap(new Vector2f(64, 64));
+        tileMap.loadJson("res/jsons/tilemap.json");
         player = new Player(new Vector3f(300, 300, 0), new Vector2f(48, 96));
         deer = new Deer(new Vector3f(100, 100, 0), new Vector2f(96, 96));
-        this.surface = new Surface(new Vector3f(0, 0, 0), this.getWindowSize(), "res/shaders/surface01");
-        this.surface.setCurrentColour(Colour.GREEN);
 
         SoundManager.loadSoundsFromJson("res/jsons/sounds.json");
 

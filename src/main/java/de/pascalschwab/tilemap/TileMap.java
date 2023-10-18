@@ -18,15 +18,12 @@ import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 public final class TileMap extends Rectangle {
-    private final List<Tile> tiles = new ArrayList<>();
+    private final List<Layer> layers = new ArrayList<>();
     private Texture texture;
     private float[] UVS = new float[0];
 
-    public TileMap(String path, Vector2f tileSize) {
+    public TileMap(Vector2f tileSize) {
         super(null, new Vector3f(0, 0, 0), tileSize, "res/shaders/tilemap");
-        loadTilemapFromJson(path);
-
-        updateUVS(new Vector2f(0, 0));
     }
 
     @Override
@@ -60,14 +57,12 @@ public final class TileMap extends Rectangle {
         this.getShader().getUniformsMap().createUniform("tileIDs");
     }
 
-    protected void updateUVS(Vector2f offset) {
-        Vector2f topLeft = new Vector2f((texture.getFrameSize().x * texture.getUnits().x) * offset.x,
-                (texture.getFrameSize().y * texture.getUnits().y) * offset.y);
+    private void updateUVS() {
         UVS = new float[]{
-                topLeft.x, topLeft.y,
-                topLeft.x, topLeft.y + (texture.getFrameSize().y * texture.getUnits().y),
-                topLeft.x + (texture.getFrameSize().x * texture.getUnits().x), topLeft.y + (texture.getFrameSize().y * texture.getUnits().y),
-                topLeft.x + (texture.getFrameSize().x * texture.getUnits().x), topLeft.y
+                0, 0,
+                0, texture.getFrameSize().y * texture.getUnits().y,
+                texture.getFrameSize().x * texture.getUnits().x, texture.getFrameSize().y * texture.getUnits().y,
+                texture.getFrameSize().x * texture.getUnits().x, 0
         };
         this.setMesh(new TextureMesh(VERTICES, UVS, INDICES, tiles.size()));
     }
@@ -89,7 +84,19 @@ public final class TileMap extends Rectangle {
         return ids;
     }
 
-    private void loadTilemapFromJson(String path) {
+    public TileMap loadTiledFile(String path) {
+        try {
+            String jsonText = FileManager.getTextFromFile(path);
+            JsonObject jsonTilemap = JsonParser.parseString(jsonText).getAsJsonObject();
+            System.out.println(jsonTilemap);
+        } catch (Exception e) {
+            throw new RuntimeException("Json File from the path: " + path + " cannot been loaded.");
+        }
+        /*        updateUVS();*/
+        return this;
+    }
+
+    public TileMap loadJson(String path) {
         try {
             String jsonText = FileManager.getTextFromFile(path);
             JsonObject jsonTilemap = JsonParser.parseString(jsonText).getAsJsonObject();
@@ -107,14 +114,13 @@ public final class TileMap extends Rectangle {
             jsonTiles.forEach((object) -> {
                 JsonObject jsonTile = object.getAsJsonObject();
                 Vector2f tilePosition = new Vector2f(jsonTile.get("x").getAsInt(), jsonTile.get("y").getAsInt());
-                tiles.add(new Tile(tilePosition, jsonTile.get("id").getAsInt()));
+                this.tiles.add(new Tile(tilePosition, jsonTile.get("id").getAsInt()));
             });
         } catch (Exception e) {
             throw new RuntimeException("Json File from the path: " + path + " cannot been loaded.");
         }
-    }
 
-    public List<Tile> getTiles() {
-        return tiles;
+        updateUVS();
+        return this;
     }
 }

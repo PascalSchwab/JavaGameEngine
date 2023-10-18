@@ -28,7 +28,7 @@ public abstract class RenderObject extends GameObject {
     }
 
     public final void render() {
-        if (this.visible) {
+        if (this.visible && this.mesh != null) {
             bind();
             setUniforms();
             draw();
