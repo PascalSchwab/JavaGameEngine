@@ -97,7 +97,7 @@ public final class TileMap extends Rectangle {
     private List<Tile> getVisibleTiles() {
         List<Tile> tiles = new ArrayList<>();
         Vector2f start = layers.get(0).getTilePositionFromWorldPosition(WindowManager.getWindow().getCamera().getPosition());
-        Vector2f end = new Vector2f(start.x + 10, start.y + 10);
+        Vector2f end = new Vector2f(start.x + 15, start.y + 8);
         for (int y = (int) start.y; y <= end.y; y++) {
             for (int x = (int) start.x; x <= end.x; x++) {
                 if (layers.get(0).getTiles().containsKey(y) && layers.get(0).getTiles().get(y).containsKey(x)) {
@@ -138,7 +138,7 @@ public final class TileMap extends Rectangle {
                         JsonArray jsonTiles = jsonLayer.get("data").getAsJsonArray();
                         for (int y = 0; y < layerSize.y; y++) {
                             for (int x = 0; x < layerSize.x; x++) {
-                                int tileId = jsonTiles.get((int) (x + y * layerSize.x)).getAsInt();
+                                int tileId = jsonTiles.get((int) (x + y * layerSize.x)).getAsInt() - 1;
                                 if (tileId == 0) {
                                     continue;
                                 }
@@ -155,6 +155,8 @@ public final class TileMap extends Rectangle {
         } catch (Exception e) {
             throw new RuntimeException("Json File from the path: " + path + " cannot been loaded.");
         }
+
+        this.visibleTiles = getVisibleTiles();
         updateUVS();
         return this;
     }
@@ -199,6 +201,7 @@ public final class TileMap extends Rectangle {
             throw new RuntimeException("Json File from the path: " + path + " cannot been loaded.");
         }
 
+        this.visibleTiles = getVisibleTiles();
         updateUVS();
         return this;
     }
