@@ -21,7 +21,8 @@ public class Game extends Window {
     @Override
     public void setup() {
         tileMap = new TileMap(new Vector2f(64, 64));
-        tileMap.loadJson("res/jsons/tilemap.json");
+        tileMap.loadJson("res/jsons/Tilemap.json");
+        /*tileMap.loadTiledFile("res/tiled/Test.tmj");*/
         player = new Player(new Vector3f(300, 300, 0), new Vector2f(48, 96));
         deer = new Deer(new Vector3f(100, 100, 0), new Vector2f(96, 96));
 

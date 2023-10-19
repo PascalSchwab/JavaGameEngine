@@ -51,9 +51,9 @@
       ]
     }
   ],
-  "tileset": {
-    "tileheight": 16,
-    "tilewidth": 16
+  "tileSize": {
+    "x": 16,
+    "y": 16
   },
   "texturePath": "res/tilemap.png"
 }

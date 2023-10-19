@@ -47,6 +47,8 @@ public abstract class Window implements Runnable, IUpdatable {
         unit = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
 
         WindowManager.setWindow(this);
+
+        /*this.camera.setPosition(0.2f, 0.2f, 0);*/
     }
 
     @Override
