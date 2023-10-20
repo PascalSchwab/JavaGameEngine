@@ -158,6 +158,10 @@ public abstract class Window implements Runnable, IUpdatable {
         this.textureCache.dispose();
         this.shaderCache.dispose();
         this.soundManager.dispose();
+
+        for (GameObject object : gameObjects) {
+            object.dispose();
+        }
     }
 
     private void showDevTools() {

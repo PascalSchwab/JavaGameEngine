@@ -66,4 +66,8 @@ public abstract class TextureRectangle extends Rectangle {
         super.dispose();
         this.texture.dispose();
     }
+
+    protected Texture getTexture() {
+        return this.texture;
+    }
 }

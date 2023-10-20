@@ -72,6 +72,7 @@ public abstract class RenderObject extends GameObject {
         this.visible = visible;
     }
 
+    @Override
     public void dispose() {
         this.shader.dispose();
         this.mesh.dispose();
