@@ -51,6 +51,10 @@ public abstract class GameObject {
         this.addPosition(new Vector3f(x, y, 0));
     }
 
+    public void dispose() {
+
+    }
+
     public final int getId() {
         return id;
     }

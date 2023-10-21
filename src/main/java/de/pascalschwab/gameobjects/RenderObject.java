@@ -28,7 +28,7 @@ public abstract class RenderObject extends GameObject {
     }
 
     public final void render() {
-        if (this.visible) {
+        if (this.visible && this.mesh != null) {
             bind();
             setUniforms();
             draw();
@@ -72,6 +72,7 @@ public abstract class RenderObject extends GameObject {
         this.visible = visible;
     }
 
+    @Override
     public void dispose() {
         this.shader.dispose();
         this.mesh.dispose();

@@ -72,6 +72,7 @@ public final class PostRenderer extends GameObject {
         this.shader.getUniformsMap().createUniform("txtSampler");
     }
 
+    @Override
     public void dispose() {
         this.shader.dispose();
         this.mesh.dispose();
