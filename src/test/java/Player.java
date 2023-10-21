@@ -2,7 +2,6 @@ import de.pascalschwab.gameobjects.AnimatedSprite;
 import de.pascalschwab.gameobjects.CollisionBox;
 import de.pascalschwab.gameobjects.KinematicObject;
 import de.pascalschwab.managers.InputManager;
-import de.pascalschwab.managers.SoundManager;
 import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.sound.SoundSource;
 import de.pascalschwab.standard.enums.Key;
@@ -54,8 +53,11 @@ public class Player extends KinematicObject {
             sprite.setCurrentAnimationPosition("idle", lastLookDirection.value);
         }
 
-        if (InputManager.isKeyTapped(Key.U)){
+        if (InputManager.isKeyTapped(Key.U)) {
             soundSource.play("Roblox");
+        }
+
+        if (!WindowManager.getWindow().getCamera().isInViewport(this.getPosition())) {
         }
 
     }

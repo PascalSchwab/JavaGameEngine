@@ -8,6 +8,7 @@ import de.pascalschwab.managers.FileManager;
 import de.pascalschwab.managers.WindowManager;
 import de.pascalschwab.rendering.mesh.TextureMesh;
 import de.pascalschwab.rendering.texture.Texture;
+import de.pascalschwab.standard.lists.IdBasedLayerList;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
@@ -21,7 +22,7 @@ import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 public final class TileMap extends Rectangle {
-    private final List<Layer> layers = new ArrayList<>();
+    private final List<Layer> layers = new IdBasedLayerList<>();
     private final Vector2f tileUnit;
     private Texture texture;
     private float[] UVS = new float[0];
@@ -96,12 +97,17 @@ public final class TileMap extends Rectangle {
 
     private List<Tile> getVisibleTiles() {
         List<Tile> tiles = new ArrayList<>();
-        Vector2f start = layers.get(0).getTilePositionFromWorldPosition(WindowManager.getWindow().getCamera().getPosition());
-        Vector2f end = new Vector2f(start.x + 15, start.y + 8);
-        for (int y = (int) start.y; y <= end.y; y++) {
-            for (int x = (int) start.x; x <= end.x; x++) {
-                if (layers.get(0).getTiles().containsKey(y) && layers.get(0).getTiles().get(y).containsKey(x)) {
-                    tiles.add(layers.get(0).getTiles().get(y).get(x));
+        for (Layer layer : layers) {
+            Vector3f cameraPosition = WindowManager.getWindow().getCamera().getPosition();
+            Vector2f displaySize = WindowManager.getWindow().getWindowSize();
+            Vector2f start = layer.getTilePositionFromWorldPosition(cameraPosition);
+            Vector2f end = layer.getTilePositionFromWorldPosition(new Vector3f(cameraPosition.x + displaySize.x,
+                    cameraPosition.y + displaySize.y, 0));
+            for (int y = (int) start.y; y <= end.y; y++) {
+                for (int x = (int) start.x; x <= end.x; x++) {
+                    if (layer.getTiles().containsKey(y) && layer.getTiles().get(y).containsKey(x)) {
+                        tiles.add(layer.getTiles().get(y).get(x));
+                    }
                 }
             }
         }

@@ -53,4 +53,8 @@ public class Camera {
         position.set(x, y, z);
         recalculate();
     }
+
+    public boolean isInViewport(Vector3f position) {
+        return false;
+    }
 }
