@@ -34,7 +34,7 @@ public abstract class Window implements Runnable, IUpdatable {
     private final SoundManager soundManager;
     /*private final PostRenderer postRenderer;*/
     private Camera camera = new Camera();
-    private Colour backgroundColour = Colour.WHITE;
+    private Colour backgroundColour = Colour.BLACK;
 
     public Window(int width, int height, String title) {
         this.display = new Display(new Vector2f(width, height), title);
@@ -47,8 +47,6 @@ public abstract class Window implements Runnable, IUpdatable {
         unit = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
 
         WindowManager.setWindow(this);
-
-        this.camera.setPosition(1f, -1f, 0);
     }
 
     @Override
