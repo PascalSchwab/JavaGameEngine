@@ -12,6 +12,7 @@ public class Game extends Window {
     private TileMap tileMap;
     private Player player;
     private SoundSource soundSource;
+    private GameHud gameHud;
 
     public Game(int width, int height, String title) {
         super(width, height, title);
@@ -19,13 +20,13 @@ public class Game extends Window {
 
     @Override
     public void setup() {
+        gameHud = new GameHud();
         tileMap = new TileMap(new Vector2f(64, 64));
         /*tileMap.loadJson("res/jsons/Tilemap.json");*/
         tileMap.loadTiledFile("res/tiled/Test.tmj");
         player = new Player(new Vector3f(300, 300, 0), new Vector2f(48, 96));
 
         SoundManager.loadSoundsFromJson("res/jsons/sounds.json");
-
         soundSource = new SoundSource();
     }
 

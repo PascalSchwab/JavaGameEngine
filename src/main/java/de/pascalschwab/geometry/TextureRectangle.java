@@ -24,12 +24,6 @@ public abstract class TextureRectangle extends Rectangle {
         updateUVS(offset);
     }
 
-    public TextureRectangle(GameObject parent, Vector3f position, Vector2f size, String shaderPath) {
-        super(parent, position, size, shaderPath);
-        this.texture = new Texture(size);
-        updateUVS(new Vector2f(0, 0));
-    }
-
     @Override
     public void bind() {
         super.bind();
