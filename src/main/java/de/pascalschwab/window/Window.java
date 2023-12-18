@@ -3,10 +3,7 @@ package de.pascalschwab.window;
 import de.pascalschwab.gameobjects.GameObject;
 import de.pascalschwab.gameobjects.RenderObject;
 import de.pascalschwab.gameobjects.Surface;
-import de.pascalschwab.managers.DevTools;
-import de.pascalschwab.managers.InputManager;
-import de.pascalschwab.managers.SoundManager;
-import de.pascalschwab.managers.WindowManager;
+import de.pascalschwab.managers.*;
 import de.pascalschwab.projection.Camera;
 import de.pascalschwab.projection.Projection;
 import de.pascalschwab.rendering.shader.ShaderCache;
@@ -32,6 +29,7 @@ public abstract class Window implements Runnable, IUpdatable {
     private final TextureCache textureCache;
     private final ShaderCache shaderCache;
     private final SoundManager soundManager;
+    private final NetworkManager networkManager;
     /*private final PostRenderer postRenderer;*/
     private Camera camera = new Camera();
     private Colour backgroundColour = Colour.BLACK;
@@ -42,6 +40,7 @@ public abstract class Window implements Runnable, IUpdatable {
         this.textureCache = new TextureCache();
         this.shaderCache = new ShaderCache();
         this.soundManager = new SoundManager();
+        this.networkManager = new NetworkManager();
         /*this.postRenderer = new PostRenderer("res/shaders/postRenderer");*/
         // Calculate Pixel size
         unit = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
@@ -158,6 +157,7 @@ public abstract class Window implements Runnable, IUpdatable {
         this.textureCache.dispose();
         this.shaderCache.dispose();
         this.soundManager.dispose();
+        this.networkManager.dispose();
 
         for (GameObject object : gameObjects) {
             object.dispose();
@@ -213,4 +213,6 @@ public abstract class Window implements Runnable, IUpdatable {
     public Vector2f getWindowSize() {
         return this.display.getSize();
     }
+
+    public NetworkManager getNetworkManager(){return this.networkManager;}
 }

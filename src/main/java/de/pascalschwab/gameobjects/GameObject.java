@@ -52,7 +52,6 @@ public abstract class GameObject {
     }
 
     public void dispose() {
-
     }
 
     public final int getId() {

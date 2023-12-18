@@ -1,0 +1,5 @@
+package de.pascalschwab.networking;
+
+public enum RequestType {
+    CLIENT_CONNECTED, CLIENT_DISCONNECTED, SERVER_SHUTDOWN, UPDATE_VARIABLE, CLIENT_CONNECT, CLIENT_DISCONNECT
+}
