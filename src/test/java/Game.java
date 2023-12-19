@@ -1,6 +1,5 @@
 import de.pascalschwab.managers.DevTools;
 import de.pascalschwab.managers.InputManager;
-import de.pascalschwab.managers.NetworkManager;
 import de.pascalschwab.networking.messages.ClientDisconnectMessage;
 import de.pascalschwab.standard.enums.Key;
 import de.pascalschwab.window.Window;
@@ -8,6 +7,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class Game extends Window {
+    private Client client;
     private Player player;
     public Game(int width, int height, String title) {
         super(width, height, title);
@@ -15,8 +15,9 @@ public class Game extends Window {
 
     @Override
     public void setup() {
+        client = new Client();
         player = new Player(new Vector3f(300, 300, 0), new Vector2f(48, 96));
-        this.getNetworkManager().connect("localhost", 8000);
+        client.connect("localhost", 8000);
     }
 
     @Override
@@ -25,7 +26,7 @@ public class Game extends Window {
             DevTools.setActive(!DevTools.isActive());
         }
         else if(InputManager.isKeyTapped(Key.N)){
-            this.getNetworkManager().send(new ClientDisconnectMessage());
+            client.send(client.getSocket(), new PlayerPosMessage(10));
         }
     }
 }

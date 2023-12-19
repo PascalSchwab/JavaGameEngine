@@ -9,10 +9,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class NetworkServer {
-    private final List<NetworkClient> clients = new ArrayList<>();
+public abstract class NetworkServer implements NetworkObject {
+    private final List<ClientSocket> clients = new ArrayList<>();
     private final ServerSocket socket;
-    private boolean isRunning = false;
     public NetworkServer(int port){
         try {
             this.socket = new ServerSocket(port);
@@ -23,42 +22,42 @@ public abstract class NetworkServer {
     }
 
     public final void start(){
-        isRunning = true;
-
-        while(isRunning) {
+        while(true) {
             try {
                 Socket client = socket.accept();
                 System.out.println("New client connected: " + client.getInetAddress());
-                NetworkClient networkClient = new NetworkClient(client);
-                clients.add(networkClient);
+                ClientSocket clientSocket = new ClientSocket(client);
+                clients.add(clientSocket);
 
-                ServerClientThread serverClientThread = new ServerClientThread(this, networkClient);
-                serverClientThread.start();
+                HandleClientThread handleThread = new HandleClientThread(this, clientSocket);
+                handleThread.start();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public final void basicHandleMessage(NetworkClient sender, NetworkMessage message){
+    protected abstract void handleOwnMessage(ClientSocket socket, NetworkMessage message);
+
+    @Override
+    public final void handleMessage(ClientSocket sender, NetworkMessage message) {
         switch (message.getRequestType()){
             case CLIENT_CONNECT:
                 break;
             case CLIENT_DISCONNECT:
                 clientDisconnected(sender);
                 break;
-            case UPDATE_VARIABLE:
-                handleMessage(sender, message);
+            default:
+                handleOwnMessage(sender, message);
                 break;
         }
     }
 
-    protected abstract void handleMessage(NetworkClient sender, NetworkMessage message);
-
-    protected final void send(NetworkClient sender, NetworkMessage message){
+    @Override
+    public final void send(ClientSocket sender, NetworkMessage message){
         switch (message.getSendType()){
             case ALL:
-                for(NetworkClient receiver : clients){
+                for(ClientSocket receiver : clients){
                     try{
                         receiver.getOut().writeObject(message);
                         receiver.getOut().flush();
@@ -69,7 +68,7 @@ public abstract class NetworkServer {
                 }
                 break;
             case OTHERS:
-                for(NetworkClient receiver : clients){
+                for(ClientSocket receiver : clients){
                     if(!receiver.equals(sender)){
                         try{
                             receiver.getOut().writeObject(message);
@@ -84,7 +83,7 @@ public abstract class NetworkServer {
         }
     }
 
-    protected void clientDisconnected(NetworkClient sender){
+    protected void clientDisconnected(ClientSocket sender){
         send(null, new ClientDisconnectedMessage(clients.indexOf(sender)));
         clients.remove(sender);
         sender.dispose();

@@ -1,56 +1,66 @@
 package de.pascalschwab.networking;
 
+import de.pascalschwab.gameobjects.GameObject;
+import de.pascalschwab.networking.messages.NetworkMessage;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 
-public class NetworkClient {
-    private final Socket socket;
-    private ObjectInputStream in = null;
-    private ObjectOutputStream out = null;
+public abstract class NetworkClient extends GameObject implements NetworkObject {
+    private ClientSocket socket;
 
-    public NetworkClient(Socket socket){
-        this.socket = socket;
+    public NetworkClient() {
+        super(new Vector3f(), new Vector2f());
     }
 
-    public boolean isClosed(){
-        return socket.isClosed();
-    }
-
-    public ObjectInputStream getIn() {
-        if(this.in == null){
-            try {
-                in = new ObjectInputStream(socket.getInputStream());
-            }
-            catch (IOException e){
-                throw new RuntimeException(e);
-            }
-        }
-        return in;
-    }
-
-    public ObjectOutputStream getOut() {
-        if(this.out == null){
-            try {
-                out = new ObjectOutputStream(socket.getOutputStream());
-                out.flush();
-            }
-            catch (IOException e){
-                throw new RuntimeException(e);
-            }
-        }
-        return out;
-    }
-
-    public void dispose(){
+    public void connect(String address, int port) {
         try{
-            this.socket.close();
-            this.getIn().close();
-            this.getOut().close();
+            socket = new ClientSocket(new Socket(InetAddress.getByName(address), port));
         }
         catch (IOException e){
-            throw new RuntimeException(e);
+            throw new RuntimeException("Can't connect to the server " + address);
         }
+
+        HandleClientThread handleThread = new HandleClientThread(this, socket);
+        handleThread.start();
+    }
+    @Override
+    public void send(ClientSocket sender, NetworkMessage message) {
+        if(!socket.isClosed()){
+            try{
+                socket.getOut().writeObject(message);
+                socket.getOut().flush();
+            }
+            catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+        else{
+            System.err.println("Can't send message! Connection is closed!");
+        }
+    }
+
+    protected abstract void handleOwnMessage(ClientSocket sender, NetworkMessage message);
+    @Override
+    public final void handleMessage(ClientSocket sender, NetworkMessage message){
+        switch (message.getRequestType()){
+            case CLIENT_DISCONNECTED:
+                this.dispose();
+                break;
+            default:
+                handleOwnMessage(sender, message);
+                break;
+        }
+    }
+    @Override
+    public void dispose() {
+        socket.dispose();
+    }
+
+    public ClientSocket getSocket() {
+        return socket;
     }
 }
