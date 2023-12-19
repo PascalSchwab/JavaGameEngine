@@ -42,10 +42,8 @@ public abstract class NetworkServer implements NetworkObject {
     @Override
     public final void handleMessage(ClientSocket sender, NetworkMessage message) {
         switch (message.getRequestType()){
-            case CLIENT_CONNECT:
-                break;
             case CLIENT_DISCONNECT:
-                clientDisconnected(sender);
+                onClientDisconnected(sender);
                 break;
             default:
                 handleOwnMessage(sender, message);
@@ -83,9 +81,9 @@ public abstract class NetworkServer implements NetworkObject {
         }
     }
 
-    protected void clientDisconnected(ClientSocket sender){
-        send(null, new ClientDisconnectedMessage(clients.indexOf(sender)));
-        clients.remove(sender);
-        sender.dispose();
+    protected void onClientDisconnected(ClientSocket client){
+        send(client, new ClientDisconnectedMessage(clients.indexOf(client)));
+        clients.remove(client);
+        client.dispose();
     }
 }

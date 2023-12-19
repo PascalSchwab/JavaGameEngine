@@ -27,6 +27,7 @@ public abstract class NetworkClient extends GameObject implements NetworkObject 
         HandleClientThread handleThread = new HandleClientThread(this, socket);
         handleThread.start();
     }
+
     @Override
     public void send(ClientSocket sender, NetworkMessage message) {
         if(!socket.isClosed()){
