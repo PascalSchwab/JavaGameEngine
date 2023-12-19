@@ -1,21 +1,26 @@
 import de.pascalschwab.networking.ClientSocket;
 import de.pascalschwab.networking.NetworkServer;
-import de.pascalschwab.networking.messages.ClientDisconnectedMessage;
 import de.pascalschwab.networking.messages.NetworkMessage;
 
 public class Server extends NetworkServer {
-    private static final int PORT = 8000;
-    public Server() {
-        super(PORT);
+    public Server(int port) {
+        super(port);
     }
+
     @Override
-    protected void handleOwnMessage(ClientSocket sender, NetworkMessage message){
+    protected void onMessageArrived(ClientSocket sender, NetworkMessage message){
         if(message instanceof PlayerPosMessage){
             send(null, message);
         }
     }
+
+    @Override
+    protected void onClientDisconnected(ClientSocket client) {
+
+    }
+
     public static void main(String[] args){
-        Server server = new Server();
+        Server server = new Server(8000);
         server.start();
     }
 }

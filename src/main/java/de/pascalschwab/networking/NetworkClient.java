@@ -1,6 +1,8 @@
 package de.pascalschwab.networking;
 
 import de.pascalschwab.gameobjects.GameObject;
+import de.pascalschwab.networking.messages.ClientConnectedMessage;
+import de.pascalschwab.networking.messages.ClientDisconnectedMessage;
 import de.pascalschwab.networking.messages.NetworkMessage;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -44,15 +46,18 @@ public abstract class NetworkClient extends GameObject implements NetworkObject 
         }
     }
 
-    protected abstract void handleOwnMessage(ClientSocket sender, NetworkMessage message);
+    protected abstract void onMessageArrived(ClientSocket sender, NetworkMessage message);
     @Override
-    public final void handleMessage(ClientSocket sender, NetworkMessage message){
+    public final void handleMessageArrived(ClientSocket sender, NetworkMessage message){
         switch (message.getRequestType()){
             case CLIENT_DISCONNECTED:
-                this.dispose();
+                handleClientDisconnected((ClientDisconnectedMessage) message);
+                break;
+            case CLIENT_CONNECTED:
+                handleClientConnected((ClientConnectedMessage) message);
                 break;
             default:
-                handleOwnMessage(sender, message);
+                onMessageArrived(sender, message);
                 break;
         }
     }
@@ -63,5 +68,19 @@ public abstract class NetworkClient extends GameObject implements NetworkObject 
 
     public ClientSocket getSocket() {
         return socket;
+    }
+
+    protected abstract void onClientDisconnected(ClientDisconnectedMessage message);
+
+    private void handleClientDisconnected(ClientDisconnectedMessage message){
+        onClientDisconnected(message);
+        this.dispose();
+    }
+
+    protected abstract void onClientConnected(ClientConnectedMessage message);
+
+    private void handleClientConnected(ClientConnectedMessage message){
+        
+        onClientConnected(message);
     }
 }

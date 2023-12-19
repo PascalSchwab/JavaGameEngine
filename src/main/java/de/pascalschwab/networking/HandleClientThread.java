@@ -17,7 +17,7 @@ public class HandleClientThread extends Thread{
         while(!sender.isClosed()){
             try{
                 NetworkMessage message = (NetworkMessage) sender.getIn().readObject();
-                object.handleMessage(sender, message);
+                object.handleMessageArrived(sender, message);
             }
             catch (ClassNotFoundException | IOException e) {
                 throw new RuntimeException(e);

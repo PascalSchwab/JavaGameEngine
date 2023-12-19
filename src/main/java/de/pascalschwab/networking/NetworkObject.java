@@ -4,5 +4,5 @@ import de.pascalschwab.networking.messages.NetworkMessage;
 
 public interface NetworkObject {
     void send(ClientSocket sender, NetworkMessage message);
-    void handleMessage(ClientSocket sender, NetworkMessage message);
+    void handleMessageArrived(ClientSocket sender, NetworkMessage message);
 }
