@@ -5,6 +5,7 @@ import de.engine.rendering.opengl.GLDrawType;
 import de.engine.rendering.opengl.VertexArrayObject;
 import de.engine.rendering.opengl.VertexBufferObject;
 import de.engine.rendering.texture.Texture;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.nio.charset.StandardCharsets;
 
@@ -67,9 +68,9 @@ public class TextMesh extends Mesh {
         }
 
         vertexBufferObjects = new VertexBufferObject[3];
-        vertexBufferObjects[0] = new VertexBufferObject(positions, 3, GLBufferType.ARRAY, GLDrawType.STATIC);
-        vertexBufferObjects[1] = new VertexBufferObject(textCoords, 2, GLBufferType.ARRAY, GLDrawType.STATIC);
-        vertexBufferObjects[2] = new VertexBufferObject(indices);
+        vertexBufferObjects[0] = new VertexBufferObject<>(ArrayUtils.toObject(positions), 3, GLBufferType.ARRAY, GLDrawType.STATIC);
+        vertexBufferObjects[1] = new VertexBufferObject<>(ArrayUtils.toObject(textCoords), 2, GLBufferType.ARRAY, GLDrawType.STATIC);
+        vertexBufferObjects[2] = new VertexBufferObject<>(ArrayUtils.toObject(indices), 1, GLBufferType.ELEMENT, GLDrawType.STATIC);
 
         vertexArrayObject = new VertexArrayObject(vertexBufferObjects);
     }
