@@ -25,6 +25,9 @@ public final class VertexBufferObject<T extends Number> extends OpenGLObject{
         this.drawType = drawType;
     }
 
+    /**
+     * Creates data and puts it into the buffer.
+     */
     public void setBufferData(MemoryStack stack){
         if(data instanceof Float[]){
             FloatBuffer buffer = stack.callocFloat(data.length);

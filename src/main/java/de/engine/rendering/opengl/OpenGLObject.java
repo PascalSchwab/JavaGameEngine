@@ -1,7 +1,7 @@
 package de.engine.rendering.opengl;
 
 /**
- * OpenGLObject is the base of all objects, which handle with OpenGL
+ * OpenGLObject is the base of all objects, which handles with OpenGL.
  */
 abstract class OpenGLObject {
     private final int id;

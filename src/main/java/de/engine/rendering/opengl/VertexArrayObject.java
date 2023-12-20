@@ -9,25 +9,34 @@ import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.*;
 
+/**
+ * It combines all VBOs and makes pointer on them.
+ */
 public final class VertexArrayObject extends OpenGLObject {
+    private final VertexBufferObject[] vertexBufferObjects;
     public VertexArrayObject(VertexBufferObject[] vertexBufferObjects) {
         super(glGenVertexArrays());
+        this.vertexBufferObjects = vertexBufferObjects;
 
         try(MemoryStack stack = MemoryStack.stackPush()){
+            // Bind VAO
             bind();
 
             for(int i = 0; i < vertexBufferObjects.length; i++){
+                // Bind Array Buffer
                 vertexBufferObjects[i].bind();
 
                 vertexBufferObjects[i].setBufferData(stack);
                 glVertexAttribPointer(i, vertexBufferObjects[i].getSingleDataSize(), GL_FLOAT, false, 0, 0);
                 glEnableVertexAttribArray(i);
 
+                // Unbind Array Buffer
                 if(vertexBufferObjects[i].getBufferType() != GLBufferType.ELEMENT){
                     vertexBufferObjects[i].unbind();
                 }
             }
 
+            // Unbind Element Buffer and VAO
             unbind();
             for(VertexBufferObject vbo : vertexBufferObjects){
                 if(vbo.getBufferType() == GLBufferType.ELEMENT){
@@ -50,5 +59,8 @@ public final class VertexArrayObject extends OpenGLObject {
     @Override
     public void dispose() {
         glDeleteVertexArrays(this.getId());
+        for(VertexBufferObject vbo : vertexBufferObjects){
+            vbo.dispose();
+        }
     }
 }

@@ -17,7 +17,7 @@ public final class TextureMesh extends Mesh {
         this.verticeCount = indices.length;
         this.instanceCount = instanceCount;
 
-        vertexBufferObjects = new VertexBufferObject[3];
+        VertexBufferObject[] vertexBufferObjects = new VertexBufferObject[3];
         vertexBufferObjects[0] = new VertexBufferObject<>(ArrayUtils.toObject(positions), 3, GLBufferType.ARRAY, GLDrawType.STATIC);
         vertexBufferObjects[1] = new VertexBufferObject<>(ArrayUtils.toObject(textureCoords), 2, GLBufferType.ARRAY, GLDrawType.STATIC);
         vertexBufferObjects[2] = new VertexBufferObject<>(ArrayUtils.toObject(indices), 1, GLBufferType.ELEMENT, GLDrawType.STATIC);
