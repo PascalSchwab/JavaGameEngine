@@ -1,10 +1,10 @@
-import de.pascalschwab.gameobjects.AnimatedSprite;
-import de.pascalschwab.gameobjects.CollisionBox;
-import de.pascalschwab.gameobjects.KinematicObject;
-import de.pascalschwab.managers.InputManager;
-import de.pascalschwab.managers.WindowManager;
-import de.pascalschwab.sound.SoundSource;
-import de.pascalschwab.standard.enums.Key;
+import de.engine.gameobjects.AnimatedSprite;
+import de.engine.gameobjects.CollisionBox;
+import de.engine.gameobjects.KinematicObject;
+import de.engine.managers.InputManager;
+import de.engine.managers.WindowManager;
+import de.engine.sound.SoundSource;
+import de.engine.standard.enums.Key;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 

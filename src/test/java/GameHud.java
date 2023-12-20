@@ -1,6 +1,6 @@
-import de.pascalschwab.ui.FontType;
-import de.pascalschwab.ui.Hud;
-import de.pascalschwab.ui.TextItem;
+import de.engine.ui.FontType;
+import de.engine.ui.Hud;
+import de.engine.ui.TextItem;
 import org.joml.Vector2f;
 
 public final class GameHud extends Hud {

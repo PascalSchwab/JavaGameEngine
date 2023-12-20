@@ -1,8 +1,7 @@
-import de.pascalschwab.managers.DevTools;
-import de.pascalschwab.managers.InputManager;
-import de.pascalschwab.networking.messages.ClientDisconnectMessage;
-import de.pascalschwab.standard.enums.Key;
-import de.pascalschwab.window.Window;
+import de.engine.managers.DevTools;
+import de.engine.managers.InputManager;
+import de.engine.standard.enums.Key;
+import de.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
