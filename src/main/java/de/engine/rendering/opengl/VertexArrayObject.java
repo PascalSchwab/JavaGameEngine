@@ -10,24 +10,30 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.*;
 
 public final class VertexArrayObject extends OpenGLObject {
-    private final VertexBufferObject[] vertexBufferObjects;
     public VertexArrayObject(VertexBufferObject[] vertexBufferObjects) {
         super(glGenVertexArrays());
-        this.vertexBufferObjects = vertexBufferObjects;
 
         try(MemoryStack stack = MemoryStack.stackPush()){
             bind();
 
             for(int i = 0; i < vertexBufferObjects.length; i++){
+                vertexBufferObjects[i].bind();
+
                 vertexBufferObjects[i].setBufferData(stack);
-                if(vertexBufferObjects[0].getSingleDataSize() > 0){
-                    glEnableVertexAttribArray(i);
-                    glVertexAttribPointer(i, vertexBufferObjects[i].getSingleDataSize(), GL_FLOAT, false, 0, 0);
+                glVertexAttribPointer(i, vertexBufferObjects[i].getSingleDataSize(), GL_FLOAT, false, 0, 0);
+                glEnableVertexAttribArray(i);
+
+                if(vertexBufferObjects[i].getBufferType() != GLBufferType.ELEMENT){
+                    vertexBufferObjects[i].unbind();
                 }
             }
 
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
             unbind();
+            for(VertexBufferObject vbo : vertexBufferObjects){
+                if(vbo.getBufferType() == GLBufferType.ELEMENT){
+                    vbo.unbind();
+                }
+            }
         }
     }
 
@@ -39,10 +45,6 @@ public final class VertexArrayObject extends OpenGLObject {
     @Override
     public void unbind(){
         glBindVertexArray(0);
-    }
-
-    public VertexBufferObject[] getVertexBufferObjects() {
-        return vertexBufferObjects;
     }
 
     @Override

@@ -11,63 +11,64 @@ public final class VertexBufferObject extends OpenGLObject{
     private final float[] floatData;
     private final int[] intData;
     private final int singleDataSize;
+    private final GLBufferType bufferType;
+    private final GLDrawType drawType;
+
     public VertexBufferObject(int[] data){
-        this(data, 0);
+        this(data, 1, GLBufferType.ELEMENT, GLDrawType.STATIC);
     }
-    public VertexBufferObject(float[] data){
-        this(data, 0);
-    }
-    public VertexBufferObject(int[] data, int singleDataSize) {
+
+    public VertexBufferObject(int[] data, int singleDataSize, GLBufferType bufferType, GLDrawType drawType) {
         super(glGenBuffers());
         this.intData = data;
         this.floatData = null;
         this.singleDataSize = singleDataSize;
+        this.bufferType = bufferType;
+        this.drawType = drawType;
     }
 
-    public VertexBufferObject(float[] data, int singleDataSize) {
+    public VertexBufferObject(float[] data, int singleDataSize, GLBufferType bufferType, GLDrawType drawType) {
         super(glGenBuffers());
         this.floatData = data;
         this.intData = null;
         this.singleDataSize = singleDataSize;
+        this.bufferType = bufferType;
+        this.drawType = drawType;
     }
 
     public void setBufferData(MemoryStack stack){
         if(floatData != null){
             FloatBuffer buffer = stack.callocFloat(floatData.length);
-            buffer.put(0, floatData);
-            bind();
-            glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
-            unbind(GL_ARRAY_BUFFER);
+            buffer.put(floatData).flip();
+            glBufferData(this.bufferType.getType(), buffer, this.drawType.getType());
         }
         else if(intData != null){
             IntBuffer buffer = stack.callocInt(intData.length);
-            buffer.put(0, intData);
-            bind(GL_ELEMENT_ARRAY_BUFFER);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
-            unbind(GL_ELEMENT_ARRAY_BUFFER);
+            buffer.put(intData).flip();
+            glBufferData(this.bufferType.getType(), buffer, this.drawType.getType());
         }
     }
 
     @Override
-    public void bind() {
-        bind(GL_ARRAY_BUFFER);
-    }
-
-    public void bind(int bufferType){
-        glBindBuffer(bufferType, this.getId());
+    public void bind(){
+        glBindBuffer(this.bufferType.getType(), this.getId());
     }
 
     @Override
     public void unbind(){
-        unbind(GL_ARRAY_BUFFER);
-    }
-
-    public void unbind(int bufferType){
-        glBindBuffer(bufferType, this.getId());
+        glBindBuffer(this.bufferType.getType(), 0);
     }
 
     public int getSingleDataSize(){
         return this.singleDataSize;
+    }
+
+    public GLBufferType getBufferType() {
+        return bufferType;
+    }
+
+    public GLDrawType getDrawType() {
+        return drawType;
     }
 
     @Override

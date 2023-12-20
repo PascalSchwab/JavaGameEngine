@@ -53,8 +53,8 @@ public class Player extends KinematicObject {
             soundSource.play("Roblox");
         }
 
-        if (!WindowManager.getWindow().getCamera().isInViewport(this.getPosition())) {
-        }
+        /*if (!WindowManager.getWindow().getCamera().isInViewport(this.getPosition())) {
+        }*/
 
     }
 }

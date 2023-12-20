@@ -1,5 +1,7 @@
 package de.engine.rendering.mesh;
 
+import de.engine.rendering.opengl.GLBufferType;
+import de.engine.rendering.opengl.GLDrawType;
 import de.engine.rendering.opengl.VertexArrayObject;
 import de.engine.rendering.opengl.VertexBufferObject;
 import de.engine.rendering.texture.Texture;
@@ -65,8 +67,8 @@ public class TextMesh extends Mesh {
         }
 
         vertexBufferObjects = new VertexBufferObject[3];
-        vertexBufferObjects[0] = new VertexBufferObject(positions, 3);
-        vertexBufferObjects[1] = new VertexBufferObject(textCoords, 2);
+        vertexBufferObjects[0] = new VertexBufferObject(positions, 3, GLBufferType.ARRAY, GLDrawType.STATIC);
+        vertexBufferObjects[1] = new VertexBufferObject(textCoords, 2, GLBufferType.ARRAY, GLDrawType.STATIC);
         vertexBufferObjects[2] = new VertexBufferObject(indices);
 
         vertexArrayObject = new VertexArrayObject(vertexBufferObjects);
