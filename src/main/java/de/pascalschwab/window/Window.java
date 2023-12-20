@@ -50,12 +50,6 @@ public abstract class Window implements Runnable, IUpdatable {
     @Override
     public final void run() {
         init();
-        setup();
-        for (int i = 0; i < gameObjects.size(); i++) {
-            if (gameObjects.get(i) instanceof IUpdatable) {
-                ((IUpdatable) gameObjects.get(i)).setup();
-            }
-        }
         loop();
         dispose();
     }

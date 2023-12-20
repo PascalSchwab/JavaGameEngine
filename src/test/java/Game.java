@@ -7,17 +7,10 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class Game extends Window {
-    private Client client;
     private Player player;
     public Game(int width, int height, String title) {
         super(width, height, title);
-    }
-
-    @Override
-    public void setup() {
-        client = new Client();
         player = new Player(new Vector3f(300, 300, 0), new Vector2f(48, 96));
-        client.connect("localhost", 8000);
     }
 
     @Override
@@ -26,7 +19,6 @@ public class Game extends Window {
             DevTools.setActive(!DevTools.isActive());
         }
         else if(InputManager.isKeyTapped(Key.N)){
-            client.send(client.getSocket(), new PlayerPosMessage(10));
         }
     }
 }

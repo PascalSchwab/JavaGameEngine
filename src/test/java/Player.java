@@ -16,10 +16,6 @@ public class Player extends KinematicObject {
 
     public Player(Vector3f position, Vector2f size) {
         super(null, position, size);
-    }
-
-    @Override
-    public void setup() {
         sprite = new AnimatedSprite(this, this.getPosition(), this.getSize(),
                 "res/Player.png", new Vector2f(16, 32));
         sprite.addAnimationsFromJson("res/jsons/playerAnimations.json");

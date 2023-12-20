@@ -30,11 +30,6 @@ public class CollisionBox extends ColorRectangle implements IUpdatable {
     }
 
     @Override
-    public void setup() {
-        
-    }
-
-    @Override
     public void update(float delta) {
         collisions.clear();
 

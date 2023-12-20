@@ -14,10 +14,6 @@ public class Deer extends KinematicObject {
 
     public Deer(Vector3f position, Vector2f size) {
         super(null, position, size);
-    }
-
-    @Override
-    public void setup() {
         sprite = new AnimatedSprite(getParent(), this.getPosition(), this.getSize(),
                 "res/Reh.png", new Vector2f(32, 32));
         sprite.addAnimationsFromJson("res/jsons/rehAnimations.json");
