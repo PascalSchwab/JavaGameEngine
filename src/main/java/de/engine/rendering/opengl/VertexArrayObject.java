@@ -3,8 +3,6 @@ package de.engine.rendering.opengl;
 import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.*;
@@ -43,6 +41,9 @@ public final class VertexArrayObject extends OpenGLObject {
                     vbo.unbind();
                 }
             }
+        }
+        catch (Exception e){
+            throw new OpenGLException("Can't create VAO. Stack problem.");
         }
     }
 

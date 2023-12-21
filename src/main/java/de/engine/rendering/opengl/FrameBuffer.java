@@ -2,6 +2,10 @@ package de.engine.rendering.opengl;
 
 import static org.lwjgl.opengl.GL30.*;
 
+/**
+ * Not right implemented
+ */
+@Deprecated
 public final class FrameBuffer extends OpenGLObject {
     private final GLTexture texture;
     private final int width;

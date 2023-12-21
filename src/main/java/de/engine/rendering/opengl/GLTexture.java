@@ -6,6 +6,9 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+/**
+ * Texture Object from OpenGL
+ */
 public final class GLTexture extends OpenGLObject{
     public GLTexture() {
         super(glGenTextures());
@@ -23,10 +26,9 @@ public final class GLTexture extends OpenGLObject{
 
     public void create2DTexture(int width, int height){
         bind();
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height,
-                0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
         unbind();
     }
 

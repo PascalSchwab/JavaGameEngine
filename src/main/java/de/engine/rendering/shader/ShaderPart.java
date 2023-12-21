@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import static org.lwjgl.opengl.GL30.*;
 
-final class ShaderPart {
+public final class ShaderPart {
     private final int id;
 
     public ShaderPart(String path, ShaderType type) {

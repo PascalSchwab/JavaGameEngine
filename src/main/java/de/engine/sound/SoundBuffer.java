@@ -11,7 +11,7 @@ import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.stb.STBVorbis.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-final class SoundBuffer {
+public final class SoundBuffer {
     private final int id;
 
     private final ShortBuffer pcm;

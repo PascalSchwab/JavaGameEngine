@@ -3,13 +3,11 @@ package de.engine.rendering.opengl;
 /**
  * OpenGLObject is the base of all objects, which handles with OpenGL.
  */
-abstract class OpenGLObject {
+public abstract class OpenGLObject {
     private final int id;
-
     public OpenGLObject(int id) {
         this.id = id;
     }
-
     public int getId() {
         return id;
     }

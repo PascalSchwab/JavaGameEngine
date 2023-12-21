@@ -2,6 +2,10 @@ package de.engine.rendering.opengl;
 
 import static org.lwjgl.opengl.GL30.*;
 
+/**
+ * Not implemented
+ */
+@Deprecated
 public final class RenderBufferObject extends OpenGLObject{
     public RenderBufferObject(){
         super(glGenRenderbuffers());

@@ -4,7 +4,7 @@ import de.engine.networking.messages.NetworkMessage;
 
 import java.io.IOException;
 
-class HandleClientThread extends Thread{
+public class HandleClientThread extends Thread{
     private final ClientSocket sender;
     private final NetworkObject object;
     public HandleClientThread(NetworkObject object, ClientSocket sender){

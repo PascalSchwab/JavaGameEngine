@@ -1,7 +1,6 @@
 package de.engine.rendering.mesh;
 
 import de.engine.rendering.opengl.VertexArrayObject;
-import de.engine.rendering.opengl.VertexBufferObject;
 
 public abstract class Mesh {
     protected VertexArrayObject vertexArrayObject;

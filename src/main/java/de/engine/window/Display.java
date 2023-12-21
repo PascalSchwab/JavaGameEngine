@@ -13,7 +13,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-final class Display {
+public final class Display {
     private final long id;
     private final Vector2f size;
     private final String title;
