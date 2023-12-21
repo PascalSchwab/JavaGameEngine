@@ -1,7 +1,7 @@
-import de.pascalschwab.gameobjects.AnimatedSprite;
-import de.pascalschwab.gameobjects.CollisionBox;
-import de.pascalschwab.gameobjects.KinematicObject;
-import de.pascalschwab.sound.SoundSource;
+import de.engine.gameobjects.AnimatedSprite;
+import de.engine.gameobjects.CollisionBox;
+import de.engine.gameobjects.KinematicObject;
+import de.engine.sound.SoundSource;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
