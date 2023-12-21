@@ -1,4 +1,4 @@
-package de.engine.rendering.texture;
+package de.engine.gameobjects;
 
 import org.joml.Vector2f;
 

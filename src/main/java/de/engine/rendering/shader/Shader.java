@@ -1,61 +1,62 @@
 package de.engine.rendering.shader;
 
+import de.engine.rendering.opengl.OpenGLObject;
+
 import static org.lwjgl.opengl.GL30.*;
 
-public final class Shader {
-    private final int id;
+/**
+ * Shader that will be used to render objects
+ * Current no geometry shader implemented
+ */
+public final class Shader extends OpenGLObject {
     private final ShaderPart vertexShaderPart;
     private final ShaderPart fragmentShaderPart;
     private final UniformsMap uniformsMap;
 
     public Shader(String shaderPath) {
-        this.id = glCreateProgram();
-        if (this.id == 0) {
-            throw new RuntimeException("Could not create shader program");
-        }
+        super(glCreateProgram());
         vertexShaderPart = new ShaderPart(shaderPath + ".vert", ShaderType.VERTEX);
         fragmentShaderPart = new ShaderPart(shaderPath + ".frag", ShaderType.FRAGMENT);
 
-        glAttachShader(this.id, this.vertexShaderPart.getId());
-        glAttachShader(this.id, this.fragmentShaderPart.getId());
+        glAttachShader(this.getId(), this.vertexShaderPart.getId());
+        glAttachShader(this.getId(), this.fragmentShaderPart.getId());
 
         // Link shader program
-        glLinkProgram(this.id);
-        if (glGetProgrami(this.id, GL_LINK_STATUS) == 0) {
-            throw new RuntimeException("Error linking Shader code: " + glGetProgramInfoLog(this.id, 1024));
+        glLinkProgram(this.getId());
+        if (glGetProgrami(this.getId(), GL_LINK_STATUS) == 0) {
+            throw new ShaderException("Error linking Shader code: " + glGetProgramInfoLog(this.getId(), 1024));
         }
 
         if (this.vertexShaderPart.getId() != 0) {
-            glDetachShader(this.id, this.vertexShaderPart.getId());
+            glDetachShader(this.getId(), this.vertexShaderPart.getId());
         }
         if (this.fragmentShaderPart.getId() != 0) {
-            glDetachShader(this.id, this.fragmentShaderPart.getId());
+            glDetachShader(this.getId(), this.fragmentShaderPart.getId());
         }
 
-        glValidateProgram(this.id);
-        if (glGetProgrami(this.id, GL_VALIDATE_STATUS) == 0) {
-            System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(this.id, 1024));
+        glValidateProgram(this.getId());
+        if (glGetProgrami(this.getId(), GL_VALIDATE_STATUS) == 0) {
+            throw new ShaderException("Warning validating Shader code: " + glGetProgramInfoLog(this.getId(), 1024));
         }
 
-        this.uniformsMap = new UniformsMap(this.id);
+        this.uniformsMap = new UniformsMap(this.getId());
     }
 
+    @Override
     public void bind() {
-        glUseProgram(this.id);
+        glUseProgram(this.getId());
     }
 
+    @Override
     public void unbind() {
         glUseProgram(0);
     }
 
+    @Override
     public void dispose() {
-        glDeleteProgram(this.id);
+        glDeleteProgram(this.getId());
         this.vertexShaderPart.dispose();
         this.fragmentShaderPart.dispose();
-    }
-
-    public int getId() {
-        return id;
     }
 
     public UniformsMap getUniformsMap() {

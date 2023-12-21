@@ -10,6 +10,9 @@ import java.util.Objects;
 
 import static org.lwjgl.stb.STBImage.*;
 
+/**
+ * Texture
+ */
 public final class Texture {
     private final GLTexture glTexture;
     private final Vector2f units;

@@ -3,6 +3,9 @@ package de.engine.rendering.shader;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Here are all shaders saved for the next rendered frame.
+ */
 public final class ShaderCache {
     public static final String DEFAULT_SHADER = "res/shaders/color";
     private final Map<String, Shader> shaders = new HashMap<>();

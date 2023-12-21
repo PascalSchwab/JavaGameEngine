@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.engine.geometry.TextureRectangle;
 import de.engine.managers.FileManager;
-import de.engine.rendering.texture.Animation;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
