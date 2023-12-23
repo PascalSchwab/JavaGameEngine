@@ -1,2 +1,2 @@
 # JavaGameEngine
-GameEngine in JavaFx
+GameEngine in LWJGL

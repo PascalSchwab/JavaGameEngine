@@ -20,7 +20,7 @@ public final class SoundSource extends GameObject {
     }
 
     public SoundSource(GameObject parent, Vector3f position) {
-        super(parent, position, new Vector2f(0, 0));
+        super(parent, position);
         this.id = alGenSources();
         this.looped = false;
         this.relative = true;

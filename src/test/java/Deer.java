@@ -14,9 +14,8 @@ public class Deer extends KinematicObject {
 
     public Deer(Vector3f position, Vector2f size) {
         super(null, position, size);
-        sprite = new AnimatedSprite(getParent(), this.getPosition(), this.getSize(),
-                "res/Reh.png", new Vector2f(32, 32));
-        sprite.addAnimationsFromJson("res/jsons/rehAnimations.json");
+        sprite = new AnimatedSprite(getParent(), "res/Reh.png",
+                new Vector2f(32, 32), "res/jsons/rehAnimations.json");
         sprite.setCurrentAnimation("idle");
 
         collisionBox = new CollisionBox(this, this.getPosition(), new Vector2f(100, 100));

@@ -16,7 +16,13 @@ public class CollisionBox extends ColorRectangle implements IUpdatable {
     private static final Colour COLLISION_COLOUR = Colour.RED;
     private static final Colour NON_COLLISION_COLOUR = Colour.GREEN;
     private Alignment alignment;
-    private List<CollisionBox> collisions = new ArrayList<>();
+    private final List<CollisionBox> collisions = new ArrayList<>();
+    public CollisionBox(GameObject parent){
+        this(parent, parent.getPosition(), parent.getSize());
+    }
+    public CollisionBox(GameObject parent, Vector2f size){
+        this(parent, parent.getPosition(), size);
+    }
 
     public CollisionBox(GameObject parent, Vector3f position, Vector2f size) {
         this(parent, position, size, Alignment.CENTER, DevTools.isActive());

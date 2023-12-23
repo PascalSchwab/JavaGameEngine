@@ -36,6 +36,14 @@ public abstract class GameObject {
         this(null, position, size);
     }
 
+    public GameObject(Vector3f position){
+        this(null, position, new Vector2f());
+    }
+
+    public GameObject(GameObject parent, Vector3f position){
+        this(parent, position, new Vector2f());
+    }
+
     protected final Matrix4f getTransformMatrix() {
         Vector3f screenPosition = new Vector3f((position.x * WindowManager.getWindow().getUnit().x) - 1f,
                 (-position.y * WindowManager.getWindow().getUnit().y) + 1f, position.z);

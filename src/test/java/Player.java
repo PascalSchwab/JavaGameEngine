@@ -16,14 +16,13 @@ public class Player extends KinematicObject {
 
     public Player(Vector3f position, Vector2f size) {
         super(null, position, size);
-        sprite = new AnimatedSprite(this, this.getPosition(), this.getSize(),
-                "res/Player.png", new Vector2f(16, 32));
-        sprite.addAnimationsFromJson("res/jsons/playerAnimations.json");
+        sprite = new AnimatedSprite(this, "res/Player.png",
+                new Vector2f(16, 32), "res/jsons/playerAnimations.json");
         sprite.setCurrentAnimation("idle");
 
-        collisionBox = new CollisionBox(this, this.getPosition(), new Vector2f(200, 200));
+        collisionBox = new CollisionBox(this, new Vector2f(200, 200));
 
-        soundSource = new SoundSource(this, this.getPosition());
+        soundSource = new SoundSource(this);
     }
 
     @Override
@@ -52,9 +51,6 @@ public class Player extends KinematicObject {
         if (InputManager.isKeyTapped(Key.U)) {
             soundSource.play("Roblox");
         }
-
-        /*if (!WindowManager.getWindow().getCamera().isInViewport(this.getPosition())) {
-        }*/
 
     }
 }

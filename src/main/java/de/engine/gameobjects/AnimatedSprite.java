@@ -16,8 +16,20 @@ public final class AnimatedSprite extends TextureRectangle {
     private Animation currentAnimation = null;
     private float animationTime = 0;
 
-    public AnimatedSprite(GameObject parent, Vector3f position, Vector2f size, String texturePath, Vector2f frameSize) {
+    public AnimatedSprite(GameObject parent, String texturePath, Vector2f frameSize){
+        this(parent, parent.getPosition(), parent.getSize(), texturePath, frameSize, null);
+    }
+
+    public AnimatedSprite(GameObject parent, String texturePath, Vector2f frameSize, String animationPath){
+        this(parent, parent.getPosition(), parent.getSize(), texturePath, frameSize, animationPath);
+    }
+
+    public AnimatedSprite(GameObject parent, Vector3f position, Vector2f size, String texturePath,
+                          Vector2f frameSize, String animationPath) {
         super(parent, position, size, texturePath, frameSize);
+        if(animationPath != null){
+            addAnimationsFromJson(animationPath);
+        }
     }
 
     public void addAnimation(Animation animation) {
