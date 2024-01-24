@@ -205,4 +205,8 @@ public abstract class Window implements Runnable, IUpdatable {
     public Vector2f getWindowSize() {
         return this.display.getSize();
     }
+
+    public SoundManager getSoundManager() {
+        return soundManager;
+    }
 }

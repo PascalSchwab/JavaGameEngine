@@ -11,10 +11,6 @@ public final class SoundSource extends GameObject {
     private boolean relative;
     private boolean looped;
 
-    public SoundSource() {
-        this(null, new Vector3f(0, 0, 0));
-    }
-
     public SoundSource(GameObject parent) {
         this(parent, parent.getPosition());
     }

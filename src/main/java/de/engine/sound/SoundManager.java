@@ -39,7 +39,7 @@ public final class SoundManager {
         sounds.put(soundName, new SoundBuffer(path));
     }
 
-    public static void loadSoundsFromJson(String path){
+    public void loadSoundsFromJson(String path){
         try {
             String jsonText = FileManager.getTextFromFile(path);
             JsonArray jsonSounds = JsonParser.parseString(jsonText).getAsJsonArray();
