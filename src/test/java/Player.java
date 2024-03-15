@@ -15,5 +15,8 @@ public class Player extends KinematicObject {
 
     @Override
     public void update(float delta) {
+        if(InputManager.isKeyTapped(Key.N)){
+            source.play("Creak");
+        }
     }
 }
