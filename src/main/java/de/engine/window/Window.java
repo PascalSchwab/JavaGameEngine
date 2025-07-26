@@ -21,25 +21,34 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public abstract class Window implements Runnable, IUpdatable {
-    public final List<Surface> surfaces = new LayerBasedList<>();
-    public final List<GameObject> gameObjects = new LayerBasedList<>();
-    public final List<GameObject> collisionObjects = new ArrayList<>();
+    public final List<Surface> surfaces;
+    public final List<GameObject> gameObjects;
+    public final List<GameObject> collisionObjects;
+
+    private final Colour backgroundColour;
+    // Rendering
+    private final Vector2f unit;
     private final Display display;
-    private final Vector2f unit;    // Pixel size
     private final Projection projection;
+    private Camera camera;
+    /*private final PostRenderer postRenderer;*/
+    // Caches
     private final TextureCache textureCache;
     private final ShaderCache shaderCache;
+    // Manager
     private final SoundManager soundManager;
-    /*private final PostRenderer postRenderer;*/
-    private Camera camera = new Camera();
-    private Colour backgroundColour = Colour.BLACK;
 
-    public Window(int width, int height, String title) {
+    public Window(int width, int height, String title, Colour backgroundColour) {
         this.display = new Display(new Vector2f(width, height), title);
         this.projection = new Projection(width, height);
         this.textureCache = new TextureCache();
         this.shaderCache = new ShaderCache();
         this.soundManager = new SoundManager();
+        this.camera = new Camera();
+        this.surfaces = new LayerBasedList<>();
+        this.gameObjects = new LayerBasedList<>();
+        this.collisionObjects = new ArrayList<>();
+        this.backgroundColour = backgroundColour;
         /*this.postRenderer = new PostRenderer("res/shaders/postRenderer");*/
         // Calculate Pixel size
         unit = new Vector2f(1f / (width / 2f), 1f / (height / 2f));
@@ -47,30 +56,14 @@ public abstract class Window implements Runnable, IUpdatable {
         WindowManager.setWindow(this);
     }
 
+    public Window(int width, int height, String title) {
+        this(width, height, title, Colour.BLACK);
+    }
+
     @Override
     public final void run() {
         init();
-        loop();
-        dispose();
-    }
-
-    /**
-     * Initialize Window
-     */
-    private void init() {
-        // End window when escape pressed
-        glfwSetKeyCallback(this.display.getId(), (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-                glfwSetWindowShouldClose(window, true);
-            InputManager.addKey(key, action);
-        });
-    }
-
-    /**
-     * Framework (60 FPS Limit)
-     */
-    private void loop() {
-        // Time calculation and game loop
+        // Time calculation and game loop (60fps)
         float deltaTime = 0;
         long lastTime = System.nanoTime();
         while (isRunning()) {
@@ -89,6 +82,19 @@ public abstract class Window implements Runnable, IUpdatable {
                 DevTools.fps = 0;
             }
         }
+        dispose();
+    }
+
+    /**
+     * Initialize Window
+     */
+    private void init() {
+        // End window when escape pressed
+        glfwSetKeyCallback(this.display.getId(), (window, key, scancode, action, mods) -> {
+            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
+                glfwSetWindowShouldClose(window, true);
+            InputManager.addKey(key, action);
+        });
     }
 
     /**
@@ -169,14 +175,6 @@ public abstract class Window implements Runnable, IUpdatable {
 
     public final Vector2f getUnit() {
         return unit;
-    }
-
-    public final Colour getBackgroundColour() {
-        return backgroundColour;
-    }
-
-    public final void setBackgroundColour(Colour colour) {
-        this.backgroundColour = colour;
     }
 
     public final Projection getProjection() {

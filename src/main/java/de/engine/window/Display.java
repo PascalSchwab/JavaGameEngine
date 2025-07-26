@@ -41,9 +41,9 @@ public final class Display {
         }
 
         // Center window
-        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        assert vidmode != null;
-        glfwSetWindowPos(this.id, (int) ((vidmode.width() - size.x) / 2), (int) ((vidmode.height() - size.y) / 2));
+        GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        assert vidMode != null;
+        glfwSetWindowPos(this.id, (int) ((vidMode.width() - size.x) / 2), (int) ((vidMode.height() - size.y) / 2));
 
         // Activate context
         glfwMakeContextCurrent(id);
